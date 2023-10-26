@@ -9,7 +9,7 @@ import { LocalCredentials } from '../models/login.credentials';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = environment.apiUrl + '/auth/ldap';
+  private apiUrl = environment.apiUrl + '/login';
   private token = 'JWTtoken';
   private userString = 'user';
   private isAdminString = 'isAdmin';
@@ -48,8 +48,12 @@ export class AuthService {
 
   async loginLocal(credentials: LocalCredentials): Promise<boolean> {
     try {
-      console.log("Attempting login")
-      const response: String | undefined = await this.http.post<String>(this.apiUrl, credentials).toPromise();
+      const response: String | undefined = await this.http.post<string>(
+        this.apiUrl, 
+        credentials,
+        { responseType: 'text' as 'json' }
+      ).toPromise();
+
       if (!response) {
         console.log("No resp from BE");
         return false;
@@ -59,7 +63,7 @@ export class AuthService {
         `Bearer ${response}`
       );
     } catch (error) {
-      console.log(error)
+      console.log("Error logging in: ", error)
       return false;
     }
     return true;

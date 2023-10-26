@@ -1,6 +1,34 @@
 /* You can add global styles to this file, and also import other style files */
-@import 'bulma/css/bulma.css'
-@import 'bulma-divider/dist/css/bulma-divider.min.css'
-@import 'bulma-modal-fx/dist/css/modal-fx.css'
-@import 'bulma-accordion/dist/css/bulma-accordion.min.css'
+@import './colors.sass'
 @import 'ngx-toastr/toastr'
+@import 'bulma/sass/utilities/initial-variables'
+
+
+
+// ------------ NAVBAR ------------
+$navbar-item-color: $dark
+$navbar-item-hover-color: $dark
+$navbar-item-active-color: $dark
+$navbar-burger-color: $dark
+$navbar-item-color: $primary
+$navbar-tab-active-color: $dark
+$navbar-dropdown-item-hover-color: $dark
+$navbar-dropdown-item-active-color: $dark
+$navbar-tab-hover-border-bottom-color: $primary
+$navbar-tab-active-border-bottom-color: $primary
+$navbar-item-hover-background-color: $primary
+$navbar-item-active-background-color: $accent
+$navbar-tab-hover-background-color: $primary
+$navbar-tab-active-background-color: $accent
+$navbar-dropdown-background-color: $dark
+$navbar-dropdown-item-hover-background-color: $dark
+$navbar-dropdown-item-active-background-color: $dark
+
+@import '~bulma/bulma.sass'
+
+html, body
+    height: 100%
+    margin: 0
+    padding: 0
+    background-color: $black
+    color: $text-gray

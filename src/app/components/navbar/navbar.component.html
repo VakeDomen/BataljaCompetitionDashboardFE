@@ -1,0 +1,86 @@
+<nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-logo ml-5 mr-3 " (click)="activeTab='home'; tab.emit('home') ; closeNavbar()" [routerLink]="['/']">
+            <!-- <img src="../../../assets/logo.png" width="35" height="35"> -->
+            <div>
+                <p class="navbar-item-center-icon title is-3 mt-3">
+                    <span class="file-icon">
+                        <i class="fas fa-terminal"></i>
+                    </span>
+                    <span>FTP</span>
+                </p>
+                <h3 class="subtitle is-4 is-hidden-touch mb-3">Fakultetno tekmovanje v programiranju</h3>
+            </div>
+        </a>
+
+        <a (click)="toggleNavbar()" role="button" #navBurger class="navbar-burger burger" aria-label="menu"
+            aria-expanded="false" data-target="navMenu">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+
+    <div #navMenu id="navMenu" class="navbar-menu">
+        <div class="navbar-start" >
+            
+        </div>
+
+        <div class="navbar-end">
+            <a class="navbar-item navbar-item-center-icon" [ngClass]="{'is-active': activeTab==='competitions'}"
+                (click)="activeTab='competitions'; tab.emit('competitions') ; toggleNavbar();" [routerLink]="['/competitions']"
+                routerLinkActive="router-link-active">
+                <span class="file-icon">
+                    <i class="fas fa-trophy"></i>
+                </span>
+                Competitions
+            </a>
+
+            <!-- <a *ngIf="isLoggedIn()" class="navbar-item navbar-item-center-icon" [ngClass]="{'is-active': activeTab==='submissions'}"
+                (click)="activeTab='submissions'; tab.emit('submissions') ; toggleNavbar();" [routerLink]="['/contestants']"
+                routerLinkActive="router-link-active">
+                <span class="file-icon">
+                    <i class="fas fa-users-cog"></i>
+                </span>
+                Submissions
+            </a>
+            <a *ngIf="isLoggedIn() && isAdmin()" class="navbar-item navbar-item-center-icon" [ngClass]="{'is-active': activeTab==='games'}"
+                (click)="activeTab='games'; tab.emit('games') ; toggleNavbar();" [routerLink]="['/games']"
+                routerLinkActive="router-link-active" >
+                <span class="file-icon">
+                    <i class="fas fa-gamepad"></i>
+                </span>
+                Games
+            </a>
+            <a *ngIf="isLoggedIn() && isAdmin()" class="navbar-item navbar-item-center-icon" [ngClass]="{'is-active': activeTab==='stats'}"
+                (click)="activeTab='stats'; tab.emit('stats') ; toggleNavbar();" [routerLink]="['/stats']"
+                routerLinkActive="router-link-active" >
+                <span class="file-icon">
+                    <i class="fas fa-chart-line"></i>
+                </span>
+                Stats
+            </a>
+            <a *ngIf="isLoggedIn()" class="navbar-item navbar-item-center-icon" [ngClass]="{'is-active': activeTab==='ranking'}"
+                (click)="activeTab='ranking'; tab.emit('ranking') ; toggleNavbar();" [routerLink]="['/ranking']"
+                routerLinkActive="router-link-active" >
+                <span class="file-icon">
+                    <i class="fas fa-trophy"></i>
+                </span>
+                Rankings
+            </a>
+            <a *ngIf="isLoggedIn()" class="navbar-item navbar-item-center-icon" [ngClass]="{'is-active': activeTab==='report'}"
+                (click)="activeTab='report'; tab.emit('report') ; toggleNavbar();" [routerLink]="['/report']"
+                routerLinkActive="router-link-active">
+                <span class="file-icon">
+                    <i class="fas fa-bug"></i>
+                </span>
+                Report a bug
+            </a> -->
+            <div class="navbar-item">
+                <div class="buttons">
+                    <app-local-auth [isPage]="false" (modalClosedEvent)="toggleNavbar()"></app-local-auth>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
