@@ -13,6 +13,10 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { LocalAuthComponent } from './pages/local-auth/local-auth.component';
 import { LoginComponent } from './pages/login/login.component';
 import { FormsModule } from '@angular/forms';
+import { CompetitionsComponent } from './pages/competitions/competitions.component';
+import { TeamComponent } from './pages/team/team.component';
+import { RankingsComponent } from './pages/rankings/rankings.component';
+import { StatsComponent } from './pages/stats/stats.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +24,10 @@ import { FormsModule } from '@angular/forms';
     NavbarComponent,
     LocalAuthComponent,
     LoginComponent,
+    CompetitionsComponent,
+    TeamComponent,
+    RankingsComponent,
+    StatsComponent,
   ],
   imports: [
     BrowserModule,
