@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Competition } from 'src/app/models/competition.model';
+import { CompetitionService } from 'src/app/services/competition.service';
 
 @Component({
   selector: 'app-competitions',
@@ -7,9 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CompetitionsComponent implements OnInit {
 
-  constructor() { }
+  public runningCompetitions: Competition[] = [];
+  public attendedCompetitions: Competition[] = [];
+
+  constructor(
+    private competitionService: CompetitionService,
+  ) { }
 
   ngOnInit(): void {
+    this.competitionService.getRunningCompetitions().subscribe((com: Competition[]) => {
+      this.runningCompetitions = com;
+      this.competitionService.getCompetingCompetitions().subscribe((atCom: Competition[]) => {
+        // if competition is running it's already listed as running, so we don't need it 
+        // shown under previouly attended
+        this.attendedCompetitions = atCom.filter(c => !this.runningCompetitions.map(co => co.id).includes(c.id));
+      })
+    })
   }
 
 }

@@ -1,1 +1,13 @@
-<p>competitions works!</p>
+<div class="container mt-5">
+    <h1 class="title is-1">Currently runnning competitions:</h1>
+
+    <div class="box" *ngFor="let c of runningCompetitions">
+        <h1 class="title is-3">{{ c.name }}</h1>
+    </div>
+
+    <h1 class="title is-1">Previously attended competitions:</h1>
+    <div class="box" *ngFor="let c of attendedCompetitions">
+        <h1 class="title is-3">{{ c.name }}</h1>
+    </div>
+
+</div>

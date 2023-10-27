@@ -1,22 +1,24 @@
-import { Injectable } from '@angular/core';
+import { Injectable, getModuleFactory } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { LocalCredentials } from '../models/login.credentials';
+import { User } from '../models/user.model';
+import { StateService } from './state.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = environment.apiUrl + '/login';
+  private apiUrl = environment.apiUrl;
   private token = 'JWTtoken';
-  private userString = 'user';
   private isAdminString = 'isAdmin';
  
   constructor(
     private http: HttpClient,
     private router: Router,
+    private state: StateService
   ) { }
 
   isLoggedIn(): boolean {
@@ -49,7 +51,7 @@ export class AuthService {
   async loginLocal(credentials: LocalCredentials): Promise<boolean> {
     try {
       const response: String | undefined = await this.http.post<string>(
-        this.apiUrl, 
+        this.apiUrl + '/login', 
         credentials,
         { responseType: 'text' as 'json' }
       ).toPromise();
@@ -62,10 +64,18 @@ export class AuthService {
         this.token, 
         `Bearer ${response}`
       );
+
+      this.getMe();
     } catch (error) {
       console.log("Error logging in: ", error)
       return false;
     }
     return true;
+  }
+
+  private getMe() {
+    this.http.get<User>(`${this.apiUrl}/me`).subscribe((me: User) => {
+      this.state.setMe(me);
+    })
   }
 }
