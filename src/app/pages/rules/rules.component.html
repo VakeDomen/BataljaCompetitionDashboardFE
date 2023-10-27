@@ -1,0 +1,326 @@
+<div class="container">
+    <div class="box mt-5">
+
+        <h2 class="title is-2">
+            <span class="file-icon is-inline">
+                <i class="fas fa-clipboard-check"></i>
+            </span>
+            Rules
+        </h2>
+
+        <div class="content">
+            <p>It is a two player game, each player starts with a planet of some size from which the player can send his
+                fleet
+                
+                to other planets.</p>
+                <p>A player can only send half of the fleet available at a given planet.</p>
+                <p>A player can take ownership of another planet by sending a larger fleet then the fleet defending the
+                    planet.
+                </p>
+                <p>Every turn new spaceships are produced and added to the planet's fleet depending on the planet's size.
+                </p>
+                <p>Attacking your own planet is considered a reinforcment.</p>
+                <p><strong>The game is over when:</strong></p>
+                <ul>
+                    <li>A player's entire fleet is assimilated by the collective (run out of fleets and planets)</li>
+                    <li>A player takes more then 100ms to produce a move</li>
+                    <li>A player's move is invalid</li>
+                    <li>A player decides to abandon the cluster, and run (surrender)</li>
+                    <li>A player needs more moves then the size (x*y) of the cluster (game takes too long - timeout)</li>
+                </ul>
+            </div>
+
+    </div>
+    <div class="box mt-5">
+
+        <h2 id="section" class="title is-2">
+
+            <span class="file-icon is-inline">
+                <i class="fas fa-handshake"></i>
+            </span>
+            How to participate
+        </h2>
+
+        <div class="content">
+
+            The competition is structured into two phases, namely development phase, and tournament phase.
+            
+            In the development phase an automatic hidden tournament is available. To join the development phase and thus
+            the
+            turnament, login and click the <strong><i>Join </i>button</strong> at the top of this page (if you didn't
+            already).
+            
+            Perioidcally, all submitted players will play a set of games and results will be displayed for your
+            submission.
+            
+            To submit your player you must upload a <strong>.zip</strong> archive containing only your source
+            <strong>.java</strong> files.<br />
+            The submitted project must contain a java file <i>Igralec.java</i>, whith a main function.
+            Files within your archive will be extracted and compiled using Java JDK 11.
+            The downloadable Game Pack contains <code>Evaluator.jar</code>, <code>Gui.jar</code>, and a sample player
+            <code>Igralec.java</code>. <br>
+            
+            After the development phase ends, a tournament will be announced in which players will be ranked by playing
+            amongst
+            each other.<br />
+            
+        </div>
+    </div>
+    <div class="box mt-5 mb-3">
+
+        <h2 class="title is-2"><a name="zagon"></a>
+            <span class="file-icon is-inline">
+                <i class="fas fa-terminal"></i>
+            </span>
+            Instructions for running the game
+        </h2>
+        <div class="content">
+
+        
+        <p>
+            The game is ran by <strong>moving into the directory</strong> you downloaded <code>Evaluator.jar</code>
+            to
+            (all the following commands will be run from this folder).
+            First you need to create the two forlders for the players you want to match (each player should be in
+            its
+            own folder). For this example we will create folders called <code>TestPlayer</code> and
+            <code>MyPlayer</code>
+        </p>
+        <pre>mkdir TestPlayer MyPlayer</pre>
+        <p>
+            After creating the folders we will move the <code>Igralec.java</code> (random player) into both of the
+            folders,
+            by running commands:
+        </p>
+        <pre>cp Igralec.java MyPlayer</pre>
+        <pre>cp Igralec.java TestPlayer</pre>
+        <p>
+            Once both folders contain the code for the random player, we will compile both players, to obtain the
+            <code>
+            *.class</code> files.
+        </p>
+        <pre>javac MyPlayer/*.java</pre>
+        <pre>javac TestPlayer/*.java</pre>
+
+        <p>
+            The game is ran by running <code>Evaluator.jar</code>. This is "the game" jar.
+        </p>
+        <pre>java -jar Evaluator.jar SpaceBattleship &lt;player1&gt; &lt;player2&gt;</pre> where player1, and
+        player2
+        are
+        folders with compiled players.
+        <p>As an example, if you moved the downloaded player into the folder <code>TestPlayer</code> and the player
+            that
+            contains the code you are developing into the folder
+            <code>MyPlayer</code>, you run the game as:
+        </p>
+        <pre>java -jar Evaluator.jar SpaceBattleship TestPlayer MyPlayer</pre>
+        <p>If you also want to draw the game real-time, the <code>Game_pack</code> contains <code>Gui.jar</code>,
+            that
+            you
+            can use. You run the game with GUI by running the following command: </p>
+        <pre>java -jar Evaluator.jar SpaceBattleship &lt;Player1&gt; &lt;Player2&gt; | java -jar Gui.jar</pre>
+        <p></p>
+        <p>Example directory structure:
+        <pre>
+            dir
+            |--Evaluator.jar
+            |--Gui.jar
+            |--TestPlayer
+            |     |--Igralec.class
+            |
+            |--MyPlayer
+            |     |--Igralec.class
+        </pre>
+    </div>
+    </div>
+    
+    <div class="box mt-5">
+
+        <h2 class="title is-2">
+            <span class="file-icon is-inline">
+                <i class="fas fa-robot"></i>
+            </span>
+            Instructions for creating a player
+        </h2>
+        <div class="content">
+        A player must be a standard java program, that uses the standard input and standard output to communicate
+        with
+        the
+        game.<br />
+        The player's main method must be in the file named Igralec.java - without the use of packages, jars, etc.
+        <br />
+        A player <strong>MUST NOT</strong>:
+
+        <ul>
+            <li>use the network</li>
+            <li>access (not even read) the filesystem outside of its directory</li>
+            <li>run system commands</li>
+            <li>try to win the game by any other means then the commands outlined below</li>
+            <li>be a copy of another player :)</li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li>The above lines will be filled if the need arises and will be enforced retroactively</li>
+        </ul>
+
+
+        Commands that a player sends to the game are in the form:
+        <pre>&lt;command&gt; &lt;parameters&gt;</pre>
+    </div>
+
+        <br>
+        <h3 class="title is-4">All available commands: </h3>
+
+
+        <div class="table-container">
+            <table id="ukazi" class="table is-striped">
+                <tr>
+                    <th>command</th>
+                    <th>parameters</th>
+                    <th>description</th>
+                    <th>sender</th>
+                </tr>
+                <tr>
+                    <td><code>U</code></td>
+                    <td>&lt;int&gt;,&lt;int&gt;,&lt;string&gt;</td>
+                    <td class='opis'>Universe - size (x in y) playing field (allways 100,100), and your color</td>
+                    <td>game</td>
+                </tr>
+                <tr>
+                    <td><code>P</code></td>
+                    <td>&lt;int&gt;,&lt;int&gt;,&lt;int&gt;,&lt;float&gt;,&lt;int&gt;,&lt;string&gt;</td>
+                    <td class='opis'>
+                        Planet: <br>
+                        - name (number),<br>
+                        - position x,<br>
+                        - position y,<br>
+                        - planet size,<br>
+                        - fleet size,<br>
+                        - planet color (red, blue or null)</td>
+                    <td>game</td>
+                </tr>
+                <tr>
+                    <td><code>F</code></td>
+                    <td>&lt;int&gt;,&lt;int&gt;,&lt;int&gt;,&lt;int&gt;,&lt;int&gt;,&lt;int&gt;</td>
+                    <td class='opis'>
+                        Fleet: <br>
+                        - flee name (number),<br>
+                        - fleet size<br>
+                        - origin planet<br>
+                        - destination planet<br>
+                        - current turn<br>
+                        - number of needed turns
+                    </td>
+                    <td>game</td>
+                </tr>
+                <tr>
+                    <td><code>S</code></td>
+                    <td>-</td>
+                    <td class='opis'>Start - when a player receives this command from the game, it must answer with a
+                        series
+                        of
+                        <code>A</code>, followed by an <code>E</code>
+                    </td>
+                    <td>game</td>
+                </tr>
+                <tr>
+                    <td><code>A</code></td>
+                    <td>&lt;int&gt;,&lt;int&gt;</td>
+                    <td class='opis'>Attack: <br> - origin planet<br> - destination planet</td>
+                    <td>player</td>
+                </tr>
+                <tr>
+                    <td><code>E</code></td>
+                    <td>-</td>
+                    <td class='opis'>Player sends at the end of an attack</td>
+                    <td>player</td>
+                </tr>
+                <tr>
+                    <td><code>L</code></td>
+                    <td>&lt;String&gt;</td>
+                    <td class='opis'>Player can send this command to forfeit the game, the parameters are displayed as
+                        the
+                        reason for forfeiting</td>
+                    <td>game, player</td>
+                </tr>
+            </table>
+        </div>
+
+        <h3 class="title is-4">Example of a played game:</h3>
+        <p>
+        <table class="table is-striped is-fullwidth">
+            <tr>
+                <th>game</th>
+                <th>player</th>
+                <th>explanation</th>
+            </tr>
+            <tr>
+                <td>U 100 100 red</td>
+                <td></td>
+                <td>The game sends the size of the playing field</td>
+            </tr>
+            <tr>
+                <td>P 1 10 20 0.6 60 red</td>
+                <td></td>
+                <td>The game sends the data for the first planet</td>
+            </tr>
+            <tr>
+                <td>P 2 90 80 0.6 60 blue</td>
+                <td></td>
+                <td>The game sends the data for the second planet</td>
+            </tr>
+            <tr>
+                <td>S</td>
+                <td></td>
+                <td>The game signals the player so it can start with its attacks</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>A 1 2</td>
+                <td>Player attacks planet 2 from planet 1</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>E</td>
+                <td>Player ends with the attacks</td>
+            </tr>
+            <tr>
+                <td>P 1 10 20 0.6 36 red</td>
+                <td></td>
+                <td>The game sends the data for the first planet</td>
+            </tr>
+            <tr>
+                <td>P 2 90 80 0.6 66 blue</td>
+                <td></td>
+                <td>The game sends the data for the second planet</td>
+            </tr>
+            <tr>
+                <td>F 1 30 1 2 1 8</td>
+                <td></td>
+                <td>The game sends data about the fleet</td>
+            </tr>
+            <tr>
+                <td>F 1 30 1 2 1 8</td>
+                <td></td>
+                <td>The game signals the player so it can start with its attacks</td>
+            </tr>
+            <tr>
+                <td>...</td>
+                <td>...</td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+    
+    <div class="box mt-5 mb-3">
+        <h1 class="title is-2">
+            <span class="file-icon is-inline">
+                <i class="fas fa-solid fa-info"></i>
+            </span>
+            Support
+        </h1>
+        <a href="mailto:domen.vake@famnit.upr.si">Domen Vake</a><br />
+        <a href="mailto:aleksandar.tosic@upr.si">Aleksandar Tošić</a><br />
+    </div>
+</div>

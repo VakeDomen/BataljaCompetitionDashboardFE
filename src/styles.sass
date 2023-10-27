@@ -32,12 +32,22 @@ $input-border-color: $accent
 $input-icon-color: $accent
 
 // ------------ BOX ------------
-$box-color: $primary
+$box-color: $text-gray
 $box-background-color: $gray
 
 // ------------ TITLES ------------
 $title-color: $primary
 $subtitle-color: $primary
+
+// ------------ TABLE ------------
+$table-color: $text-gray
+$table-background-color: $dark
+$table-cell-border: $accent
+$table-cell-heading-color: $accent
+$table-head-cell-color: $primary
+$table-striped-row-even-background-color: $gray
+$table-cell-border: 1px solid $accent
+
 
 @import '~bulma/bulma.sass'
 
@@ -46,8 +56,20 @@ html, body
     margin: 0
     padding: 0
     background-color: $black
-html, body, p, div
+html, body, p, div, strong
     color: $text-gray
+
+a
+    color: $accent
+
+pre, table, code
+    margin-top: 2px
+    color: $accent
+    background-color: $dark
+pre
+    border-radius: 5px
+    margin-top: 5px
+    padding: 10px
 
 .container
     padding: 5px

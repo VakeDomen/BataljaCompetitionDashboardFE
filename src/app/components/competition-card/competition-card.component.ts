@@ -29,28 +29,20 @@ export class CompetitionCardComponent implements OnChanges {
       this.timeRemaining = "-- : --";
       return
     }
-  
     const end = new Date(this.competition.end);
     const now = new Date();
-  
     if (now > end) {
       this.timeRemaining = "-- : --";
       return
     }
-  
     let diff = end.getTime() - now.getTime(); // Difference in milliseconds
-  
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     diff -= days * (1000 * 60 * 60 * 24);
-  
     const hours = Math.floor(diff / (1000 * 60 * 60));
     diff -= hours * (1000 * 60 * 60);
-  
     const minutes = Math.floor(diff / (1000 * 60));
     diff -= minutes * (1000 * 60);
-  
     const seconds = Math.floor(diff / 1000);
-  
     this.timeRemaining = `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
   }
 
@@ -69,16 +61,13 @@ export class CompetitionCardComponent implements OnChanges {
     return this.auth.isAdmin();
   }
 
-  private isCompetitionRunning(): boolean {
+  public isCompetitionRunning(): boolean {
     if (!this.competition) {
       return false;
     }
-
     const start = new Date(this.competition.start);
     const end = new Date(this.competition.end);
     const now = new Date();
-
-
     return now >= start && now <= end;
   }
   

@@ -11,9 +11,9 @@
         </div>
 
         <div class="level-right has-text-centered" *ngIf="isLogged() && hasTeamForCompetition()">
-            <button class="button is-primary is-outlined mr-2">My Team</button>
+            <button class="button is-primary mr-2">My Team</button>
         </div>
-        <div class="level-right has-text-centered" *ngIf="isLogged() && !hasTeamForCompetition()">
+        <div class="level-right has-text-centered" *ngIf="isLogged() && !hasTeamForCompetition() && isCompetitionRunning()">
             <button class="button is-primary is-outlined mr-2">Create Team</button>
             <button class="button is-primary is-outlined">Join Team</button>
         </div>

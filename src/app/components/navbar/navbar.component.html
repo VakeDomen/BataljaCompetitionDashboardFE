@@ -68,14 +68,14 @@
                 </span>
                 Rankings
             </a>
-            <!--<a *ngIf="isLoggedIn()" class="navbar-item navbar-item-center-icon" [ngClass]="{'is-active': activeTab==='report'}"
-                (click)="activeTab='report'; tab.emit('report') ; toggleNavbar();" [routerLink]="['/report']"
+            <a *ngIf="isLoggedIn()" class="navbar-item navbar-item-center-icon" [ngClass]="{'is-active': activeTab==='report'}"
+                (click)="activeTab='report'; tab.emit('report') ; toggleNavbar();" [routerLink]="['/rules']"
                 routerLinkActive="router-link-active">
                 <span class="file-icon">
                     <i class="fas fa-bug"></i>
                 </span>
-                Report a bug
-            </a> -->
+                Rules
+            </a>
             <div class="navbar-item">
                 <div class="buttons">
                     <app-local-auth [isPage]="false" (modalClosedEvent)="toggleNavbar()"></app-local-auth>
