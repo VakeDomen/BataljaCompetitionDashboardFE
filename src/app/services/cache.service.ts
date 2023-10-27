@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { of, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { shareReplay } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';

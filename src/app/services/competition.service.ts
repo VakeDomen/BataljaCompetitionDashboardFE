@@ -18,14 +18,16 @@ export class CompetitionService {
 
 
   public getCompetingCompetitions(): Observable<Competition[]> {
-    return this.http.get<Competition[]>(this.apiUrl + "/attended");
+    return this.cache.getCached<Competition[]>(`/competition/attended`);
   }
 
   public getRunningCompetitions(): Observable<Competition[]> {
-    return this.http.get<Competition[]>(this.apiUrl + "/running");
+    return this.cache.getCached<Competition[]>(`/competition/running`);
   }
 
   public submitCompetition(competition: Competition): Observable<Competition[]> {
+    this.cache.clearCache(`/competition/attended`)
+    this.cache.clearCache(`/competition/running`)
     return this.http.post<Competition[]>(this.apiUrl, competition);
   }
 }

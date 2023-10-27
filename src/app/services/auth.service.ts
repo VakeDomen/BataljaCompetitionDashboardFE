@@ -4,7 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { LocalCredentials } from '../models/login.credentials';
 import { User } from '../models/user.model';
-import { StateService } from './state.service';
+import { TeamService } from './team.service';
+import { Team } from '../models/team.model';
+import { UserService } from './user.service';
 
 
 @Injectable({
@@ -13,13 +15,14 @@ import { StateService } from './state.service';
 export class AuthService {
   private apiUrl = environment.apiUrl;
   private token = 'JWTtoken';
-  private isAdminString = 'isAdmin';
+  private state: State;
  
   constructor(
     private http: HttpClient,
     private router: Router,
-    private state: StateService
-  ) { }
+  ) { 
+    this.state = new State();  
+  }
 
   isLoggedIn(): boolean {
     if (!sessionStorage.getItem(this.token)) {
@@ -32,7 +35,7 @@ export class AuthService {
     if (!this.isLoggedIn()) {
       return false;
     }
-    const val = sessionStorage.getItem(this.isAdminString);
+    const val = sessionStorage.getItem("isAdmin");
     if (!val) {
       return false;
     }
@@ -45,6 +48,7 @@ export class AuthService {
 
   logout(): void {
     sessionStorage.removeItem(this.token);
+    this.state.resetState();
     this.router.navigate(['/login'])
   }
 
@@ -64,8 +68,6 @@ export class AuthService {
         this.token, 
         `Bearer ${response}`
       );
-
-      this.getMe();
     } catch (error) {
       console.log("Error logging in: ", error)
       return false;
@@ -73,9 +75,34 @@ export class AuthService {
     return true;
   }
 
-  private getMe() {
-    this.http.get<User>(`${this.apiUrl}/me`).subscribe((me: User) => {
-      this.state.setMe(me);
-    })
+  public getState(): State {
+    return this.state;
+  }
+
+
+
+}
+
+class State {    
+  private me: User | undefined;
+  private myTeams: Team[] = [];
+
+  constructor() { }
+  
+  public resetState(): void {
+    this.me = undefined;
+    this.myTeams = [];
+  }
+
+  public setMe(me: User) {
+    this.me = me;
+  }
+
+  public setTeams(teams: Team[]): void {
+    this.myTeams = teams;
+  }
+
+  public hasTeamForCompetition(comId: string): boolean {
+    return !!this.myTeams.filter((t: Team) => t.competition_id == comId).length
   }
 }

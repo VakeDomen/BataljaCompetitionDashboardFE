@@ -1,0 +1,44 @@
+<div class="box mt-2">
+    <div class="level">
+        <div class="level-left">
+            <div class="has-text-centered-mobile">
+                <h1 class="title is-3">{{ competition?.name }}</h1>
+            </div>
+        </div>
+        
+        <div class="level-right has-text-centered" *ngIf="!isLogged()">
+            <button class="button is-primary is-outlined is-disabled" disabled>Log in to join</button>
+        </div>
+
+        <div class="level-right has-text-centered" *ngIf="isLogged() && hasTeamForCompetition()">
+            <button class="button is-primary is-outlined mr-2">My Team</button>
+        </div>
+        <div class="level-right has-text-centered" *ngIf="isLogged() && !hasTeamForCompetition()">
+            <button class="button is-primary is-outlined mr-2">Create Team</button>
+            <button class="button is-primary is-outlined">Join Team</button>
+        </div>
+    </div>
+
+    <div class="columns is-multiline  has-text-centered">
+        <div class="column is-half">
+            <div class="item-content">
+                <span>Time remaining</span><br>
+                <span class="is-size-4 has-text-weight-bold">{{ timeRemaining }}</span>
+            </div>
+        </div>
+
+        <div class="column is-one-quarter">
+            <div class="item-content">
+                <span>End</span><br>
+                <span class="is-size-4 has-text-weight-bold">{{ competition?.end | date: 'dd.MM.YYYY' }}</span>
+            </div>
+        </div>
+
+        <div class="column is-one-quarter">
+            <div class="item-content">
+                <span>Num. of teams</span><br>
+                <span class="is-size-4 has-text-weight-bold">{{ calcNumOfTeams() }}</span>
+            </div>
+        </div>
+    </div>
+</div>

@@ -17,6 +17,7 @@ import { CompetitionsComponent } from './pages/competitions/competitions.compone
 import { TeamComponent } from './pages/team/team.component';
 import { RankingsComponent } from './pages/rankings/rankings.component';
 import { StatsComponent } from './pages/stats/stats.component';
+import { CompetitionCardComponent } from './components/competition-card/competition-card.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { StatsComponent } from './pages/stats/stats.component';
     TeamComponent,
     RankingsComponent,
     StatsComponent,
+    CompetitionCardComponent,
   ],
   imports: [
     BrowserModule,

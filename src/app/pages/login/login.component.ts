@@ -2,6 +2,10 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { LocalCredentials } from 'src/app/models/login.credentials';
+import { UserService } from 'src/app/services/user.service';
+import { TeamService } from 'src/app/services/team.service';
+import { User } from 'src/app/models/user.model';
+import { Team } from 'src/app/models/team.model';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +23,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private auth: AuthService,
+    private userService: UserService,
+    private teamService: TeamService,
     private toastr: ToastrService,
   ) { }
 
@@ -31,6 +37,10 @@ export class LoginComponent implements OnInit {
     } else {
       this.toastr.error('Oops, something went wrong!', 'Error');
     }
+
+    const state = this.auth.getState()
+    this.userService.getMe().subscribe((me: User) => state.setMe(me));
+    this.teamService.getTeams().subscribe((teams: Team[]) => state.setTeams(teams));
     this.loginSuccess.emit(success);
   }
 
