@@ -11,6 +11,7 @@ export class CompetitionsComponent implements OnInit {
 
   public runningCompetitions: Competition[] = [];
   public attendedCompetitions: Competition[] = [];
+  public pageIsReady: boolean = false;
 
   constructor(
     private competitionService: CompetitionService,
@@ -23,6 +24,7 @@ export class CompetitionsComponent implements OnInit {
         // if competition is running it's already listed as running, so we don't need it 
         // shown under previouly attended
         this.attendedCompetitions = atCom.filter(c => !this.runningCompetitions.map(co => co.id).includes(c.id));
+        this.pageIsReady = true;
       })
     })
   }

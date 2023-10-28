@@ -1,1 +1,7 @@
-<p>team works!</p>
+<div class="container" *ngIf="pageIsReady">
+    <p>team works!</p>
+</div>
+
+
+
+<progress class="progress is-small is-primary" max="100" *ngIf="!pageIsReady"></progress>

@@ -7,9 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TeamComponent implements OnInit {
 
+  public pageIsReady: boolean = false;
+
   constructor() { }
 
   ngOnInit(): void {
+    this.pageIsReady = true;
   }
-
 }

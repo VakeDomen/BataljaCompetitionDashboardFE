@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StatsComponent implements OnInit {
 
+  public pageIsReady: boolean = false;
+
   constructor() { }
 
   ngOnInit(): void {
+    this.pageIsReady = true;
   }
 
 }
