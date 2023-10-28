@@ -41,7 +41,11 @@ import { CompetitionTimerComponent } from './components/competition-timer/compet
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot({
+      timeOut: 6000,
+      positionClass: 'toast-bottom-right',
+      toastClass: 'toast-color ngx-toastr',
+    })
   ],
   providers: [
     {
