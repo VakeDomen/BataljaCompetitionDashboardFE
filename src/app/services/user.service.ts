@@ -13,10 +13,15 @@ export class UserService {
   
   constructor(
     private http: HttpClient,
+    private cache: CacheService,
   ) { }
 
 
   public getMe(): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/me`);
+    return this.http.get<User>(`${this.apiUrl}/user/me`);
+  }
+
+  public getUserById(userId: string): Observable<User> {
+    return this.cache.getCached(`/user/${userId}`);
   }
 }

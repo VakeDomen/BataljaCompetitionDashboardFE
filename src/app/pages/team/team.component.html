@@ -1,6 +1,63 @@
-<div class="container" *ngIf="pageIsReady">
-    <p>team works!</p>
+<div class="container mt-5" *ngIf="pageIsReady">
+    <!-- page head -->
+    <div class="level has-text-centered-mobile">
+        <div class="level-left">
+            <h1 class="title is-1">{{ competition?.name }}</h1>
+            <h3 class="subtitle is-3">{{ competitionStatus }}</h3>
+        </div>
+
+        <div class="level-right">
+            <button class="button is-primary is-outlined is-hidden-mobile" *ngIf="team?.owner == player?.id" (click)="disbandTeam()">Disband team</button>
+            <button class="button is-primary is-outlined" *ngIf="team?.owner != player?.id" (click)="leaveTeam()">Leave team</button>
+        </div>
+    </div>
+
+
+    <!-- team info -->
+    <div class="mb-5">
+        <div class="is-size-4">
+            <i class="icon fas fa-user mr-3 is-color-primary"></i>
+            <strong class="is-color-primary">Owner:</strong>
+            {{ ownerName() }}
+        </div>
+        <div class="is-size-4">
+            <i class="icon fas fa-user mr-3 is-color-primary"></i>
+            <strong class="is-color-primary">Partner: </strong>{{ partnerName() }}
+        </div>
+        <div class="is-size-4" *ngIf="!teamHasPartner()">
+            <i class="icon fas fa-user-plus mr-3 is-color-primary"></i>
+            <strong class="is-color-primary">Join team code: </strong>{{ team?.id }}
+        </div>
+    </div>
+
+    <!-- top boxes -->
+    <div class="columns bot-selection has-text-centered">
+        <div class="column is-hidden-mobile">
+            <div class="box">
+                <div class="title is-3">Upload bot</div>
+                <br>
+                <div class="subtitle">  bla </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="box">
+                <div class="title is-3">bot 1</div>
+                <br>
+                <div class="subtitle">  bla </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="box">
+                <div class="title is-3">bot 2</div>
+                <br>
+                <div class="subtitle">  bla </div>
+            </div>
+        </div>
+    </div>
 </div>
+
 
 
 

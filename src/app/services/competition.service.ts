@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CompetitionService {
+
   private apiUrl = environment.apiUrl + '/competition';
   
   constructor(
@@ -16,6 +17,9 @@ export class CompetitionService {
     private cache: CacheService,
   ) { }
 
+  public getCompetitionById(competitionId: string): Observable<Competition> {
+    return this.cache.getCached<Competition>(`/competition/${competitionId}`);
+  }
 
   public getCompetingCompetitions(): Observable<Competition[]> {
     return this.cache.getCached<Competition[]>(`/competition/attended`);

@@ -9,6 +9,7 @@ import { Team } from '../models/team.model';
   providedIn: 'root'
 })
 export class TeamService {
+
   private apiUrl = environment.apiUrl;
   
   constructor(
@@ -40,6 +41,10 @@ export class TeamService {
     return this.http.post<undefined>(`${this.apiUrl}/team/leave`, { team_id: teamId });
   }
 
+  public disbandTeam(teamId: string): Observable<undefined> {
+    this.cache.clearCache("/team");
+    return this.http.post<undefined>(`${this.apiUrl}/team/disband`, { team_id: teamId });
+  }
 
   public async hasTeamForCompetition(id: string): Promise<boolean> {
     const teams = await lastValueFrom(this.getTeams())
