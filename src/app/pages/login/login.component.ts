@@ -37,10 +37,6 @@ export class LoginComponent implements OnInit {
     } else {
       this.toastr.error('Oops, something went wrong!', 'Error');
     }
-
-    const state = this.auth.getState()
-    this.userService.getMe().subscribe((me: User) => state.setMe(me));
-    this.teamService.getTeams().subscribe((teams: Team[]) => state.setTeams(teams));
     this.loginSuccess.emit(success);
   }
 

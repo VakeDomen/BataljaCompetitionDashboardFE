@@ -2,14 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CacheService } from './cache.service';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 import { Team } from '../models/team.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TeamService {
-  private apiUrl = environment.apiUrl + '/team';
+  private apiUrl = environment.apiUrl;
   
   constructor(
     private http: HttpClient,
@@ -18,6 +18,11 @@ export class TeamService {
 
   public getTeams(): Observable<Team[]> {
     return this.cache.getCached<Team[]>("/team");
+  }
+  
+  public createTeam(owner: string, competitionId: string): Observable<Team> {
+    this.cache.clearCache("/team");
+    return this.http.post<Team>(`${this.apiUrl}/team`, { owner: owner, competition_id: competitionId });
   }
 
   public joinTeam(teamId: string): Observable<undefined> {
@@ -36,4 +41,8 @@ export class TeamService {
   }
 
 
+  public async hasTeamForCompetition(id: string): Promise<boolean> {
+    const teams = await lastValueFrom(this.getTeams())
+    return !!teams.filter((t: Team) => t.competition_id == id).length
+  }
 }

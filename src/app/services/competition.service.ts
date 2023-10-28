@@ -30,4 +30,14 @@ export class CompetitionService {
     this.cache.clearCache(`/competition/running`)
     return this.http.post<Competition[]>(this.apiUrl, competition);
   }
+
+  public isCompetitionRunning(competition: Competition): boolean {
+    if (!competition) {
+      return false;
+    }
+    const start = new Date(competition.start);
+    const end = new Date(competition.end);
+    const now = new Date();
+    return now >= start && now <= end;
+  }
 }

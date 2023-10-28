@@ -19,6 +19,7 @@ import { RankingsComponent } from './pages/rankings/rankings.component';
 import { StatsComponent } from './pages/stats/stats.component';
 import { CompetitionCardComponent } from './components/competition-card/competition-card.component';
 import { RulesComponent } from './pages/rules/rules.component';
+import { CompetitionTimerComponent } from './components/competition-timer/competition-timer.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { RulesComponent } from './pages/rules/rules.component';
     StatsComponent,
     CompetitionCardComponent,
     RulesComponent,
+    CompetitionTimerComponent,
   ],
   imports: [
     BrowserModule,

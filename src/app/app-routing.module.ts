@@ -19,9 +19,14 @@ const routes: Routes = [
   {
     path: 'rankings',
     component: RankingsComponent,
-  },
+  }, 
   {
     path: 'team',
+    component: TeamComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'team/:competitionId',
     component: TeamComponent,
     canActivate: [AuthGuard]
   },

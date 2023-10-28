@@ -10,11 +10,11 @@
             <button class="button is-primary is-outlined is-disabled" disabled>Log in to join</button>
         </div>
 
-        <div class="level-right has-text-centered" *ngIf="isLogged() && hasTeamForCompetition()">
-            <button class="button is-primary mr-2">My Team</button>
+        <div class="level-right has-text-centered" *ngIf="isLogged() && hasTeam">
+            <button class="button is-primary mr-2" (click)="routeToTeam()">My Team</button>
         </div>
-        <div class="level-right has-text-centered" *ngIf="isLogged() && !hasTeamForCompetition() && isCompetitionRunning()">
-            <button class="button is-primary is-outlined mr-2">Create Team</button>
+        <div class="level-right has-text-centered" *ngIf="isLogged() && !hasTeam && isCompetitionRunning()">
+            <button class="button is-primary is-outlined mr-2" (click)="createTeam()">Create Team</button>
             <button class="button is-primary is-outlined">Join Team</button>
         </div>
     </div>
@@ -23,7 +23,7 @@
         <div class="column is-half">
             <div class="item-content">
                 <span>Time remaining</span><br>
-                <span class="is-size-4 has-text-weight-bold">{{ timeRemaining }}</span>
+                <app-competition-timer [competition]="competition"></app-competition-timer>
             </div>
         </div>
 

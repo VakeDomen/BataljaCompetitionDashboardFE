@@ -15,13 +15,13 @@ import { UserService } from './user.service';
 export class AuthService {
   private apiUrl = environment.apiUrl;
   private token = 'JWTtoken';
-  private state: State;
+  // private state: State;
  
   constructor(
     private http: HttpClient,
     private router: Router,
   ) { 
-    this.state = new State();  
+    // this.state = new State();  
   }
 
   isLoggedIn(): boolean {
@@ -48,7 +48,7 @@ export class AuthService {
 
   logout(): void {
     sessionStorage.removeItem(this.token);
-    this.state.resetState();
+    // this.state.resetState();
     this.router.navigate(['/login'])
   }
 
@@ -75,34 +75,39 @@ export class AuthService {
     return true;
   }
 
-  public getState(): State {
-    return this.state;
-  }
+  // public getState(): State {
+  //   return this.state;
+  // }
 
 
 
 }
 
-class State {    
-  private me: User | undefined;
-  private myTeams: Team[] = [];
+// class State {
 
-  constructor() { }
+//   private me: User | undefined;
+//   private myTeams: Team[] = [];
+
+//   constructor() { }
   
-  public resetState(): void {
-    this.me = undefined;
-    this.myTeams = [];
-  }
+//   public resetState(): void {
+//     this.me = undefined;
+//     this.myTeams = [];
+//   }
 
-  public setMe(me: User) {
-    this.me = me;
-  }
+//   public setMe(me: User) {
+//     this.me = me;
+//   }
 
-  public setTeams(teams: Team[]): void {
-    this.myTeams = teams;
-  }
+//   public setTeams(teams: Team[]): void {
+//     this.myTeams = teams;
+//   }
 
-  public hasTeamForCompetition(comId: string): boolean {
-    return !!this.myTeams.filter((t: Team) => t.competition_id == comId).length
-  }
-}
+//   public hasTeamForCompetition(comId: string): boolean {
+//     return !!this.myTeams.filter((t: Team) => t.competition_id == comId).length
+//   }
+
+//   public getMyId(): string | undefined {
+//     return this.me?.id;
+//   }    
+// }

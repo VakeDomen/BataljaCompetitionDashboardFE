@@ -24,8 +24,8 @@ export class AppComponent {
   }
 
   public setupState(): void {    
-    const state = this.auth.getState()
-    this.userService.getMe().subscribe((me: User) => state.setMe(me));
-    this.teamService.getTeams().subscribe((teams: Team[]) => state.setTeams(teams));
+    // const state = this.auth.getState()
+    // this.userService.getMe().subscribe((me: User) => state.setMe(me));
+    // this.teamService.getTeams().subscribe((teams: Team[]) => state.setTeams(teams));
   }
 }

@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: "localhost:3000/api",
+  apiUrl: "https://tekmovanje.famnit.upr.si/api",
 };
