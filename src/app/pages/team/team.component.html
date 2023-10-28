@@ -15,7 +15,7 @@
 
     <!-- team info -->
     <div class="mb-5">
-        <div class="is-size-4">
+        <div class="is-size-4 is-size-small-mobile">
             <i class="icon fas fa-user mr-3 is-color-primary"></i>
             <strong class="is-color-primary">Owner:</strong>
             {{ ownerName() }}
@@ -36,29 +36,48 @@
             <div class="box">
                 <div class="title is-3">Upload bot</div>
                 <br>
-                <div class="subtitle">  bla </div>
+                <div *ngIf="competition?.allowed_submissions">
+                    <input class="input" type="file" (change)="onFileSelected($event)" />
+                    <button class="button is-primary is-outlined mt-2" (click)="upload()">Upload</button>
+                </div>
+                <div *ngIf="!competition?.allowed_submissions">
+                    <span class="is-size-4 is-color-text-gray">Submissions for competitions closed</span>
+                </div>
             </div>
         </div>
 
         <div class="column">
             <div class="box">
-                <div class="title is-3">bot 1</div>
+                <div class="title is-3">First bot</div>
                 <br>
-                <div class="subtitle">  bla </div>
+                <div *ngIf="!bots.length">
+                    <span class="is-size-4 is-color-text-gray">Upload a bot first</span>
+                </div>
+                <div *ngIf="!!bots.length">
+                    <select class="input select" [ngModel]="team?.bot1" (ngModelChange)="onBotChange('First', $event)">
+                        <option *ngFor="let bot of bots" [value]="bot.id">{{ bot.bot_name }}</option>
+                    </select>
+                      
+                </div>
             </div>
         </div>
 
         <div class="column">
             <div class="box">
-                <div class="title is-3">bot 2</div>
+                <div class="title is-3">Second bot</div>
                 <br>
-                <div class="subtitle">  bla </div>
+                <div *ngIf="!bots.length">
+                    <span class="is-size-4 is-color-text-gray">Upload a bot first</span>
+                </div>
+                <div *ngIf="!!bots.length">
+                    <select class="input select" [ngModel]="team?.bot2" (ngModelChange)="onBotChange('Second', $event)">
+                        <option *ngFor="let bot of bots" [value]="bot.id">{{ bot.bot_name }}</option>
+                    </select>
+                      
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-
-
 
 <progress class="progress is-small is-primary" max="100" *ngIf="!pageIsReady"></progress>

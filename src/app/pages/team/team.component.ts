@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { lastValueFrom } from 'rxjs';
+import { Bot } from 'src/app/models/bot.model';
 import { Competition } from 'src/app/models/competition.model';
 import { Team } from 'src/app/models/team.model';
 import { User } from 'src/app/models/user.model';
+import { BotService } from 'src/app/services/bot.service';
 import { CompetitionService } from 'src/app/services/competition.service';
 import { TeamService } from 'src/app/services/team.service';
 import { UserService } from 'src/app/services/user.service';
@@ -24,6 +26,8 @@ export class TeamComponent implements OnInit {
   public owner: User | undefined;
   public partner: User | undefined;
   public competitionStatus: string = "(Running)";
+  public selectedFile: File | null = null;
+  public bots: Bot[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -32,6 +36,7 @@ export class TeamComponent implements OnInit {
     private competitionService: CompetitionService,
     private userService: UserService,
     private toastr: ToastrService,
+    private botService: BotService,
   ) { 
     this.competitionId = "";
     this.fixRoute()
@@ -68,8 +73,18 @@ export class TeamComponent implements OnInit {
     await this.fetchTeam();
     await this.fetchUser();
     await this.fetchCompetition();
+    await this.fetchBots();
     this.pageIsReady = true;
   }
+
+  private async fetchBots(): Promise<void> {
+    if (!this.team) {
+      this.router.navigate(["competitions"]);
+      return;
+    }
+    this.bots = await lastValueFrom(this.botService.getTeamBots(this.team.id));
+  }
+
   private async fetchUser(): Promise<void> {
     if (!this.team) {
       this.router.navigate(["competitions"]);
@@ -173,4 +188,53 @@ export class TeamComponent implements OnInit {
 
   // ########################### LBEL METHODS END ###########################
 
+  // ########################### BOT METHODS ###########################
+
+  public onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length) {
+      this.selectedFile = input.files[0];
+    }
+  }
+
+  public upload(): void {
+    if (!this.team) {
+      return;
+    }
+    if (!this.selectedFile) {
+      this.toastr.error("Select a bot first")
+    }
+    if (this.selectedFile) {
+      this.botService.uploadNewBot(this.team.id, this.selectedFile).subscribe(async (response: Bot) => {
+        await this.fetchTeam()
+        await this.fetchBots()
+        this.toastr.success('Upload successful');
+      }, (_) => {
+        this.toastr.error("Something went wrong uploading the bot...")
+      });
+    }
+  }
+
+  public onBotChange(botSelector: "First" | "Second", selectedId: string) {
+    if (!this.team || !this.competition) {
+      return;
+    }
+    if (botSelector === "First") {
+      this.team.bot1 = selectedId;
+    }
+    if (botSelector === "Second") {
+      this.team.bot2 = selectedId;
+    }
+
+    this.botService.chageBot(
+      this.competition.id, 
+      this.team.id, 
+      botSelector, 
+      selectedId
+    ).subscribe((_) => {
+      this.toastr.success("Active bot changed");
+    })
+  }
+
+  // ########################### BOT METHODS END ###########################
 }

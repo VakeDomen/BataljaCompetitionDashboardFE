@@ -1,2 +1,19 @@
 .subtitle
     margin-left: 20px
+
+
+@media screen and (min-width: 769px) 
+    .bot-selection.columns 
+        display: flex
+
+
+    .bot-selection.columns > .column 
+        display: flex
+        flex-direction: column
+        justify-content: center
+        
+    .bot-selection.columns > .column > .box 
+        flex-grow: 1
+        display: flex
+        flex-direction: column
+
