@@ -20,6 +20,8 @@ import { StatsComponent } from './pages/stats/stats.component';
 import { CompetitionCardComponent } from './components/competition-card/competition-card.component';
 import { RulesComponent } from './pages/rules/rules.component';
 import { CompetitionTimerComponent } from './components/competition-timer/competition-timer.component';
+import { FrontComponent } from './pages/front/front.component';
+import { GameCanvasComponent } from './components/game-canvas/game-canvas.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import { CompetitionTimerComponent } from './components/competition-timer/compet
     CompetitionCardComponent,
     RulesComponent,
     CompetitionTimerComponent,
+    GameCanvasComponent,
+    FrontComponent,
   ],
   imports: [
     BrowserModule,

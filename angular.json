@@ -33,7 +33,9 @@
             "styles": [
               "src/styles.sass"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/gameLogic.js"
+            ]
           },
           "configurations": {
             "production": {
