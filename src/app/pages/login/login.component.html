@@ -1,6 +1,6 @@
-<form class="ml-3 mt-3 mr-3 mb-3">
+<form class="ml-3 mt-3 mr-3 mb-3 box">
     <div class="field">
-        <label for="" class="label">Student number</label>
+        <label for="" class="label is-color-text-gray">Student number</label>
         <div class="control has-icons-left">
             <input 
                 [(ngModel)]='credentials.username' 
@@ -11,12 +11,12 @@
                 required
             >
             <span class="icon is-small is-left">
-                <i class="fas fa-university"></i>
+                <i class="fas fa-university is-color-primary"></i>
             </span>
         </div>
     </div>
     <div class="field">
-        <label for="" class="label">Password</label>
+        <label for="" class="label is-color-text-gray">Password</label>
         <div class="control has-icons-left">
             <input 
                 [(ngModel)]=credentials.password
@@ -27,7 +27,7 @@
                 required
             >
             <span class="icon is-small is-left">
-                <i class="fa fa-lock"></i>
+                <i class="fa fa-lock is-color-primary"></i>
             </span>
         </div>
     </div>
