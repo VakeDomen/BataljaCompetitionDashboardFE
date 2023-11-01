@@ -23,6 +23,9 @@ import { CompetitionTimerComponent } from './components/competition-timer/compet
 import { FrontComponent } from './pages/front/front.component';
 import { GameCanvasComponent } from './components/game-canvas/game-canvas.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { RoundsChartComponent } from './components/charts/rounds-chart/rounds-chart.component';
+import { ChartsPanelComponent } from './components/charts-panel/charts-panel.component';
+import { WinRateChartComponent } from './components/charts/win-rate-chart/win-rate-chart.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +42,9 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     CompetitionTimerComponent,
     GameCanvasComponent,
     FrontComponent,
+    RoundsChartComponent,
+    ChartsPanelComponent,
+    WinRateChartComponent,
   ],
   imports: [
     BrowserModule,

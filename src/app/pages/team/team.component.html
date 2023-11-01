@@ -7,8 +7,10 @@
         </div>
 
         <div class="level-right">
-            <button class="button is-primary is-outlined is-hidden-mobile" *ngIf="team?.owner == player?.id" (click)="disbandTeam()">Disband team</button>
-            <button class="button is-primary is-outlined" *ngIf="team?.owner != player?.id" (click)="leaveTeam()">Leave team</button>
+            <button class="button is-primary is-outlined is-hidden-mobile" *ngIf="team?.owner == player?.id"
+                (click)="disbandTeam()">Disband team</button>
+            <button class="button is-primary is-outlined" *ngIf="team?.owner != player?.id" (click)="leaveTeam()">Leave
+                team</button>
         </div>
     </div>
 
@@ -57,7 +59,7 @@
                     <select class="input select" [ngModel]="team?.bot1" (ngModelChange)="onBotChange('First', $event)">
                         <option *ngFor="let bot of bots" [value]="bot.id">{{ bot.bot_name }}</option>
                     </select>
-                      
+
                 </div>
             </div>
         </div>
@@ -73,11 +75,37 @@
                     <select class="input select" [ngModel]="team?.bot2" (ngModelChange)="onBotChange('Second', $event)">
                         <option *ngFor="let bot of bots" [value]="bot.id">{{ bot.bot_name }}</option>
                     </select>
-                      
+
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- bots compilation error accordion -->
+    <div class="mb-3">
+        <section class="accordions" *ngFor="let bot of bots">
+            <article class="accordion" [ngClass]="{'is-active': openSubmissionAccordion == bot.id}">
+                <div class="accordion-header toggle" (click)="accordionToggle(bot.id)">
+                    <h1 class="is-4 ml-2">{{ bot.bot_name }}</h1>
+                    <span *ngIf="!!bot.compile_error" class="icon-span is-color-danger"><i class="fas fa-exclamation-triangle"></i></span>
+                </div>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <h1 class="title is-3 mt-2 mb-2">
+                            <span *ngIf="!!bot.compile_error" class="icon-span">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </span>
+                            <h1 class="title is-4">
+                                Bot compilation errors:
+                            </h1>
+                        </h1>
+                        {{ bot.compile_error != "" ? bot.compile_error : 'No aditional data! (no errors)' }}
+                    </div>
+                </div>
+            </article>
+        </section>
+    </div>
+
 </div>
 
 <progress class="progress is-small is-primary" max="100" *ngIf="!pageIsReady"></progress>

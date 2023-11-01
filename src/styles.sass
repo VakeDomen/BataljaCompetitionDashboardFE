@@ -52,6 +52,7 @@ $table-cell-border: 1px solid $accent
 $progress-bar-background-color: $accent
 
 @import 'bulma/bulma.sass'
+@import 'bulma-accordion/dist/css/bulma-accordion.min.css'
 
 html, body
     height: 100%
@@ -94,9 +95,28 @@ pre
 .is-color-text-gray
     color: $text-gray
 
+.is-color-danger
+    color: red
 
 .toast-color
     background-color: $primary
 
 .toast-container
     color: $black
+
+// overrides
+
+.accordions .accordion .accordion-header
+    color: $primary
+
+.accordions .accordion .accordion-header + .accordion-body
+    color: $text-gray
+    background-color: $dark
+    border: 1px solid $primary
+
+.accordions .accordion .accordion-body
+    background-color: $dark
+    // border: 1px solid $primary
+    
+.accordions .accordion
+    border-radius: 10px

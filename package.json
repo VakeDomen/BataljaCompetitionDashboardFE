@@ -20,9 +20,10 @@
     "@angular/router": "^16.2.0",
     "apexcharts": "^3.32.0",
     "bulma": "^0.9.4",
+    "bulma-accordion": "^2.0.1",
     "ng-apexcharts": "^1.6.0",
     "ngx-toastr": "^17.0.2",
-    "rxjs": "~7.4.0",
+    "rxjs": "7.4.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
   },

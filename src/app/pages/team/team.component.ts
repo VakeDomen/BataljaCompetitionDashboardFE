@@ -29,6 +29,10 @@ export class TeamComponent implements OnInit {
   public selectedFile: File | null = null;
   public bots: Bot[] = [];
 
+  // DISPLAY VARS
+  public openSubmissionAccordion: string | undefined;
+  
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -135,7 +139,7 @@ export class TeamComponent implements OnInit {
       this.router.navigate(["competitions"]);
     }
 
-    const team = teams.filter(t => t.competition_id == this.competitionId);
+    const team = teams.filter((t: Team) => t.competition_id == this.competitionId);
     if (!team || !team.length) {
       this.router.navigate(["competitions"]);
     }
@@ -150,10 +154,10 @@ export class TeamComponent implements OnInit {
     if (!this.team) {
       return;
     }
-    this.teamService.leaveTeam(this.team?.id).subscribe((_) => {
+    this.teamService.leaveTeam(this.team?.id).subscribe(() => {
       this.toastr.success("Left team");
       this.router.navigate(["competitions"])
-    }, err => {
+    }, () => {
       this.toastr.error("Failed to team?!");
     })
   }
@@ -162,10 +166,10 @@ export class TeamComponent implements OnInit {
     if (!this.team) {
       return;
     }
-    this.teamService.disbandTeam(this.team?.id).subscribe((_) => {
+    this.teamService.disbandTeam(this.team?.id).subscribe(() => {
       this.toastr.success("Left team");
       this.router.navigate(["competitions"])
-    }, _ => {
+    }, () => {
       this.toastr.error("Failed to team?!");
     })
   }
@@ -209,7 +213,7 @@ export class TeamComponent implements OnInit {
         await this.fetchTeam()
         await this.fetchBots()
         this.toastr.success('Upload successful');
-      }, (_) => {
+      }, () => {
         this.toastr.error("Something went wrong uploading the bot...")
       });
     }
@@ -231,10 +235,24 @@ export class TeamComponent implements OnInit {
       this.team.id, 
       botSelector, 
       selectedId
-    ).subscribe((_) => {
+    ).subscribe(() => {
       this.toastr.success("Active bot changed");
     })
   }
 
   // ########################### BOT METHODS END ###########################
+// ########################### ACCORDION ###########################
+
+
+accordionToggle(id: string | undefined) {
+  if (this.openSubmissionAccordion == id) {
+    this.openSubmissionAccordion = undefined;
+  } else { 
+    this.openSubmissionAccordion = id;
+  }
+}
+
+// ########################### ACCORDION END ###########################
+
+
 }
