@@ -22,11 +22,11 @@ const imageMap = {
 
 function init() {
 
-    cyanPlanetImage.src = 'Cyan.png';
-    magentaPlanetImage.src = 'Magenta.png';
-    toxicPlanetImage.src = 'Toxic.png';
-    yellowPlanetImage.src = 'Yellow.png';
-    neutralPlanetImage.src = 'Grey.png';
+    cyanPlanetImage.src = 'assets/Cyan.png';
+    magentaPlanetImage.src = 'assets/Magenta.png';
+    toxicPlanetImage.src = 'assets/Toxic.png';
+    yellowPlanetImage.src = 'assets/Yellow.png';
+    neutralPlanetImage.src = 'assets/Grey.png';
 
 
     const canvas = document.getElementById("canvas");

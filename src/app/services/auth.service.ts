@@ -1,12 +1,9 @@
-import { Injectable, getModuleFactory } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { LocalCredentials } from '../models/login.credentials';
-import { User } from '../models/user.model';
-import { TeamService } from './team.service';
-import { Team } from '../models/team.model';
-import { UserService } from './user.service';
+import { CacheService } from './cache.service';
 
 
 @Injectable({
@@ -15,14 +12,12 @@ import { UserService } from './user.service';
 export class AuthService {
   private apiUrl = environment.apiUrl;
   private token = 'JWTtoken';
-  // private state: State;
  
   constructor(
     private http: HttpClient,
     private router: Router,
-  ) { 
-    // this.state = new State();  
-  }
+    private cache: CacheService,
+  ) { }
 
   isLoggedIn(): boolean {
     if (!sessionStorage.getItem(this.token)) {
@@ -49,6 +44,7 @@ export class AuthService {
   logout(): void {
     sessionStorage.removeItem(this.token);
     // this.state.resetState();
+    this.cache.clearCache();
     this.router.navigate(['/login'])
   }
 

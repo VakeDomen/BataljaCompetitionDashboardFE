@@ -22,6 +22,7 @@ import { RulesComponent } from './pages/rules/rules.component';
 import { CompetitionTimerComponent } from './components/competition-timer/competition-timer.component';
 import { FrontComponent } from './pages/front/front.component';
 import { GameCanvasComponent } from './components/game-canvas/game-canvas.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { GameCanvasComponent } from './components/game-canvas/game-canvas.compon
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
+    NgApexchartsModule,
     ToastrModule.forRoot({
       timeOut: 6000,
       positionClass: 'toast-bottom-right',
