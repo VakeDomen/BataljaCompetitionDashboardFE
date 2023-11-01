@@ -1,1 +1,47 @@
-<p>charts-panel works!</p>
+<div class="columns is-desktop is-multiline" *ngIf="bots && dataReady" >
+    <div class="column">
+        <h1 class="title is-3">Win rate (Top 4)</h1>
+        <app-win-rate-chart
+            [series]=wrseries
+            [labels]=wrlabels
+        ></app-win-rate-chart>
+    </div>
+
+    <div class="column">
+        <h1 class="title is-3">Win rate (Latest 4)</h1>
+        <app-win-rate-chart
+            [series]=wlrseries
+            [labels]=wlrlabels
+        ></app-win-rate-chart>
+    </div>
+
+    <div class="column is-full">
+        <h1 class="title is-3">Rounds</h1>
+        <app-rounds-chart
+            [series1]=series1
+            [labels]=labels
+        ></app-rounds-chart>
+    </div>
+
+    <div class="column is-full">
+        <h1 class="title is-3">Score</h1>
+        <app-score-chart
+            [series2]=series2
+            [annotations]=subSwitchPoints
+            [labels]=labels
+        ></app-score-chart>
+    </div>
+</div>
+
+
+<div 
+    *ngIf="!bots.length" 
+    class="has-text-centered"
+>
+    <h1 class="title is-3">
+        No data to chart! 
+    </h1>
+    <h3 class="subtitle is-3">
+        You should submit your first bot and wait for a match.
+    </h3>
+</div>

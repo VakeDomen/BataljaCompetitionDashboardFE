@@ -34,7 +34,8 @@ export class WinRateChartComponent implements OnChanges {
       series: [],
       chart: {
         height: 390,
-        type: "radialBar"
+        type: "radialBar",
+        foreColor: "#4e4e4e"
       },
       plotOptions: {
         radialBar: {
@@ -49,22 +50,26 @@ export class WinRateChartComponent implements OnChanges {
           },
           dataLabels: {
             name: {
-              show: false
+              show: true
             },
             value: {
-              show: false
+              show: true,
+              color: "#c0c0c0"
             }
+          },
+          track: {
+            background: '#333',
           }
-        }
+        },
       },
-      colors: ["#1ab7ea", "#0084ff", "#39539E", "#0077B5"],
+      colors: ["#f3bb00", "#eea300", "#ea8b00", "#e57300"],
       labels: [],
       legend: {
         show: true,
         floating: true,
         fontSize: "16px",
         position: "left",
-        offsetX: -30,
+        offsetX: 50,
         offsetY: 10,
         labels: {
           useSeriesColors: true

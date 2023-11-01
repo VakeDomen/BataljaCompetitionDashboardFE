@@ -26,6 +26,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { RoundsChartComponent } from './components/charts/rounds-chart/rounds-chart.component';
 import { ChartsPanelComponent } from './components/charts-panel/charts-panel.component';
 import { WinRateChartComponent } from './components/charts/win-rate-chart/win-rate-chart.component';
+import { ScoreChartComponent } from './components/charts/score-chart/score-chart.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { WinRateChartComponent } from './components/charts/win-rate-chart/win-ra
     RoundsChartComponent,
     ChartsPanelComponent,
     WinRateChartComponent,
+    ScoreChartComponent,
   ],
   imports: [
     BrowserModule,
