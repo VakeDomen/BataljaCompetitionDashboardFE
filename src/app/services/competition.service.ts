@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { CacheService } from './cache.service';
 import { Competition } from '../models/competition.model';
 import { Observable } from 'rxjs';
+import { Rounds } from '../models/competition.rounds';
 
 @Injectable({
   providedIn: 'root'
@@ -44,4 +45,9 @@ export class CompetitionService {
     const now = new Date();
     return now >= start && now <= end;
   }
+
+  public getRounds(teamId: string): Observable<Rounds> {
+    return this.cache.getCached<Rounds>(`/competition/rounds/${teamId}`);
+  }
+
 }

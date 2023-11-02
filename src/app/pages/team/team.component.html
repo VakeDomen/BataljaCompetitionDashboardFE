@@ -2,7 +2,7 @@
     <!-- page head -->
     <div class="level has-text-centered-mobile">
         <div class="level-left">
-            <h1 class="title is-1">{{ competition?.name }}</h1>
+            <h1 class="title is-2">{{ competition?.name }}</h1>
             <h3 class="subtitle is-3">{{ competitionStatus }}</h3>
         </div>
 
@@ -17,16 +17,16 @@
 
     <!-- team info -->
     <div class="mb-5">
-        <div class="is-size-4 is-size-small-mobile">
+        <div class="is-size-5 is-size-6-mobile">
             <i class="icon fas fa-user mr-3 is-color-primary"></i>
             <strong class="is-color-primary">Owner:</strong>
             {{ ownerName() }}
         </div>
-        <div class="is-size-4">
+        <div class="is-size-5 is-size-6-mobile">
             <i class="icon fas fa-user mr-3 is-color-primary"></i>
             <strong class="is-color-primary">Partner: </strong>{{ partnerName() }}
         </div>
-        <div class="is-size-4" *ngIf="!teamHasPartner()">
+        <div class="is-size-5 is-size-6-mobile" *ngIf="!teamHasPartner()">
             <i class="icon fas fa-user-plus mr-3 is-color-primary"></i>
             <strong class="is-color-primary">Join team code: </strong>{{ team?.id }}
         </div>
@@ -36,7 +36,7 @@
     <div class="columns bot-selection has-text-centered">
         <div class="column is-hidden-mobile">
             <div class="box">
-                <div class="title is-3">Upload bot</div>
+                <div class="is-size-4 is-color-primary mb-1">Upload bot</div>
                 <br>
                 <div *ngIf="competition?.allowed_submissions">
                     <input class="input" type="file" (change)="onFileSelected($event)" />
@@ -50,7 +50,7 @@
 
         <div class="column">
             <div class="box">
-                <div class="title is-3">First bot</div>
+                <div class="is-size-4 is-color-primary mb-1">First bot</div>
                 <br>
                 <div *ngIf="!bots.length">
                     <span class="is-size-4 is-color-text-gray">Upload a bot first</span>
@@ -66,7 +66,7 @@
 
         <div class="column">
             <div class="box">
-                <div class="title is-3">Second bot</div>
+                <div class="is-size-4 is-color-primary mb-1">Second bot</div>
                 <br>
                 <div *ngIf="!bots.length">
                     <span class="is-size-4 is-color-text-gray">Upload a bot first</span>
@@ -82,7 +82,11 @@
     </div>
 
     <!-- charts -->
-    <app-charts-panel [bots]="bots"></app-charts-panel>
+    <app-charts-panel 
+        [bots]="bots"
+        [botStats]="botStats"  
+        [rounds]="rounds"  
+    ></app-charts-panel>
 
     <!-- bots compilation error accordion -->
     <div class="mb-3">
@@ -95,10 +99,10 @@
                 <div class="accordion-body">
                     <div class="accordion-content">
                         <h1 class="title is-3 mt-2 mb-2">
-                            <span *ngIf="!!bot.compile_error" class="icon-span">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </span>
                             <h1 class="title is-4">
+                                <span *ngIf="!!bot.compile_error" class="icon-span">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </span>
                                 Bot compilation errors:
                             </h1>
                         </h1>
@@ -108,7 +112,6 @@
             </article>
         </section>
     </div>
-
 </div>
 
 <progress class="progress is-small is-primary" max="100" *ngIf="!pageIsReady"></progress>

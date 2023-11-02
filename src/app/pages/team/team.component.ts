@@ -3,7 +3,9 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { lastValueFrom } from 'rxjs';
 import { Bot } from 'src/app/models/bot.model';
+import { BotStats } from 'src/app/models/bot.stats';
 import { Competition } from 'src/app/models/competition.model';
+import { Rounds } from 'src/app/models/competition.rounds';
 import { Team } from 'src/app/models/team.model';
 import { User } from 'src/app/models/user.model';
 import { BotService } from 'src/app/services/bot.service';
@@ -28,6 +30,8 @@ export class TeamComponent implements OnInit {
   public competitionStatus: string = "(Running)";
   public selectedFile: File | null = null;
   public bots: Bot[] = [];
+  public botStats: BotStats = {};
+  public rounds: Rounds = {};
 
   // DISPLAY VARS
   public openSubmissionAccordion: string | undefined;
@@ -78,7 +82,29 @@ export class TeamComponent implements OnInit {
     await this.fetchUser();
     await this.fetchCompetition();
     await this.fetchBots();
+    await this.fetchBotStats();
+    await this.fetchRounds()
     this.pageIsReady = true;
+  }
+  
+  private async fetchRounds() {
+    if (!this.team) {
+      this.router.navigate(["competitions"]);
+      return;
+    }
+    this.rounds = (await lastValueFrom(this.competitionService.getRounds(this.team.id))) as unknown as Rounds;
+  }
+
+  private async fetchBotStats(): Promise<void> {
+    if (!this.team) {
+      this.router.navigate(["competitions"]);
+      return;
+    }
+    this.botStats = (await lastValueFrom(this.botService.getBotsStats(this.team.id))) as unknown as BotStats;
+    for (const botId in this.botStats) {
+      if (!this.botStats[botId][0]) this.botStats[botId][0] = 0;
+      if (!this.botStats[botId][1]) this.botStats[botId][1] = 0;
+    }
   }
 
   private async fetchBots(): Promise<void> {

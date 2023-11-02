@@ -29,6 +29,10 @@ export class BotService {
     return this.cache.getCached<Bot[]>(`/team/bots/${teamId}`);
   }
 
+  public getBotsStats(teamId: string): Observable<Bot[]> {
+    return this.cache.getCached<Bot[]>(`/bots/wr/${teamId}`);
+  }
+
   public chageBot(compId: string, teamId: string, botSelector: "First" | "Second", botId: string): Observable<void> {
     this.cache.clearCache(`/team/bots/${teamId}`);
     return this.http.post<void>(`${this.apiUrl}/team/bot`, {

@@ -79,12 +79,12 @@ export class RoundsChartComponent implements OnChanges {
               {
                 from: -10000,
                 to: 0,
-                color: "#FFAA9E"
+                color: "#B30000"
               },
               {
                 from: 0,
                 to: 10000,
-                color: "#9ACD32"
+                color: "#2db300"
               }
             ]
           },
