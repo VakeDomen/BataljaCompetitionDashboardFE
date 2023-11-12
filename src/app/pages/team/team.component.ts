@@ -20,7 +20,6 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class TeamComponent implements OnInit {
 
-  public pageIsReady: boolean = false;
   public competitionId: string;
   public team: Team | undefined;
   public competition: Competition | undefined;
@@ -34,8 +33,10 @@ export class TeamComponent implements OnInit {
   public rounds: Rounds = {};
 
   // DISPLAY VARS
+  public pageIsReady: boolean = false;
+  public matchesReady: boolean = false;
   public openSubmissionAccordion: string | undefined;
-  
+  public tabOpen: 'overall' | 'matches' | 'bots' = 'overall';
 
   constructor(
     private route: ActivatedRoute,
@@ -84,6 +85,14 @@ export class TeamComponent implements OnInit {
     await this.fetchBots();
     await this.fetchBotStats();
     await this.fetchRounds()
+
+    this.finalizeLoad();
+  }
+
+  private finalizeLoad() {
+    if (this.bots.length == 0) {
+      this.tabOpen = 'bots';
+    }
     this.pageIsReady = true;
   }
   

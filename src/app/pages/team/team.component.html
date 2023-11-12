@@ -1,5 +1,5 @@
 <div class="container mt-5" *ngIf="pageIsReady">
-    <!-- page head -->
+    <!-- PAGE HEAD -->
     <div class="level has-text-centered-mobile">
         <div class="level-left">
             <h1 class="title is-2">{{ competition?.name }}</h1>
@@ -13,9 +13,10 @@
                 team</button>
         </div>
     </div>
+    <!-- PAGE HEAD END -->
 
 
-    <!-- team info -->
+    <!-- TEAM INFO -->
     <div class="mb-5">
         <div class="is-size-5 is-size-6-mobile">
             <i class="icon fas fa-user mr-3 is-color-primary"></i>
@@ -31,87 +32,115 @@
             <strong class="is-color-primary">Join team code: </strong>{{ team?.id }}
         </div>
     </div>
+    <!-- TEAM INFO END -->
 
-    <!-- top boxes -->
-    <div class="columns bot-selection has-text-centered">
-        <div class="column is-hidden-mobile">
-            <div class="box">
-                <div class="is-size-4 is-color-primary mb-1">Upload bot</div>
-                <br>
-                <div *ngIf="competition?.allowed_submissions">
-                    <input class="input" type="file" (change)="onFileSelected($event)" />
-                    <button class="button is-primary is-outlined mt-2" (click)="upload()">Upload</button>
-                </div>
-                <div *ngIf="!competition?.allowed_submissions">
-                    <span class="is-size-4 is-color-text-gray">Submissions for competitions closed</span>
-                </div>
-            </div>
-        </div>
+    <!-- TABS -->
+    <div class="tabs is-centered">
+        <ul>
+            <li [ngClass]="{ 'is-active': tabOpen == 'overall' }" (click)="tabOpen = 'overall'"><a>Overall stats</a>
+            </li>
+            <li [ngClass]="{ 'is-active': tabOpen == 'matches' }" (click)="tabOpen = 'matches'"><a>Matches</a></li>
+            <li [ngClass]="{ 'is-active': tabOpen == 'bots' }" (click)="tabOpen = 'bots'"><a>Bots</a></li>
+        </ul>
+    </div>
 
-        <div class="column">
-            <div class="box">
-                <div class="is-size-4 is-color-primary mb-1">First bot</div>
-                <br>
-                <div *ngIf="!bots.length">
-                    <span class="is-size-4 is-color-text-gray">Upload a bot first</span>
-                </div>
-                <div *ngIf="!!bots.length">
-                    <select class="input select" [ngModel]="team?.bot1" (ngModelChange)="onBotChange('First', $event)">
-                        <option *ngFor="let bot of bots" [value]="bot.id">{{ bot.bot_name }}</option>
-                    </select>
+    <!-- overall -->
+    <div class="mb-5" [ngClass]="{ 'is-closed': tabOpen != 'overall' }">
+        <app-charts-panel [bots]="bots" [botStats]="botStats" [rounds]="rounds"></app-charts-panel>
+    </div>
 
-                </div>
-            </div>
-        </div>
+    <!-- matches -->
+    <div class="mb-5" [ngClass]="{ 'is-closed': tabOpen != 'matches' }">
+        <progress class="progress is-small is-primary" max="100" *ngIf="!matchesReady"></progress>
+        <div *ngIf="matchesReady">
 
-        <div class="column">
-            <div class="box">
-                <div class="is-size-4 is-color-primary mb-1">Second bot</div>
-                <br>
-                <div *ngIf="!bots.length">
-                    <span class="is-size-4 is-color-text-gray">Upload a bot first</span>
-                </div>
-                <div *ngIf="!!bots.length">
-                    <select class="input select" [ngModel]="team?.bot2" (ngModelChange)="onBotChange('Second', $event)">
-                        <option *ngFor="let bot of bots" [value]="bot.id">{{ bot.bot_name }}</option>
-                    </select>
-
-                </div>
-            </div>
         </div>
     </div>
 
-    <!-- charts -->
-    <app-charts-panel 
-        [bots]="bots"
-        [botStats]="botStats"  
-        [rounds]="rounds"  
-    ></app-charts-panel>
-
-    <!-- bots compilation error accordion -->
-    <div class="mb-3">
-        <section class="accordions" *ngFor="let bot of bots">
-            <article class="accordion" [ngClass]="{'is-active': openSubmissionAccordion == bot.id}">
-                <div class="accordion-header toggle" (click)="accordionToggle(bot.id)">
-                    <h1 class="is-4 ml-2">{{ bot.bot_name }}</h1>
-                    <span *ngIf="!!bot.compile_error" class="icon-span is-color-danger"><i class="fas fa-exclamation-triangle"></i></span>
-                </div>
-                <div class="accordion-body">
-                    <div class="accordion-content">
-                        <h1 class="title is-3 mt-2 mb-2">
-                            <h1 class="title is-4">
-                                <span *ngIf="!!bot.compile_error" class="icon-span">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                </span>
-                                Bot compilation errors:
-                            </h1>
-                        </h1>
-                        {{ bot.compile_error != "" ? bot.compile_error : 'No aditional data! (no errors)' }}
+    <!-- bots -->
+    <div class="mb-5" [ngClass]="{ 'is-closed': tabOpen != 'bots' }">
+        <!-- TOP BOXES -->
+        <div class="columns bot-selection has-text-centered">
+            <!-- upload bot -->
+            <div class="column is-hidden-mobile">
+                <div class="box">
+                    <div class="is-size-4 is-color-primary mb-1">Upload bot</div>
+                    <br>
+                    <div *ngIf="competition?.allowed_submissions">
+                        <input class="input" type="file" (change)="onFileSelected($event)" />
+                        <button class="button is-primary is-outlined mt-2" (click)="upload()">Upload</button>
+                    </div>
+                    <div *ngIf="!competition?.allowed_submissions">
+                        <span class="is-size-4 is-color-text-gray">Submissions for competitions closed</span>
                     </div>
                 </div>
-            </article>
-        </section>
+            </div>
+
+            <!-- select first bot -->
+            <div class="column">
+                <div class="box">
+                    <div class="is-size-4 is-color-primary mb-1">First bot</div>
+                    <br>
+                    <div *ngIf="!bots.length">
+                        <span class="is-size-4 is-color-text-gray">Upload a bot first</span>
+                    </div>
+                    <div *ngIf="!!bots.length">
+                        <select class="input select" [ngModel]="team?.bot1"
+                            (ngModelChange)="onBotChange('First', $event)">
+                            <option *ngFor="let bot of bots" [value]="bot.id">{{ bot.bot_name }}</option>
+                        </select>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- select second bot -->
+            <div class="column">
+                <div class="box">
+                    <div class="is-size-4 is-color-primary mb-1">Second bot</div>
+                    <br>
+                    <div *ngIf="!bots.length">
+                        <span class="is-size-4 is-color-text-gray">Upload a bot first</span>
+                    </div>
+                    <div *ngIf="!!bots.length">
+                        <select class="input select" [ngModel]="team?.bot2"
+                            (ngModelChange)="onBotChange('Second', $event)">
+                            <option *ngFor="let bot of bots" [value]="bot.id">{{ bot.bot_name }}</option>
+                        </select>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- TOP BOXES END -->
+        <div class="mb-3">
+            <section class="accordions" *ngFor="let bot of bots">
+                <article class="accordion" [ngClass]="{'is-active': openSubmissionAccordion == bot.id}">
+                    <div class="accordion-header toggle" (click)="accordionToggle(bot.id)">
+                        <h1 class="is-4 ml-2">{{ bot.bot_name }}</h1>
+                        <span *ngIf="!!bot.compile_error" class="icon-span is-color-danger"><i
+                                class="fas fa-exclamation-triangle"></i></span>
+                    </div>
+                    <div class="accordion-body">
+                        <div class="accordion-content">
+                            <h1 class="title is-3 mt-2 mb-2">
+                                <h1 class="title is-4">
+                                    <span *ngIf="!!bot.compile_error" class="icon-span">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </span>
+                                    Bot compilation errors:
+                                </h1>
+                            </h1>
+                            {{ bot.compile_error != "" ? bot.compile_error : 'No aditional data! (no errors)' }}
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </div>
     </div>
+    <!-- TABS END -->
+
+
 </div>
 
 <progress class="progress is-small is-primary" max="100" *ngIf="!pageIsReady"></progress>
