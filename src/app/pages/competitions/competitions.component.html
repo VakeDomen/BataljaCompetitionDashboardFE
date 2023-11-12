@@ -3,7 +3,11 @@
         <h1 class="title is-1">Currently runnning competitions:</h1>
     </div>
     <div class="mb-3" *ngIf="runningCompetitions.length">
-        <app-competition-card *ngFor="let c of runningCompetitions" [competition]="c"></app-competition-card>
+        <app-competition-card 
+            *ngFor="let c of runningCompetitions" 
+            [competition]="c"
+            [teamCounts]="teamCounts"   
+        ></app-competition-card>
     </div>
     <div class="box has-text-cenetered" *ngIf="!runningCompetitions.length">
         <p class="is-size-4 has-text-cenetered">No currently running competitions!</p>
@@ -13,7 +17,11 @@
     </div>
 
     <div class="mb-3" *ngIf="attendedCompetitions.length">
-        <app-competition-card *ngFor="let c of attendedCompetitions" [competition]="c"></app-competition-card>
+        <app-competition-card 
+            *ngFor="let c of attendedCompetitions" 
+            [competition]="c"
+            [teamCounts]="teamCounts"    
+        ></app-competition-card>
     </div>
 
     <div class="box has-text-cenetered" *ngIf="!attendedCompetitions.length">

@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Competition } from 'src/app/models/competition.model';
+import { CompetitionTeamCounts } from 'src/app/models/competition.team.count';
 import { Team } from 'src/app/models/team.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
@@ -17,6 +18,7 @@ import { UserService } from 'src/app/services/user.service';
 export class CompetitionCardComponent implements OnChanges {
 
   @Input() public competition: Competition | undefined;
+  @Input() public teamCounts: CompetitionTeamCounts = {};
 
   public hasTeam: boolean = false;
 
@@ -49,8 +51,12 @@ export class CompetitionCardComponent implements OnChanges {
     return this.auth.isAdmin();
   }
   
-  public calcNumOfTeams(): number {
-    return 10;
+  public calcNumOfTeams(competitionId: string | undefined): number {
+    if (!competitionId) {
+      return 0;
+    }
+    const count = this.teamCounts[competitionId];
+    return count ?? 0
   }
 
   public isCompetitionRunning(): boolean {

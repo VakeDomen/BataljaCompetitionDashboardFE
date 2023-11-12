@@ -1,21 +1,4 @@
 <div class="columns is-desktop is-multiline" *ngIf="bots && dataReady" >
-    <div class="column is-full">
-        <p class="is-size-3">Rounds</p>
-        <app-rounds-chart
-            [series1]=series1
-            [labels]=labels
-        ></app-rounds-chart>
-    </div>
-
-    <div class="column is-full">
-        <p class="is-size-3">Score</p>
-        <app-score-chart
-            [series2]=series2
-            [annotations]=subSwitchPoints
-            [labels]=labels
-        ></app-score-chart>
-    </div>
-    
     <div class="column">
         <p class="is-size-3">Win rate (Top 4)</p>
         <app-win-rate-chart
@@ -31,8 +14,23 @@
             [labels]=srlabels
         ></app-win-rate-chart>
     </div>
-
     
+    <div class="column is-full">
+        <p class="is-size-3">Rounds</p>
+        <app-rounds-chart
+            [series1]=series1
+            [labels]=labels
+        ></app-rounds-chart>
+    </div>
+
+    <div class="column is-full">
+        <p class="is-size-3">Score</p>
+        <app-score-chart
+            [series2]=series2
+            [annotations]=subSwitchPoints
+            [labels]=labels
+        ></app-score-chart>
+    </div>  
 </div>
 
 

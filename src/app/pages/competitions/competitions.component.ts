@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Competition } from 'src/app/models/competition.model';
+import { CompetitionTeamCounts } from 'src/app/models/competition.team.count';
 import { CompetitionService } from 'src/app/services/competition.service';
 
 @Component({
@@ -12,6 +13,7 @@ export class CompetitionsComponent implements OnInit {
   public runningCompetitions: Competition[] = [];
   public attendedCompetitions: Competition[] = [];
   public pageIsReady: boolean = false;
+  public teamCounts: CompetitionTeamCounts = {};
 
   constructor(
     private competitionService: CompetitionService,
@@ -24,9 +26,11 @@ export class CompetitionsComponent implements OnInit {
         // if competition is running it's already listed as running, so we don't need it 
         // shown under previouly attended
         this.attendedCompetitions = atCom.filter(c => !this.runningCompetitions.map(co => co.id).includes(c.id));
-        this.pageIsReady = true;
+        this.competitionService.competitionTeamCounts().subscribe((counts: CompetitionTeamCounts) => {
+          this.teamCounts = counts;
+          this.pageIsReady = true;
+        });
       })
     })
   }
-
 }

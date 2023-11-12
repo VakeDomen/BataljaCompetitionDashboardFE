@@ -5,6 +5,7 @@ import { CacheService } from './cache.service';
 import { Competition } from '../models/competition.model';
 import { Observable } from 'rxjs';
 import { Rounds } from '../models/competition.rounds';
+import { CompetitionTeamCounts } from '../models/competition.team.count';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +35,10 @@ export class CompetitionService {
     this.cache.clearCache(`/competition/attended`)
     this.cache.clearCache(`/competition/running`)
     return this.http.post<Competition[]>(this.apiUrl, competition);
+  }
+
+  public competitionTeamCounts(): Observable<CompetitionTeamCounts> {
+    return this.cache.getCached<CompetitionTeamCounts>(`/competition/team/count`);
   }
 
   public isCompetitionRunning(competition: Competition): boolean {
