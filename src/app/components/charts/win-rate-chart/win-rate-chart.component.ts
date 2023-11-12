@@ -40,8 +40,8 @@ export class WinRateChartComponent implements OnChanges {
       plotOptions: {
         radialBar: {
           offsetY: 0,
-          startAngle: 0,
-          endAngle: 270,
+          startAngle: 1,
+          endAngle: 360,
           hollow: {
             margin: 5,
             size: "30%",
@@ -65,11 +65,11 @@ export class WinRateChartComponent implements OnChanges {
       colors: ["#f3bb00", "#eea300", "#ea8b00", "#e57300"],
       labels: [],
       legend: {
-        show: true,
+        show: false,
         floating: true,
         fontSize: "16px",
         position: "left",
-        offsetX: 50,
+        offsetX: 20,
         offsetY: 10,
         labels: {
           useSeriesColors: true

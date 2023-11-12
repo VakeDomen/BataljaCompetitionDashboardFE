@@ -6,10 +6,12 @@ import { Bot } from 'src/app/models/bot.model';
 import { BotStats } from 'src/app/models/bot.stats';
 import { Competition } from 'src/app/models/competition.model';
 import { Rounds } from 'src/app/models/competition.rounds';
+import { Game2v2 } from 'src/app/models/game.model';
 import { Team } from 'src/app/models/team.model';
 import { User } from 'src/app/models/user.model';
 import { BotService } from 'src/app/services/bot.service';
 import { CompetitionService } from 'src/app/services/competition.service';
+import { GameService } from 'src/app/services/game.service';
 import { TeamService } from 'src/app/services/team.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -31,12 +33,17 @@ export class TeamComponent implements OnInit {
   public bots: Bot[] = [];
   public botStats: BotStats = {};
   public rounds: Rounds = {};
+  public roundGames: Game2v2[] = [];
+  public roundSelected: string | undefined;
 
+  
   // DISPLAY VARS
   public pageIsReady: boolean = false;
-  public matchesReady: boolean = false;
+  public gamesReady: boolean = false;
   public openSubmissionAccordion: string | undefined;
-  public tabOpen: 'overall' | 'matches' | 'bots' = 'overall';
+  public tabOpen: 'overall' | 'games' | 'bots' = 'overall';
+  
+
 
   constructor(
     private route: ActivatedRoute,
@@ -46,7 +53,8 @@ export class TeamComponent implements OnInit {
     private userService: UserService,
     private toastr: ToastrService,
     private botService: BotService,
-  ) { 
+    private gameService: GameService,
+  ) {
     this.competitionId = "";
     this.fixRoute()
   }
@@ -54,27 +62,27 @@ export class TeamComponent implements OnInit {
   ngOnInit(): void { }
 
   // ########################### PAGE SETUP ###########################
-  
+
   private fixRoute() {
     this.route.paramMap.subscribe((params: ParamMap) => {
-        let id = params.get('competitionId');
-        
-        // if everything is fine, load the page
-        if (id) {
-          this.competitionId = id;
-          this.fetchData();
-          return
-        } 
-        
-        // otherwise reroute
-        this.teamService.getTeams().subscribe((teams: Team[]) => {
-          if (!teams.length) {
-            this.router.navigate(["competitions"]);
-          } else {
-            this.router.navigate(["team", teams[0].competition_id]);
-          }
-        })
+      let id = params.get('competitionId');
+
+      // if everything is fine, load the page
+      if (id) {
+        this.competitionId = id;
+        this.fetchData();
+        return
       }
+
+      // otherwise reroute
+      this.teamService.getTeams().subscribe((teams: Team[]) => {
+        if (!teams.length) {
+          this.router.navigate(["competitions"]);
+        } else {
+          this.router.navigate(["team", teams[0].competition_id]);
+        }
+      })
+    }
     );
   }
 
@@ -85,7 +93,7 @@ export class TeamComponent implements OnInit {
     await this.fetchBots();
     await this.fetchBotStats();
     await this.fetchRounds()
-
+    await this.fetchRoundGames();
     this.finalizeLoad();
   }
 
@@ -94,14 +102,31 @@ export class TeamComponent implements OnInit {
       this.tabOpen = 'bots';
     }
     this.pageIsReady = true;
+    this.gamesReady = true;
   }
-  
+
+  private async fetchRoundGames() {
+    if (!this.roundSelected) {
+      return
+    }
+    const gamesPromises = this.rounds[this.roundSelected][3].map((gid: string) => {
+      return lastValueFrom(this.gameService.getGameById(gid))
+    })
+    this.roundGames = await Promise.all(gamesPromises);
+  }
+
   private async fetchRounds() {
     if (!this.team) {
       this.router.navigate(["competitions"]);
       return;
     }
     this.rounds = (await lastValueFrom(this.competitionService.getRounds(this.team.id))) as unknown as Rounds;
+    // preselect the last round
+    // set the roundSelected to the last round key in the rounds
+    const index = Object.keys(this.rounds).length - 1;
+    if (index >= 0) {
+      this.roundSelected = Object.keys(this.rounds)[index]
+    }
   }
 
   private async fetchBotStats(): Promise<void> {
@@ -129,7 +154,7 @@ export class TeamComponent implements OnInit {
       this.router.navigate(["competitions"]);
       return;
     }
-    
+
     // get me
     const user = await lastValueFrom(this.userService.getMe());
     if (!user) {
@@ -183,6 +208,15 @@ export class TeamComponent implements OnInit {
 
   // ########################### PAGE SETUP END ###########################
 
+  // ########################### GAMES ###########################
+  public async fetchNewRoundGames(): Promise<void> {
+    this.gamesReady = false;
+    await this.fetchRoundGames();
+    this.gamesReady = true;
+  }
+  // ########################### GAMES END ###########################
+
+
   // ########################### TEAM OPERATIONS ###########################
 
   public leaveTeam(): void {
@@ -223,6 +257,10 @@ export class TeamComponent implements OnInit {
 
   public partnerName(): string {
     return this.partner ? this.partner.username : " -- (flying solo)"
+  }
+
+  public getRoundKeys(): string[] {
+    return Object.keys(this.rounds);
   }
 
   // ########################### LBEL METHODS END ###########################
@@ -266,9 +304,9 @@ export class TeamComponent implements OnInit {
     }
 
     this.botService.chageBot(
-      this.competition.id, 
-      this.team.id, 
-      botSelector, 
+      this.competition.id,
+      this.team.id,
+      botSelector,
       selectedId
     ).subscribe(() => {
       this.toastr.success("Active bot changed");
@@ -276,18 +314,19 @@ export class TeamComponent implements OnInit {
   }
 
   // ########################### BOT METHODS END ###########################
-// ########################### ACCORDION ###########################
+
+  // ########################### ACCORDION ###########################
 
 
-accordionToggle(id: string | undefined) {
-  if (this.openSubmissionAccordion == id) {
-    this.openSubmissionAccordion = undefined;
-  } else { 
-    this.openSubmissionAccordion = id;
+  accordionToggle(id: string | undefined) {
+    if (this.openSubmissionAccordion == id) {
+      this.openSubmissionAccordion = undefined;
+    } else {
+      this.openSubmissionAccordion = id;
+    }
   }
-}
 
-// ########################### ACCORDION END ###########################
+  // ########################### ACCORDION END ###########################
 
 
 }

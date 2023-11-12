@@ -39,7 +39,7 @@
         <ul>
             <li [ngClass]="{ 'is-active': tabOpen == 'overall' }" (click)="tabOpen = 'overall'"><a>Overall stats</a>
             </li>
-            <li [ngClass]="{ 'is-active': tabOpen == 'matches' }" (click)="tabOpen = 'matches'"><a>Matches</a></li>
+            <li [ngClass]="{ 'is-active': tabOpen == 'games' }" (click)="tabOpen = 'games'"><a>Games</a></li>
             <li [ngClass]="{ 'is-active': tabOpen == 'bots' }" (click)="tabOpen = 'bots'"><a>Bots</a></li>
         </ul>
     </div>
@@ -49,11 +49,29 @@
         <app-charts-panel [bots]="bots" [botStats]="botStats" [rounds]="rounds"></app-charts-panel>
     </div>
 
-    <!-- matches -->
-    <div class="mb-5" [ngClass]="{ 'is-closed': tabOpen != 'matches' }">
-        <progress class="progress is-small is-primary" max="100" *ngIf="!matchesReady"></progress>
-        <div *ngIf="matchesReady">
+    <!-- games -->
+    <div class="mb-5" [ngClass]="{ 'is-closed': tabOpen != 'games' }">
+        <progress class="progress is-small is-primary" max="100" *ngIf="!gamesReady"></progress>
+        <div *ngIf="gamesReady">
+            <div *ngIf="!roundGames.length">
+                <p class="is-size-4 is-color-text-gray has-text-centered">Upload a bot and wait for games to play</p>
+            </div>
 
+            <div *ngIf="roundGames.length">
+                <div class="level has-text-centered-mobile">
+                    <div class="level-left">
+                        <p class="is-size-3">Select a round: </p>
+                    </div>
+    
+                    <div class="level-right">
+                        <select class="select" [(ngModel)]="roundSelected" (ngModelChange)="fetchNewRoundGames()">
+                            <option *ngFor="let round of getRoundKeys()" [value]="round">Round {{ round }}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <p *ngFor="let round of roundGames">{{ round | json }}</p>
+            </div>
         </div>
     </div>
 
@@ -113,6 +131,7 @@
             </div>
         </div>
         <!-- TOP BOXES END -->
+        <p class="is-size-3">Bot compilation errors:</p>
         <div class="mb-3">
             <section class="accordions" *ngFor="let bot of bots">
                 <article class="accordion" [ngClass]="{'is-active': openSubmissionAccordion == bot.id}">
@@ -125,7 +144,7 @@
                         <div class="accordion-content">
                             <h1 class="title is-3 mt-2 mb-2">
                                 <h1 class="title is-4">
-                                    <span *ngIf="!!bot.compile_error" class="icon-span">
+                                    <span *ngIf="!!bot.compile_error" class="icon-span is-color-danger">
                                         <i class="fas fa-exclamation-triangle"></i>
                                     </span>
                                     Bot compilation errors:
