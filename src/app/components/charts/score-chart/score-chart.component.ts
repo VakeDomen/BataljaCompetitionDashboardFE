@@ -1,14 +1,11 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import {
   ApexAxisChartSeries,
   ApexChart,
   ApexXAxis,
-  ApexDataLabels,
-  ApexTitleSubtitle,
   ApexStroke,
   ApexGrid,
-  ApexMarkers,
   ApexAnnotations,
   ApexTooltip
 } from "ng-apexcharts";
@@ -24,6 +21,15 @@ export type ChartOptions = {
   annotations: ApexAnnotations,
   tooltip: ApexTooltip,
 };
+
+export interface Annotation {
+  x: number,
+  marker: any,
+  label: {
+    borderColor: string,
+    text: string,
+  }
+}
 
 @Component({
   selector: 'app-score-chart',

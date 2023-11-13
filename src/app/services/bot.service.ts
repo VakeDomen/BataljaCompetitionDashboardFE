@@ -19,6 +19,7 @@ export class BotService {
 
   public uploadNewBot(teamId: string, bot: File): Observable<Bot> {
     this.cache.clearCache(`/team/bots/${teamId}`);
+    this.cache.clearCache("/team");
     const formData: FormData = new FormData();
     formData.append('team_id', teamId);
     formData.append('file', bot, bot.name);
