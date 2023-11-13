@@ -53,8 +53,10 @@
     <div class="mb-5" [ngClass]="{ 'is-closed': tabOpen != 'games' }">
         <progress class="progress is-small is-primary" max="100" *ngIf="!gamesReady"></progress>
         <div *ngIf="gamesReady">
-            <div *ngIf="!roundGames.length">
-                <p class="is-size-4 is-color-text-gray has-text-centered">Upload a bot and wait for games to play</p>
+            <div *ngIf="!roundGames.length" class="has-text-centered">
+                <h3 class="subtitle is-3">
+                    You should submit your first bot and wait for a match.
+                </h3>
             </div>
 
             <div *ngIf="roundGames.length">

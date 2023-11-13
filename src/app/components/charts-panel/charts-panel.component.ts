@@ -78,4 +78,8 @@ export class ChartsPanelComponent implements OnChanges {
       }
     }
   }
+
+  public numOfRounds(): number {
+    return Object.keys(this.rounds).length;
+  }
 }

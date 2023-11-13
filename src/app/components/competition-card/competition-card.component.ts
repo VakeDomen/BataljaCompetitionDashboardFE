@@ -84,6 +84,8 @@ export class CompetitionCardComponent implements OnChanges {
         this.teamService.createTeam(owner, competitionId).subscribe((t: Team) => {
           this.toastr.success("Team Created");
           this.routeToTeam()
+        }, () => {
+          this.toastr.error("Failed to create team");
         });
       }
     })
@@ -98,6 +100,8 @@ export class CompetitionCardComponent implements OnChanges {
     this.teamService.joinTeam(this.joinTeamCode).subscribe(() => {
       this.toastr.success("Team joined!");
       this.rotuer.navigate(["team"])
+    }, () => {
+      this.toastr.error("Invalid invite code");
     })
     
   }

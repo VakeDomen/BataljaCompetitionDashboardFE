@@ -1,4 +1,4 @@
-<div class="columns is-desktop is-multiline" *ngIf="bots && dataReady" >
+<div class="columns is-desktop is-multiline" *ngIf="bots.length && numOfRounds() && dataReady" >
     <div class="column">
         <p class="is-size-3">Win rate (Top 4)</p>
         <app-win-rate-chart
@@ -35,7 +35,7 @@
 
 
 <div 
-    *ngIf="!bots.length" 
+    *ngIf="!bots.length || !numOfRounds()" 
     class="has-text-centered"
 >
     <p class="is-size-3">
