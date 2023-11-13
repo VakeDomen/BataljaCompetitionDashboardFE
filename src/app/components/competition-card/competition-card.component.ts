@@ -20,7 +20,10 @@ export class CompetitionCardComponent implements OnChanges {
   @Input() public competition: Competition | undefined;
   @Input() public teamCounts: CompetitionTeamCounts = {};
 
+  public joinTeamCode: string = "";
+
   public hasTeam: boolean = false;
+  public joinModalOpen: boolean = false;
 
   constructor(
     private auth: AuthService,
@@ -84,5 +87,18 @@ export class CompetitionCardComponent implements OnChanges {
         });
       }
     })
+  }
+
+  public joinTeam() {
+    if (!this.joinTeamCode) {
+      this.toastr.error("Enter invite code");
+      return
+    }
+
+    this.teamService.joinTeam(this.joinTeamCode).subscribe(() => {
+      this.toastr.success("Team joined!");
+      this.rotuer.navigate(["team"])
+    })
+    
   }
 }
