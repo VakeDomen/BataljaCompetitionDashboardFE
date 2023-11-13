@@ -50,6 +50,7 @@ export class ChartsPanelComponent implements OnChanges {
   private setRoundAndScoreSeries() {
     this.series1 = [];
     this.series2 = [];
+    this.labels = [];
     let sum = 0;
 
     let roundKeys = Object.keys(this.rounds);
@@ -58,6 +59,7 @@ export class ChartsPanelComponent implements OnChanges {
       this.series1[i] = round ? round[0] : 0;
       sum += this.series1[i];
       this.series2[i] = sum;
+      this.labels.push(`${i}`);
     }
     console.log(this.series2);
     
@@ -76,18 +78,36 @@ export class ChartsPanelComponent implements OnChanges {
       // bot change
       if (currentBotPair[0] !== round[1] || currentBotPair[1] !== round[2]) {
         this.subSwitchPoints.push({
-          x: round[0],
+          x: key,
+          y: this.series2[+key],
           marker: {
-            size: 8,
+            fillColor: "#4e4e4e",
+            size: 5,
+            radius: 3,
           },
           label: {
-            borderColor: "#f3bb00",
-            text: `${round[1]} & ${round[2]}`,
+            borderColor: '#c0c0c0',
+            offsetY: 0,
+            style: {
+              color: '#fff',
+              background: '#4e4e4e',
+            },
+            text: `${this.getBotName(round[1])} & 
+            ${this.getBotName(round[2])}`,
           }
-        } as Annotation);
+        } as unknown as Annotation);
         currentBotPair = [round[1], round[2]];
       }
     }
+    console.log(this.subSwitchPoints)
+  }
+
+  private getBotName(id: string): string {
+    const bot = this.bots.filter(b => b.id == id)[0];
+    if (!bot) {
+      return "Unknown bot";
+    }
+    return bot.bot_name;
   }
 
   private setWinAndSurvivalRates(): void {
