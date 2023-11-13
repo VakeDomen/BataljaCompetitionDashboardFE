@@ -8,8 +8,8 @@
 
         <div class="level-right">
             <button class="button is-primary is-outlined is-hidden-mobile" *ngIf="team?.owner == player?.id"
-                (click)="disbandTeam()">Disband team</button>
-            <button class="button is-primary is-outlined" *ngIf="team?.owner != player?.id" (click)="leaveTeam()">Leave
+                (click)="confirmationModalOpen = true">Disband team</button>
+            <button class="button is-primary is-outlined" *ngIf="team?.owner != player?.id" (click)="confirmationModalOpen = true">Leave
                 team</button>
         </div>
     </div>
@@ -167,3 +167,24 @@
 </div>
 
 <progress class="progress is-small is-primary" max="100" *ngIf="!pageIsReady"></progress>
+
+<!-- JOIN GAME MODAL -->
+<div class="modal" [ngClass]="{ 'is-active': confirmationModalOpen }">
+    <div class="modal-background" (click)="confirmationModalOpen = false"></div>
+    <div class="modal-card">
+      <header class="modal-card-head is-background-color-dark">
+        <p class="modal-card-title is-color-text-gray">Are you sure?</p>
+        <button class="delete" aria-label="close"></button>
+      </header>
+      <footer class="modal-card-foot is-background-color-gray">
+        <div class="level has-text-centered-mobile is-fullwidth">
+            <div class="level-item">
+                <button class="button is-primary" (click)="confimModal()">Yes</button>
+            </div>
+            <div class="level-item">
+                <button class="button is-danger" (click)="confirmationModalOpen = false">No</button>
+            </div>
+        </div>
+      </footer>
+    </div>
+  </div>

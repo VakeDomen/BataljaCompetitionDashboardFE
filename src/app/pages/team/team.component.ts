@@ -42,8 +42,7 @@ export class TeamComponent implements OnInit {
   public gamesReady: boolean = false;
   public openSubmissionAccordion: string | undefined;
   public tabOpen: 'overall' | 'games' | 'bots' = 'overall';
-  
-
+  public confirmationModalOpen: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -318,7 +317,7 @@ export class TeamComponent implements OnInit {
   // ########################### ACCORDION ###########################
 
 
-  accordionToggle(id: string | undefined) {
+  public accordionToggle(id: string | undefined) {
     if (this.openSubmissionAccordion == id) {
       this.openSubmissionAccordion = undefined;
     } else {
@@ -328,5 +327,15 @@ export class TeamComponent implements OnInit {
 
   // ########################### ACCORDION END ###########################
 
+  // ########################### MODAL ###########################
+  public confimModal(): void {
+    if (this.team?.owner == this.player?.id) {
+      this.disbandTeam();
+    } else {
+      this.leaveTeam();
+    }
+  }
+
+  // ########################### MODAL END ###########################
 
 }
