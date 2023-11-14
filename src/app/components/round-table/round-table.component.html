@@ -1,0 +1,61 @@
+<div class="table-container">
+    <table class="table is-fullwidth">
+      <thead>
+        <tr>
+            <th>Elo change</th>
+            <th>Red</th>
+            <th>Green</th>
+            <th>Yellow</th>
+            <th>Blue</th>
+            <th>Replay</th>
+        </tr>
+    </thead>
+
+      <tbody>
+        <tr *ngFor="let game of games">
+            <td
+                class="elo"
+                [ngClass]="{ 
+                    'is-green': isGameWon(game),
+                    'is-red': !isGameWon(game)
+                }"
+            >
+                {{ getEloLabel(game) }}
+                <i *ngIf="isGameWon(game)" class="fas fa-trophy is-yellow"></i>
+                
+            </td>
+            <td [ngClass]="{ 
+                    'is-color-accent': isMyBot(game, 'red')
+                }"
+            >
+                {{ getBotLabel(game, "red") }}
+                <i *ngIf="!botSurvived(game, 'red')" class="fas fa-skull is-red"></i>
+            </td>
+            <td [ngClass]="{ 
+                    'is-color-accent': isMyBot(game, 'green')
+                }"
+            >
+                {{ getBotLabel(game, "green") }}
+                <i *ngIf="!botSurvived(game, 'green')" class="fas fa-skull is-red"></i>
+            </td>
+            
+            <td [ngClass]="{ 
+                    'is-color-accent': isMyBot(game, 'yellow')
+                }"
+            >
+                {{ getBotLabel(game, "yellow") }}
+                <i *ngIf="!botSurvived(game, 'yellow')" class="fas fa-skull is-red"></i>
+            </td>
+            <td [ngClass]="{ 
+                    'is-color-accent': isMyBot(game, 'blue')
+                }"
+            >
+                {{ getBotLabel(game, "blue") }}
+                <i *ngIf="!botSurvived(game, 'blue')" class="fas fa-skull is-red"></i>
+            </td>
+            
+            <td><i class="fas fa-play-circle"></i></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

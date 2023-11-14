@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, Input } from '@angular/core';
+import { CacheService } from 'src/app/services/cache.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-game-canvas',
@@ -8,8 +10,12 @@ import { Component, AfterViewInit } from '@angular/core';
 })
 export class GameCanvasComponent implements AfterViewInit {
 
+  @Input() public gameId: string = ""
+  private apiUrl = environment.apiUrl;
+
   constructor(
     private http: HttpClient,  
+    private cache: CacheService,
   ) { }
 
   ngAfterViewInit(): void {
@@ -22,13 +28,25 @@ export class GameCanvasComponent implements AfterViewInit {
     // Adjust the path based on the location of your log.txt file in the assets folder
     const logFilePath = 'assets/log.txt';
 
-    this.http.get(logFilePath, { responseType: 'text' }).subscribe(
-      (data) => {
-        (window as any).initializeGame("canvas", data, "file");
-      },
-      (error) => {
-        console.error('Error loading log file:', error);
-      }
-    );
+    if (this.gameId == "") {
+      this.http.get(logFilePath, { responseType: 'text' }).subscribe(
+        (data) => {
+          (window as any).initializeGame("canvas", data, "file");
+        },
+        (error) => {
+          console.error('Error loading log file:', error);
+        }
+      );
+    } else {
+      this.http.get(`${this.apiUrl}/game/log/${this.gameId}`, { responseType: 'text' }).subscribe(
+        (data) => {
+          (window as any).initializeGame("canvas", data, "file");
+        },
+        (error) => {
+          console.error('Error loading log file:', error);
+        }
+      )
+    }
+
   }
 }

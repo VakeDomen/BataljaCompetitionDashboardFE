@@ -72,7 +72,9 @@
                     </div>
                 </div>
 
-                <p *ngFor="let round of roundGames">{{ round | json }}</p>
+                <!-- <p *ngFor="let round of roundGames">{{ round | json }}</p> -->
+                <!-- <app-game-canvas [gameId]="roundGames[0].id"></app-game-canvas> -->
+                <app-round-table [games]="roundGames" [team]="team" [bots]="bots"></app-round-table>
             </div>
         </div>
     </div>
