@@ -16,6 +16,9 @@ export class RoundTableComponent implements OnChanges {
   @Input() public team: Team | undefined;
   @Input() public bots: Bot[] = [];
 
+  public openVideoModal: boolean = false;
+  public gameToPlay: Game2v2 | undefined;
+
   ngOnChanges() {
 
   }

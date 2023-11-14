@@ -11,7 +11,7 @@
     </thead>
 
       <tbody>
-        <tr *ngFor="let game of games">
+        <tr *ngFor="let game of games" (click)="gameToPlay = game ; openVideoModal = true">
             <td
                 class="elo"
                 [ngClass]="{ 
@@ -42,3 +42,18 @@
       </tbody>
     </table>
   </div>
+
+  <!--play recording modal-->
+<div class="modal" [ngClass]="{
+    'is-active': openVideoModal && gameToPlay,
+    'is-hidden': !openVideoModal
+}">
+    <div class="modal-background" (click)="openVideoModal=false"></div>
+    <div class="modal-card"  *ngIf="gameToPlay?.id">
+        <div *ngFor="let game of games">
+            <div *ngIf="game.id == gameToPlay?.id">
+                <app-game-canvas [gameId]="gameToPlay?.id ?? ''"></app-game-canvas>
+            </div>
+        </div>
+    </div>
+</div>

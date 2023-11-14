@@ -1,5 +1,4 @@
 function initializeGame(canvasId, gameLog, mode="file") {
-    
     const gameSpeed = 200;
     const planetsMap = new Map();
     const fleetMap = new Map();
@@ -53,6 +52,13 @@ function initializeGame(canvasId, gameLog, mode="file") {
         animateFleets(ctx, performance.now());
         createFireworks(ctx);
     }
+
+    function setCanvasSize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", setCanvasSize);
+
 
     function stateTransition() {
         currentState = states[stateCount];
