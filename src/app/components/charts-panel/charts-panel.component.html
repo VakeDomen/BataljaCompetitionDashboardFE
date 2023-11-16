@@ -16,17 +16,17 @@
     </div>
     
     <div class="column is-full">
-        <p class="is-size-3">Rounds</p>
+        <p class="is-size-3">Rounds (elo gained/lost)</p>
         <app-rounds-chart
-            [series1]=series1
+            [series1]=roundSeries
             [labels]=labels
         ></app-rounds-chart>
     </div>
 
     <div class="column is-full">
-        <p class="is-size-3">Score</p>
+        <p class="is-size-3">Total elo score</p>
         <app-score-chart
-            [series2]=series2
+            [series2]=totalEloSeries
             [annotations]=subSwitchPoints
             [labels]=labels
         ></app-score-chart>

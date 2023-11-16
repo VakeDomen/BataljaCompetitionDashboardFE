@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
+import { throwIfEmpty } from 'rxjs';
 import { Bot } from 'src/app/models/bot.model';
 import { Game2v2 } from 'src/app/models/game.model';
 import { Team } from 'src/app/models/team.model';
@@ -85,10 +86,22 @@ export class RoundTableComponent implements OnChanges {
   }
 
   public getEloLabel(game: Game2v2): string {
-    if (this.isGameWon(game)) {
-      return "(+1)"
+    if (game.team1_id == game.team2_id) {
+      return "(0)";
+    } else if (game.team1_id == this.team?.id) {
+      return `(${this.isGameWon(game) ? '+' : ''}${game.team1_elo})`;
     } else {
-      return "(-1)"
+      return `(${this.isGameWon(game) ? '+' : ''}${game.team2_elo})`;
+    }
+  }
+
+  public isZeroElo(game: Game2v2): boolean {
+    if (game.team1_id == game.team2_id) {
+      return true;
+    } else if (game.team1_id == this.team?.id) {
+      return game.team1_elo == 0;
+    } else {
+      return game.team2_elo == 0;
     }
   }
 

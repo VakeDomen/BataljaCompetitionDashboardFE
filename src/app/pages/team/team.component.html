@@ -46,7 +46,12 @@
 
     <!-- overall -->
     <div class="mb-5" [ngClass]="{ 'is-closed': tabOpen != 'overall' }">
-        <app-charts-panel [bots]="bots" [botStats]="botStats" [rounds]="rounds"></app-charts-panel>
+        <app-charts-panel 
+            [bots]="bots" 
+            [botStats]="botStats" 
+            [rounds]="rounds"
+            [team]="team"    
+        ></app-charts-panel>
     </div>
 
     <!-- games -->

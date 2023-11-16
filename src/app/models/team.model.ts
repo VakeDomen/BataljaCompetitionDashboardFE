@@ -5,5 +5,6 @@ export interface Team {
     competition_id: string,
     bot1: string,
     bot2: string,
+    elo: number
     created: string,
 }

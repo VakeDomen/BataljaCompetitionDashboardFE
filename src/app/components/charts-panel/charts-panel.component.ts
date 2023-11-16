@@ -3,6 +3,7 @@ import { Bot } from 'src/app/models/bot.model';
 import { BotStats } from 'src/app/models/bot.stats';
 import { Rounds } from 'src/app/models/competition.rounds';
 import { Annotation } from '../charts/score-chart/score-chart.component';
+import { Team } from 'src/app/models/team.model';
 
 @Component({
   selector: 'app-charts-panel',
@@ -19,6 +20,7 @@ export class ChartsPanelComponent implements OnChanges {
   @Input() bots: Bot[] = [];
   @Input() botStats: BotStats = {}
   @Input() rounds: Rounds = {}
+  @Input() team: Team | undefined;
 
   /*
     win rate chart
@@ -33,8 +35,8 @@ export class ChartsPanelComponent implements OnChanges {
   /*
     score chart
   */
-  public series1: any[] = [];
-  public series2: any[] = [];
+  public roundSeries: any[] = [];
+  public totalEloSeries: any[] = [];
   public labels: string[] = [];
   public subSwitchPoints: Annotation[] = [];
 
@@ -48,20 +50,31 @@ export class ChartsPanelComponent implements OnChanges {
   }
 
   private setRoundAndScoreSeries() {
-    this.series1 = [];
-    this.series2 = [];
+    this.roundSeries = [];
+    this.totalEloSeries = [];
     this.labels = [];
     let sum = 0;
 
     let roundKeys = Object.keys(this.rounds);
-    for (let i = 0 ; i < +roundKeys[roundKeys.length - 1] ; i++) {
+    // setup rounds series
+    for (let i = 0 ; i <= +roundKeys[roundKeys.length - 1] ; i++) {
       let round: [number, string, string, string[]] | undefined = this.rounds[i];
-      this.series1[i] = round ? round[0] : 0;
-      sum += this.series1[i];
-      this.series2[i] = sum;
+      this.roundSeries[i] = round ? round[0] : 0;
+      sum += this.roundSeries[i];
       this.labels.push(`${i}`);
     }
-    console.log(this.series2);
+    
+    // setup total elo
+    // start from current elo
+    // go backwards and remove elo change backwards
+    let curentElo = this.team?.elo ?? 1000;
+    this.totalEloSeries.push(curentElo);
+    for (const round of this.roundSeries.reverse()) {
+      curentElo -= round;
+      this.totalEloSeries.push(curentElo);
+    }
+    this.totalEloSeries.reverse() // was built backwards
+    this.roundSeries.reverse() // set back into original direction
     
     this.createAnnotations();
   }
@@ -79,7 +92,7 @@ export class ChartsPanelComponent implements OnChanges {
       if (currentBotPair[0] !== round[1] || currentBotPair[1] !== round[2]) {
         this.subSwitchPoints.push({
           x: key,
-          y: this.series2[+key],
+          y: this.totalEloSeries[+key],
           marker: {
             fillColor: "#4e4e4e",
             size: 5,

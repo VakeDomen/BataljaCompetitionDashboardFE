@@ -15,8 +15,9 @@
             <td
                 class="elo"
                 [ngClass]="{ 
-                    'is-green': isGameWon(game),
-                    'is-red': !isGameWon(game)
+                    'is-blue': isZeroElo(game),
+                    'is-green': !isZeroElo(game) && isGameWon(game),
+                    'is-red': !isZeroElo(game) && !isGameWon(game)
                 }"
             >
                 {{ getEloLabel(game) }}

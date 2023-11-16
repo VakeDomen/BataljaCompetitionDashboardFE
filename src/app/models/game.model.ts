@@ -15,5 +15,7 @@ export interface Game2v2 {
     team2bot2_survived: boolean,
     public: boolean,
     additional_data: string,
+    team1_elo: number,
+    team2_elo: number,
     created: string,
 }
