@@ -1,62 +1,58 @@
 <div class="table-container">
     <table class="table is-fullwidth">
-      <thead>
-        <tr>
-            <th>Elo change</th>
-            <th>Bot 1</th>
-            <th>Bot 2</th>
-            <th>Enemy kills</th>
-            <th>Replay</th>
-        </tr>
-    </thead>
+        <thead>
+            <tr>
+                <th>Elo change</th>
+                <th>Bot 1</th>
+                <th>Bot 2</th>
+                <th>Enemy kills</th>
+                <th>Replay</th>
+            </tr>
+        </thead>
 
-      <tbody>
-        <tr *ngFor="let game of games" (click)="gameToPlay = game ; openVideoModal = true">
-            <td
-                class="elo"
-                [ngClass]="{ 
+        <tbody>
+            <tr *ngFor="let game of games" (click)="gameToPlay = game ; openVideoModal = true">
+                <td class="elo" [ngClass]="{ 
                     'is-blue': isZeroElo(game),
                     'is-green': !isZeroElo(game) && isGameWon(game),
                     'is-red': !isZeroElo(game) && !isGameWon(game)
-                }"
-            >
-                {{ getEloLabel(game) }}
-                <i *ngIf="isGameWon(game)" class="fas fa-trophy is-yellow"></i>
-                
-            </td>
-            <td>
-                {{ getBotLabel(game, "my1") }}
-                <img class="planet-img"  src="{{ getMyBotImage(game, 'my1') }}" alt="" srcset="">
-                <i *ngIf="!botSurvived(game, 'my1')" class="fas fa-skull is-red"></i>
-            </td>
-            <td>
-                {{ getBotLabel(game, "my2") }}
-                <img class="planet-img" src="{{ getMyBotImage(game, 'my2') }}" alt="" srcset="">
-                <i *ngIf="!botSurvived(game, 'my2')" class="fas fa-skull is-red"></i>
-            </td>
-            
-            <td>
-                <i *ngIf="!botSurvived(game, 'e1')" class="fas fa-skull is-red"></i>
-                <i *ngIf="!botSurvived(game, 'e2')" class="fas fa-skull is-red"></i>
-            </td>
-            
-            <td><i class="fas fa-play-circle"></i></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+                }">
+                    {{ getEloLabel(game) }}
+                    <i *ngIf="isGameWon(game)" class="fas fa-trophy is-yellow"></i>
 
-  <!--play recording modal-->
-<div class="modal" [ngClass]="{
-    'is-active': openVideoModal && gameToPlay,
-    'is-hidden': !openVideoModal
+                </td>
+                <td>
+                    {{ getBotLabel(game, "my1") }}
+                    <img class="planet-img" src="{{ getMyBotImage(game, 'my1') }}" alt="" srcset="">
+                    <i *ngIf="!botSurvived(game, 'my1')" class="fas fa-skull is-red"></i>
+                </td>
+                <td>
+                    {{ getBotLabel(game, "my2") }}
+                    <img class="planet-img" src="{{ getMyBotImage(game, 'my2') }}" alt="" srcset="">
+                    <i *ngIf="!botSurvived(game, 'my2')" class="fas fa-skull is-red"></i>
+                </td>
+
+                <td>
+                    <i *ngIf="!botSurvived(game, 'e1')" class="fas fa-skull is-red"></i>
+                    <i *ngIf="!botSurvived(game, 'e2')" class="fas fa-skull is-red"></i>
+                </td>
+
+                <td><i class="fas fa-play-circle"></i></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--play recording modal-->
+<div class="modal" *ngIf="openVideoModal" [ngClass]="{
+    'is-active': openVideoModal && gameToPlay
 }">
     <div class="modal-background" (click)="openVideoModal=false"></div>
-    <div class="modal-card"  *ngIf="gameToPlay?.id">
-        <div *ngFor="let game of games">
-            <div *ngIf="game.id == gameToPlay?.id">
+    <div class="modal-card" *ngIf="gameToPlay?.id">
+        <!-- <div *ngFor="let game of games"> -->
+            <!-- <div *ngIf="game.id == gameToPlay?.id"> -->
                 <app-game-canvas [gameId]="gameToPlay?.id ?? ''"></app-game-canvas>
-            </div>
-        </div>
+            <!-- </div> -->
+        <!-- </div> -->
     </div>
 </div>

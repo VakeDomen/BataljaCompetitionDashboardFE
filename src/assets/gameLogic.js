@@ -1,4 +1,5 @@
 function initializeGame(canvasId, gameLog, mode="file") {
+    console.log("HEEEEEEELOOOOO")
     const gameSpeed = 200;
     const planetsMap = new Map();
     const fleetMap = new Map();
@@ -20,6 +21,7 @@ function initializeGame(canvasId, gameLog, mode="file") {
         "green": toxicPlanetImage,
         "null": neutralPlanetImage
     };
+    let animationFrameId = {};
     var socket =null;
     if(mode==="ws"){
         socket = new WebSocket(gameLog);
@@ -46,11 +48,15 @@ function initializeGame(canvasId, gameLog, mode="file") {
         console.log(canvas);
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        setInterval(() => stateTransition(), gameSpeed);
         const ctx = canvas.getContext('2d');
-        setInterval(() => renderEnvironment(ctx, currentState), 23);
-        animateFleets(ctx, performance.now());
+        // animateFleets(ctx, performance.now());
         createFireworks(ctx);
+        animationFrameId.fr = requestAnimationFrame((timestamp) => {
+            animateFleets(ctx, timestamp);
+        });
+        const i1 = setInterval(() => stateTransition(), gameSpeed);
+        const i2 = setInterval(() => renderEnvironment(ctx, currentState), 23);
+        return [animationFrameId, i1, i2]
     }
 
     function setCanvasSize() {
@@ -154,13 +160,13 @@ function initializeGame(canvasId, gameLog, mode="file") {
 
                     if (fleet.turn == fleet.neededTurns - 1) {
                         const explosionCoords = translateCoordinates(destinationPlanet.x, destinationPlanet.y);
-                        new createFireworks(ctx).animateParticules(explosionCoords.x, explosionCoords.y);
+                        // new createFireworks(ctx).animateParticules(explosionCoords.x, explosionCoords.y);
                         fleet.turn = -1;
                     }
                 }
             }
         }
-        requestAnimationFrame((timestamp) => {
+        animationFrameId.fr = requestAnimationFrame((timestamp) => {
             animateFleets(ctx, timestamp);
         });
     }
@@ -267,12 +273,12 @@ function initializeGame(canvasId, gameLog, mode="file") {
             }
         });
 
-        document.addEventListener(tap, function (e) {
-            window.human = true;
-            render.play();
-            updateCoords(e);
-            animateParticules(pointerX, pointerY);
-        }, false);
+        // document.addEventListener(tap, function (e) {
+        //     window.human = true;
+        //     render.play();
+        //     updateCoords(e);
+        //     animateParticules(pointerX, pointerY);
+        // }, false);
 
     }
 
@@ -368,7 +374,7 @@ function initializeGame(canvasId, gameLog, mode="file") {
                 break;
 
             default:
-                console.log('Unknown character code: ' + character);
+                // console.log('Unknown character code: ' + character);
                 break;
         }
 
@@ -384,5 +390,5 @@ function initializeGame(canvasId, gameLog, mode="file") {
 
 
 
-    init();
+    return init();
 }
