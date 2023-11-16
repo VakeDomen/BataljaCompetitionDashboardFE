@@ -3,8 +3,8 @@
       <thead>
         <tr>
             <th>Elo change</th>
-            <th>My Bot 1</th>
-            <th>My Bot 2</th>
+            <th>Bot 1</th>
+            <th>Bot 2</th>
             <th>Enemy kills</th>
             <th>Replay</th>
         </tr>
@@ -27,10 +27,12 @@
             <td>
                 {{ getBotLabel(game, "my1") }}
                 <i *ngIf="!botSurvived(game, 'my1')" class="fas fa-skull is-red"></i>
+                <img class="planet-img"  src="{{ getMyBotImage(game, 'my1') }}" alt="" srcset="">
             </td>
             <td>
                 {{ getBotLabel(game, "my2") }}
                 <i *ngIf="!botSurvived(game, 'my2')" class="fas fa-skull is-red"></i>
+                <img class="planet-img" src="{{ getMyBotImage(game, 'my2') }}" alt="" srcset="">
             </td>
             
             <td>

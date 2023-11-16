@@ -64,6 +64,9 @@ export class RoundTableComponent implements OnChanges {
   private isTeam1(game: Game2v2): boolean {
     return game.team1_id == this.team?.id
   }
+  private isTeam2(game: Game2v2): boolean {
+    return game.team2_id == this.team?.id
+  }
 
   private getBotId(game: Game2v2, bot: BotSelector): string | undefined {
     if (bot == 'my1') {
@@ -115,6 +118,23 @@ export class RoundTableComponent implements OnChanges {
     } else {
       return game.winner_id == game.team1_id;
     }
+  }
+
+  public getMyBotImage(game: Game2v2, bot: BotSelector): string {
+    if (this.isTeam1(game)) {
+      if (bot == 'my1') {
+        return "assets/Cyan.png";
+      } else {
+        return "assets/Toxic.png";
+      }
+    }else {
+      if (bot == 'my1') {
+        return "assets/Magenta.png";
+      } else {
+        return "assets/Yellow.png";
+      }
+    }
+    return "assets/Grey.png";
   }
 
 }
