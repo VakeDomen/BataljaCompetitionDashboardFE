@@ -27,17 +27,25 @@
             </div>
         </div>
 
-        <div class="column is-one-quarter">
+        <div class="column is-one-sixth">
             <div class="item-content">
                 <span>End</span><br>
                 <span class="is-size-4 has-text-weight-bold">{{ competition?.end | date: 'dd.MM.YYYY' }}</span>
             </div>
         </div>
 
-        <div class="column is-one-quarter">
+        <div class="column is-one-sixth">
             <div class="item-content">
                 <span>Num. of teams</span><br>
                 <span class="is-size-4 has-text-weight-bold">{{ calcNumOfTeams(competition?.id) }}</span>
+            </div>
+        </div>
+        <div class="column is-one-sixth">
+            <div class="item-content">
+                <span>Game-Pack</span><br>
+                <button class="button is-primary is-outlined" (click)="downalodGamePack()">
+                    <i class="fas fa-download"></i>
+                </button>
             </div>
         </div>
     </div>

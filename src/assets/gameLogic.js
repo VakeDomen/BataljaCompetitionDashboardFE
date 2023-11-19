@@ -1,5 +1,4 @@
 function initializeGame(canvasId, gameLog, mode="file") {
-    console.log("HEEEEEEELOOOOO")
     const gameSpeed = 200;
     const planetsMap = new Map();
     const fleetMap = new Map();
@@ -21,7 +20,7 @@ function initializeGame(canvasId, gameLog, mode="file") {
         "green": toxicPlanetImage,
         "null": neutralPlanetImage
     };
-    let animationFrameId = {};
+    let animationFrameReference = {};
     var socket =null;
     if(mode==="ws"){
         socket = new WebSocket(gameLog);
@@ -51,12 +50,12 @@ function initializeGame(canvasId, gameLog, mode="file") {
         const ctx = canvas.getContext('2d');
         // animateFleets(ctx, performance.now());
         createFireworks(ctx);
-        animationFrameId.fr = requestAnimationFrame((timestamp) => {
+        animationFrameReference.id = requestAnimationFrame((timestamp) => {
             animateFleets(ctx, timestamp);
         });
         const i1 = setInterval(() => stateTransition(), gameSpeed);
         const i2 = setInterval(() => renderEnvironment(ctx, currentState), 23);
-        return [animationFrameId, i1, i2]
+        return [animationFrameReference, i1, i2]
     }
 
     function setCanvasSize() {
@@ -160,13 +159,13 @@ function initializeGame(canvasId, gameLog, mode="file") {
 
                     if (fleet.turn == fleet.neededTurns - 1) {
                         const explosionCoords = translateCoordinates(destinationPlanet.x, destinationPlanet.y);
-                        // new createFireworks(ctx).animateParticules(explosionCoords.x, explosionCoords.y);
+                        new createFireworks(ctx).animateParticules(explosionCoords.x, explosionCoords.y);
                         fleet.turn = -1;
                     }
                 }
             }
         }
-        animationFrameId.fr = requestAnimationFrame((timestamp) => {
+        animationFrameReference.id = requestAnimationFrame((timestamp) => {
             animateFleets(ctx, timestamp);
         });
     }
@@ -374,7 +373,7 @@ function initializeGame(canvasId, gameLog, mode="file") {
                 break;
 
             default:
-                // console.log('Unknown character code: ' + character);
+                console.log('Unknown character code: ' + character);
                 break;
         }
 

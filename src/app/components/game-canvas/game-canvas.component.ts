@@ -23,16 +23,10 @@ export class GameCanvasComponent implements OnInit {
 
   ngOnDestroy(): void {
     console.log("DESTROY!")
-    console.log(this.intervals)
-    const id1: any = this.intervals.shift();
-    console.log(this.intervals)
-    window.cancelAnimationFrame(id1.fr);
+    const animationFrameReference: any = this.intervals.shift();
+    window.cancelAnimationFrame(animationFrameReference.id);
     for (let interval of this.intervals) {
-      console.log("clearing", interval)
-      while (interval) {
-        window.clearInterval(interval);
-        interval--;
-      }
+      window.clearInterval(interval);
     }
   }
 

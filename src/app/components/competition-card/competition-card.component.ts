@@ -105,4 +105,8 @@ export class CompetitionCardComponent implements OnChanges {
     })
     
   }
+
+  public downalodGamePack() {
+    this.competitionSerivce.downloadGamePack(this.competition?.id ?? "");
+  }
 }

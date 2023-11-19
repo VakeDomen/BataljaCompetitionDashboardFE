@@ -55,4 +55,7 @@ export class CompetitionService {
     return this.cache.getCached<Rounds>(`/competition/rounds/${teamId}`);
   }
 
+  public downloadGamePack(competitionId: string): void {
+    (window as any).location = `${this.apiUrl}/pack/${competitionId}`
+  }
 }
