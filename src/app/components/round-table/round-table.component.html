@@ -6,12 +6,11 @@
                 <th>Bot 1</th>
                 <th>Bot 2</th>
                 <th>Enemy kills</th>
-                <th>Replay</th>
             </tr>
         </thead>
 
         <tbody>
-            <tr *ngFor="let game of games" (click)="gameToPlay = game ; openVideoModal = true">
+            <tr class="is-clickable" *ngFor="let game of games" (click)="gameToPlay = game ; openVideoModal = true">
                 <td class="elo" [ngClass]="{ 
                     'is-blue': isZeroElo(game),
                     'is-green': !isZeroElo(game) && isGameWon(game),
@@ -37,7 +36,6 @@
                     <i *ngIf="!botSurvived(game, 'e2')" class="fas fa-skull is-red"></i>
                 </td>
 
-                <td><i class="fas fa-play-circle"></i></td>
             </tr>
         </tbody>
     </table>
