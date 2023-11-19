@@ -27,7 +27,7 @@ export class LocalAuthComponent implements OnChanges {
   handleLoginAttempt(success: any): void {
     if (success) {
       this.modalClose();
-      this.router.navigateByUrl(this.route.snapshot.queryParams['returnUrl'] || '/');
+      this.router.navigateByUrl(this.route.snapshot.queryParams['returnUrl'] || '/competitions');
     }
   }
 

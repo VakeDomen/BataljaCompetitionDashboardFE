@@ -60,7 +60,7 @@
                 </span>
                 Stats
             </a> 
-            <a *ngIf="isLoggedIn()" class="navbar-item navbar-item-center-icon" [ngClass]="{'is-active': activeTab==='ranking'}"
+            <a *ngIf="isLoggedIn() && isAdmin()" class="navbar-item navbar-item-center-icon" [ngClass]="{'is-active': activeTab==='ranking'}"
                 (click)="activeTab='ranking'; tab.emit('ranking') ; toggleNavbar();" [routerLink]="['/rankings']"
                 routerLinkActive="router-link-active" >
                 <span class="file-icon">

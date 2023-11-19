@@ -9,26 +9,22 @@
         </h2>
 
         <div class="content">
-            <p>It is a two player game, each player starts with a planet of some size from which the player can send his
-                fleet
-                
-                to other planets.</p>
-                <p>A player can only send half of the fleet available at a given planet.</p>
-                <p>A player can take ownership of another planet by sending a larger fleet then the fleet defending the
-                    planet.
-                </p>
-                <p>Every turn new spaceships are produced and added to the planet's fleet depending on the planet's size.
-                </p>
-                <p>Attacking your own planet is considered a reinforcment.</p>
-                <p><strong>The game is over when:</strong></p>
-                <ul>
-                    <li>A player's entire fleet is assimilated by the collective (run out of fleets and planets)</li>
-                    <li>A player takes more then 100ms to produce a move</li>
-                    <li>A player's move is invalid</li>
-                    <li>A player decides to abandon the cluster, and run (surrender)</li>
-                    <li>A player needs more moves then the size (x*y) of the cluster (game takes too long - timeout)</li>
-                </ul>
-            </div>
+            <p>Batalja Spaciale is a multiplayer game, each player starts with a planet of some size from which the
+                player can send his fleets to other planets.</p>
+            <p>A player can take ownership of another planet by sending a larger fleet(army) then the army defending the
+                planet.
+            </p>
+            <p>Every turn new troops are produced and added to the planet's army depending on the planet's size.
+            </p>
+            <p>Attacking your own or a teammate's planet is considered a reinforcment.</p>
+            <p><strong>The game is over when:</strong></p>
+            <ul>
+                <li>A team's entire fleet is assimilated by the collective (run out of fleets and planets)</li>
+                <li>A player takes more then 100ms to produce a move</li>
+                <li>A player's move is invalid</li>
+                <li>The game takes too long - timeout</li>
+            </ul>
+        </div>
 
     </div>
     <div class="box mt-5">
@@ -42,28 +38,41 @@
         </h2>
 
         <div class="content">
+            <p>
+                The competition is structured into two phases, namely development phase, and tournament phase.
+            </p>
+            <p>
+                In the development phase players play the game in an automatic hidden tournament. At this time 
+                players are ment to develop their bots and match them against each other. Perioidcally, all
+                submitted players will play a set of games and results will be displayed for you on your team
+                page. There you may find some statistics and replays of your games.
+            </p>
+            <p>
+                To join the competition you have to <code>create a team</code> or <code>join a team</code>. First navigate 
+                to the <code>competitions</code> tab and click on <strong>Create team</strong> button for the 
+                currently running competition or join forces with a friend and join their team. To join the team
+                you will need an invitation code, that the team owner can find on the team-page.
+            </p>
+             
+            <p>
+                To start playing games, you will have to submit a bot.
+            </p>             
+            <p>
+                To submit your bot you must upload a <code>*.zip</code> archive containing only your source
+                <code>*.java</code> files.<br />
+                The submitted project must contain a java file <code>Igralec.java</code>, whith a main function.
+                Files within your archive will be extracted and compiled using Java JDK 11.
+            </p>
+            <p>
+                You are provided with the game files and a sample random player to have a starting point and be 
+                able to run the games localy against your own bots, while you develop. The downloadable Game 
+                Pack contains <code>Evaluator.jar</code> and a sample player <code>Igralec.java</code> that just 
+                does random attacks. <br>
+            </p>
 
-            The competition is structured into two phases, namely development phase, and tournament phase.
-            
-            In the development phase an automatic hidden tournament is available. To join the development phase and thus
-            the
-            turnament, login and click the <strong><i>Join </i>button</strong> at the top of this page (if you didn't
-            already).
-            
-            Perioidcally, all submitted players will play a set of games and results will be displayed for your
-            submission.
-            
-            To submit your player you must upload a <strong>.zip</strong> archive containing only your source
-            <strong>.java</strong> files.<br />
-            The submitted project must contain a java file <i>Igralec.java</i>, whith a main function.
-            Files within your archive will be extracted and compiled using Java JDK 11.
-            The downloadable Game Pack contains <code>Evaluator.jar</code>, <code>Gui.jar</code>, and a sample player
-            <code>Igralec.java</code>. <br>
-            
             After the development phase ends, a tournament will be announced in which players will be ranked by playing
-            amongst
-            each other.<br />
-            
+            amongst each other.<br />
+
         </div>
     </div>
     <div class="box mt-5 mb-3">
@@ -72,69 +81,96 @@
             <span class="file-icon is-inline">
                 <i class="fas fa-terminal"></i>
             </span>
-            Instructions for running the game
+            Instructions for running the game for the first time
         </h2>
         <div class="content">
+            <p class="is-size-4"><strong>Step 1: Download and extract the game-pack</strong></p>
+            <p>The game-pack can be downloaded from the <code>competitions</code> tab. Extract the zip file to
+            the desired location on your computer. The folder should contain 2 files:</p>
+            <ul>
+                <li>Evaluator.jar (the game)</li>
+                <li>Igralec.java (a sample player)</li>
+            </ul>
+            <p>Open the terminal on your location.</p>
+            <pre>
+$ ls
+Evaluator.jar
+Igralec.java</pre>
 
-        
-        <p>
-            The game is ran by <strong>moving into the directory</strong> you downloaded <code>Evaluator.jar</code>
-            to
-            (all the following commands will be run from this folder).
-            First you need to create the two forlders for the players you want to match (each player should be in
-            its
-            own folder). For this example we will create folders called <code>TestPlayer</code> and
-            <code>MyPlayer</code>
-        </p>
-        <pre>mkdir TestPlayer MyPlayer</pre>
-        <p>
-            After creating the folders we will move the <code>Igralec.java</code> (random player) into both of the
-            folders,
-            by running commands:
-        </p>
-        <pre>cp Igralec.java MyPlayer</pre>
-        <pre>cp Igralec.java TestPlayer</pre>
-        <p>
-            Once both folders contain the code for the random player, we will compile both players, to obtain the
-            <code>
-            *.class</code> files.
-        </p>
-        <pre>javac MyPlayer/*.java</pre>
-        <pre>javac TestPlayer/*.java</pre>
 
-        <p>
-            The game is ran by running <code>Evaluator.jar</code>. This is "the game" jar.
-        </p>
-        <pre>java -jar Evaluator.jar SpaceBattleship &lt;player1&gt; &lt;player2&gt;</pre> where player1, and
-        player2
-        are
-        folders with compiled players.
-        <p>As an example, if you moved the downloaded player into the folder <code>TestPlayer</code> and the player
-            that
-            contains the code you are developing into the folder
-            <code>MyPlayer</code>, you run the game as:
-        </p>
-        <pre>java -jar Evaluator.jar SpaceBattleship TestPlayer MyPlayer</pre>
-        <p>If you also want to draw the game real-time, the <code>Game_pack</code> contains <code>Gui.jar</code>,
-            that
-            you
-            can use. You run the game with GUI by running the following command: </p>
-        <pre>java -jar Evaluator.jar SpaceBattleship &lt;Player1&gt; &lt;Player2&gt; | java -jar Gui.jar</pre>
-        <p></p>
-        <p>Example directory structure:
-        <pre>
-            dir
-            |--Evaluator.jar
-            |--Gui.jar
-            |--TestPlayer
-            |     |--Igralec.class
-            |
-            |--MyPlayer
-            |     |--Igralec.class
+            <p class="is-size-4"><strong>Step 2: Check prerequisites</strong></p>
+            <p>
+                The server will be running your bot and evaluating it's score. We recommend that you match the java version
+                to the server's version:
+            </p>
+            <pre>
+$ java --version
+openjdk 11.0.20.1 2023-08-24
+OpenJDK Runtime Environment (build 11.0.20.1+1-post-Ubuntu-0ubuntu120.04)
+OpenJDK 64-Bit Server VM (build 11.0.20.1+1-post-Ubuntu-0ubuntu120.04, mixed mode, sharing)</pre>
+
+
+            <p class="is-size-4"><strong>Step 3: Setup folder structure</strong></p>
+            <p>
+                The current tournament is a 4 player tournament (2v2). We currently only have one player (that we downloaded),
+                but we will need 4, so we will make copies. Each player should be in a separate folder, so first we will have to 
+                create the folders.
+
+            </p>
+            <pre>
+$ mkdir Player1 Player2 Player3 Player4</pre>
+            <p>
+                Now we can copy the player logic into all of the folders:
+
+            </p>
+            <pre>
+$ cp Igralec.java Player1/
+$ cp Igralec.java Player2/
+$ cp Igralec.java Player3/
+$ cp Igralec.java Player4/</pre>
+            
+            <p class="is-size-4"><strong>Step 4: Compile all the players</strong></p>
+            <p>For the game to be run, all the players have to be compiled first. With this the <code>*.class</code> files will
+            appear in the folder.</p>
+            <pre>
+$ javac Player1/*.java
+$ javac Player2/*.java
+$ javac Player3/*.java
+$ javac Player4/*.java</pre>
+            <p class="is-size-4"><strong>Step 5: Run the game</strong></p>
+
+            <p>
+                The game is ran by running the <code>Evaluator.jar</code>. This is "the game" jar.
+            </p>
+            <pre>java -jar Evaluator.jar Player1 Player2 Player3 Player4</pre>
+            <p>Note that the <code>Player1</code>, <code>Player2</code>, <code>Player3</code> and <code>Player4</code>
+            are names of folders. So in the future when you make new bots you may name them watever you want (the name
+            of the folder)</p>
+            
+            <p>Final directory structure:
+            <pre>
+dir
+|--Evaluator.jar
+|--Igralec.java
+|--Player1
+|     |--Igralec.class
+|     |--Igralec.java
+|
+|--Player2
+|     |--Igralec.class
+|     |--Igralec.java
+|
+|--Player3
+|     |--Igralec.class
+|     |--Igralec.java
+|
+|--Player4
+        |--Igralec.class
+        |--Igralec.java
         </pre>
+        </div>
     </div>
-    </div>
-    
+
     <div class="box mt-5">
 
         <h2 class="title is-2">
@@ -144,30 +180,30 @@
             Instructions for creating a player
         </h2>
         <div class="content">
-        A player must be a standard java program, that uses the standard input and standard output to communicate
-        with
-        the
-        game.<br />
-        The player's main method must be in the file named Igralec.java - without the use of packages, jars, etc.
-        <br />
-        A player <strong>MUST NOT</strong>:
+            A player must be a standard java program, that uses the standard input and standard output to communicate
+            with
+            the
+            game.<br />
+            The player's main method must be in the file named Igralec.java - without the use of packages, jars, etc.
+            <br />
+            A player <strong>MUST NOT</strong>:
 
-        <ul>
-            <li>use the network</li>
-            <li>access (not even read) the filesystem outside of its directory</li>
-            <li>run system commands</li>
-            <li>try to win the game by any other means then the commands outlined below</li>
-            <li>be a copy of another player :)</li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li>The above lines will be filled if the need arises and will be enforced retroactively</li>
-        </ul>
+            <ul>
+                <li>use the network</li>
+                <li>access (not even read) the filesystem outside of its directory</li>
+                <li>run system commands</li>
+                <li>try to win the game by any other means then the commands outlined below</li>
+                <li>be a copy of another player :)</li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li>The above lines will be filled if the need arises and will be enforced retroactively</li>
+            </ul>
 
 
-        Commands that a player sends to the game are in the form:
-        <pre>&lt;command&gt; &lt;parameters&gt;</pre>
-    </div>
+            Commands that a player sends to the game are in the form:
+            <pre>&lt;command&gt; &lt;parameters&gt;</pre>
+        </div>
 
         <br>
         <h3 class="title is-4">All available commands: </h3>
@@ -301,7 +337,7 @@
                 <td>The game sends data about the fleet</td>
             </tr>
             <tr>
-                <td>F 1 30 1 2 1 8</td>
+                <td>S</td>
                 <td></td>
                 <td>The game signals the player so it can start with its attacks</td>
             </tr>
@@ -312,7 +348,7 @@
             </tr>
         </table>
     </div>
-    
+
     <div class="box mt-5 mb-3">
         <h1 class="title is-2">
             <span class="file-icon is-inline">

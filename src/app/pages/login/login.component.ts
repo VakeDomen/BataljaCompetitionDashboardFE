@@ -6,6 +6,7 @@ import { UserService } from 'src/app/services/user.service';
 import { TeamService } from 'src/app/services/team.service';
 import { User } from 'src/app/models/user.model';
 import { Team } from 'src/app/models/team.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -23,8 +24,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private auth: AuthService,
-    private userService: UserService,
-    private teamService: TeamService,
+    private router: Router,
     private toastr: ToastrService,
   ) { }
 
@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
     const success: boolean = await this.auth.loginLocal(this.credentials);
     if (success) {
       this.toastr.success('Logged in!', 'Success');
+      this.router.navigate(["competitions"]);
     } else {
       this.toastr.error('Oops, something went wrong!', 'Error');
     }
