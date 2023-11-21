@@ -1,0 +1,62 @@
+<div class="has-text-centered-mobile">
+    <p class="is-size-3">General stats</p><br>
+    <div class="columns is-multiline mt-5">
+        <div *ngFor="let chart of generalCharts" class="col is-3">
+            <apx-chart 
+                [series]="chart.series"
+                [chart]="chart.chart"
+                [plotOptions]="chart.plotOptions"
+                [xaxis]="chart.xaxis"
+                [dataLabels]="chart.dataLabels"
+                [colors]="chart.colors"
+                [tooltip]="chart.tooltip"
+                [title]="chart.title"
+            ></apx-chart>
+        </div>
+    </div>
+    <p class="is-size-3">Losses</p>
+    <div class="columns is-multiline mt-5">
+        <div *ngFor="let chart of lossesCharts" class="col is-3">
+            <apx-chart 
+                [series]="chart.series"
+                [chart]="chart.chart"
+                [plotOptions]="chart.plotOptions"
+                [xaxis]="chart.xaxis"
+                [dataLabels]="chart.dataLabels"
+                [colors]="chart.colors"
+                [tooltip]="chart.tooltip"
+                [title]="chart.title"
+            ></apx-chart>
+        </div>
+    </div>
+    <p class="is-size-3">Defense</p>
+    <div class="columns is-multiline mt-5">
+    <div *ngFor="let chart of defenseCharts" class="col is-3">
+        <apx-chart
+            [series]="chart.series"
+            [chart]="chart.chart"
+            [plotOptions]="chart.plotOptions"
+            [xaxis]="chart.xaxis"
+            [dataLabels]="chart.dataLabels"
+            [colors]="chart.colors"
+            [tooltip]="chart.tooltip"
+            [title]="chart.title"
+            ></apx-chart>
+        </div>
+    </div>
+    <p class="is-size-3">Attack</p>
+    <div class="columns is-multiline mt-5">
+        <div *ngFor="let chart of attackCharts" class="col is-3">
+            <apx-chart
+            [series]="chart.series"
+            [chart]="chart.chart"
+            [plotOptions]="chart.plotOptions"
+            [xaxis]="chart.xaxis"
+            [dataLabels]="chart.dataLabels"
+            [colors]="chart.colors"
+            [tooltip]="chart.tooltip"
+            [title]="chart.title"
+            ></apx-chart>
+        </div>
+    </div>
+</div>

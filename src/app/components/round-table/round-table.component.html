@@ -10,33 +10,57 @@
         </thead>
 
         <tbody>
-            <tr class="is-clickable" *ngFor="let game of games" (click)="gameToPlay = game ; openVideoModal = true">
-                <td class="elo" [ngClass]="{ 
-                    'is-blue': isZeroElo(game),
-                    'is-green': !isZeroElo(game) && isGameWon(game),
-                    'is-red': !isZeroElo(game) && !isGameWon(game)
-                }">
-                    {{ getEloLabel(game) }}
-                    <i *ngIf="isGameWon(game)" class="fas fa-trophy is-yellow"></i>
-
-                </td>
-                <td>
-                    {{ getBotLabel(game, "my1") }}
-                    <img class="planet-img" src="{{ getMyBotImage(game, 'my1') }}" alt="" srcset="">
-                    <i *ngIf="!botSurvived(game, 'my1')" class="fas fa-skull is-red"></i>
-                </td>
-                <td>
-                    {{ getBotLabel(game, "my2") }}
-                    <img class="planet-img" src="{{ getMyBotImage(game, 'my2') }}" alt="" srcset="">
-                    <i *ngIf="!botSurvived(game, 'my2')" class="fas fa-skull is-red"></i>
-                </td>
-
-                <td>
-                    <i *ngIf="!botSurvived(game, 'e1')" class="fas fa-skull is-red"></i>
-                    <i *ngIf="!botSurvived(game, 'e2')" class="fas fa-skull is-red"></i>
-                </td>
-
-            </tr>
+            <ng-container *ngFor="let game of games">
+                <tr class="is-clickable" (click)="toggleGame(game)">
+                    <td class="elo" [ngClass]="{ 
+                        'is-blue': isZeroElo(game),
+                        'is-green': !isZeroElo(game) && isGameWon(game),
+                        'is-red': !isZeroElo(game) && !isGameWon(game)
+                    }">
+                        {{ getEloLabel(game) }}
+                        <i *ngIf="isGameWon(game)" class="fas fa-trophy is-yellow"></i>
+    
+                    </td>
+                    <td>
+                        {{ getBotLabel(game, "my1") }}
+                        <img class="planet-img" src="{{ getMyBotImage(game, 'my1') }}" alt="" srcset="">
+                        <i *ngIf="!botSurvived(game, 'my1')" class="fas fa-skull is-red"></i>
+                    </td>
+                    <td>
+                        {{ getBotLabel(game, "my2") }}
+                        <img class="planet-img" src="{{ getMyBotImage(game, 'my2') }}" alt="" srcset="">
+                        <i *ngIf="!botSurvived(game, 'my2')" class="fas fa-skull is-red"></i>
+                    </td>
+    
+                    <td>
+                        <i *ngIf="!botSurvived(game, 'e1')" class="fas fa-skull is-red"></i>
+                        <i *ngIf="!botSurvived(game, 'e2')" class="fas fa-skull is-red"></i>
+                    </td>
+    
+                </tr>
+                <tr *ngIf="game == gameDetailsOpened">
+                    <td colspan="4">
+                        <div class="bounded-width mt-5 mb-5">                            
+                            <div class="level has-text-centered-mobile">
+                                <div class="level-left">
+                                    <h1 *ngIf="isGameWon(game)" class="is-size-3 is-green">Victory ({{ isTeam1(game) ? "Team 1" : "Team 2" }})</h1>
+                                    <h1 *ngIf="!isGameWon(game)" class="is-size-3 is-red">Loss ({{ isTeam1(game) ? "Team 1" : "Team 2" }})</h1>
+                                </div>
+                                <div class="level-right">
+                                    <button class="button is-primary" (click)="gameToPlay = game ; openVideoModal = true">Replay</button>
+                                </div>
+                            </div>
+                            <app-game-charts-panel 
+                                [team]="team" 
+                                [gameData]="getAdditionalData(game)"
+                                [bots]="bots"
+                                [game]="game"    
+                            ></app-game-charts-panel>
+                        </div>
+                    </td>
+                </tr>
+            </ng-container>
+            
         </tbody>
     </table>
 </div>

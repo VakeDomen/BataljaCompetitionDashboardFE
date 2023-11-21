@@ -2,9 +2,10 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { throwIfEmpty } from 'rxjs';
 import { Bot } from 'src/app/models/bot.model';
 import { Game2v2 } from 'src/app/models/game.model';
+import { GameAdditionalData } from 'src/app/models/game.stats';
 import { Team } from 'src/app/models/team.model';
 
-type BotSelector = 'my1' | 'my2' | 'e1' | 'e2';
+export type BotSelector = 'my1' | 'my2' | 'e1' | 'e2';
 
 @Component({
   selector: 'app-round-table',
@@ -19,6 +20,7 @@ export class RoundTableComponent implements OnChanges {
 
   public openVideoModal: boolean = false;
   public gameToPlay: Game2v2 | undefined;
+  public gameDetailsOpened: Game2v2 | undefined;
 
   ngOnChanges() {
 
@@ -42,26 +44,21 @@ export class RoundTableComponent implements OnChanges {
   }
 
   public botSurvived(game: Game2v2, bot: BotSelector): boolean {
-    if (bot == 'my1') {
-      if (this.isTeam1(game)) return game.team1bot1_survived;
-      else return game.team2bot1_survived;
+    if (this.isTeam1(game)) {
+      if (bot == 'my1') return game.team1bot1_survived;
+      if (bot == 'my2') return game.team1bot2_survived;
+      if (bot == 'e1') return game.team2bot1_survived;
+      if (bot == 'e2') return game.team2bot2_survived;
+    } else {
+      if (bot == 'my1') return game.team2bot1_survived;
+      if (bot == 'my2') return game.team2bot2_survived;
+      if (bot == 'e1') return game.team1bot1_survived;
+      if (bot == 'e2') return game.team1bot2_survived;
     }
-    if (bot == 'my2') {
-      if (this.isTeam1(game)) return game.team1bot2_survived;
-      else return game.team2bot2_survived;
-    }
-    if (bot == 'e1') {
-      if (this.isTeam1(game)) return game.team2bot1_survived;
-      else return game.team1bot1_survived;
-    }
-    if (bot == 'e2') {
-      if (this.isTeam1(game)) return game.team2bot2_survived;
-      else return game.team1bot2_survived;
-    }
-    return false;
+    return true;
   }
 
-  private isTeam1(game: Game2v2): boolean {
+  public isTeam1(game: Game2v2): boolean {
     return game.team1_id == this.team?.id
   }
   private isTeam2(game: Game2v2): boolean {
@@ -136,4 +133,16 @@ export class RoundTableComponent implements OnChanges {
     }
   }
 
+  public getAdditionalData(game: Game2v2): GameAdditionalData {
+    return JSON.parse(game.additional_data) as GameAdditionalData;
+  }
+
+  public toggleGame(game: Game2v2): void {
+    if (this.gameDetailsOpened == game) {
+      this.gameDetailsOpened = undefined;
+    } else {
+      this.gameDetailsOpened = game ; 
+    }
+    this.openVideoModal = false
+  }
 }
