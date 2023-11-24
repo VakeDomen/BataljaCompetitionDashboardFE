@@ -41,7 +41,7 @@ export class TeamComponent implements OnInit {
   public pageIsReady: boolean = false;
   public gamesReady: boolean = false;
   public openSubmissionAccordion: string | undefined;
-  public tabOpen: 'overall' | 'games' | 'bots' = 'games';
+  public tabOpen: 'overall' | 'games' | 'bots' = 'overall';
   public confirmationModalOpen: boolean = false;
 
   constructor(
