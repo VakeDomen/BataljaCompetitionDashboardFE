@@ -1,3 +1,5 @@
+const { countReset } = require("console");
+
 function initializeGame(canvasId, gameLog, mode="file") {
     
     const gameSpeed = 100;
@@ -12,6 +14,7 @@ function initializeGame(canvasId, gameLog, mode="file") {
     let canvas;
     const states = [];
     let stateCount = 0;
+    let stateResetCounter = 0;
     let currentState = {};
     let previousState = {};
     let animationFrameRef = {};
@@ -75,6 +78,14 @@ function initializeGame(canvasId, gameLog, mode="file") {
             }
         }
         stateCount ++;
+        
+        if (stateResetCounter >= 500) {
+            console.log("reseting game");
+            stateResetCounter = 0;
+            currentState = {};
+            previousState = {};
+            stateCount = 0;
+        }
     }
 
     function renderScores(ctx, currentState){
@@ -199,7 +210,10 @@ function initializeGame(canvasId, gameLog, mode="file") {
     }
 
     var animateFleets = function (ctx, currentTime) {
-      
+        if (!currentState) {
+            stateResetCounter++;
+        }
+
         renderEnvironment(ctx,currentState);        
         if (currentState != null && currentState.fleets != undefined) {
             for (const fleet of currentState.fleets.values()) {
