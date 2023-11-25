@@ -84,7 +84,8 @@ function initializeGame(canvasId, gameLog, mode="file") {
         let barHeight = height*0.015;
         if  (canvas.width < 768) {
             barHeight = height*0.025;
-        }
+        } 
+        ctx.font = "bold 16px Courier";
         const barPosition = translateCoordinates(currentState.scores.get("team1").relative * width, barHeight);
         ctx.fillStyle = "cyan";
         ctx.fillRect(0,0,barPosition.x, barPosition.y);
@@ -96,7 +97,7 @@ function initializeGame(canvasId, gameLog, mode="file") {
 
         // top left text
         ctx.fillStyle = 'black';
-        ctx.font = "bold 16pt Courier";
+        
         const text1Pos = translateCoordinates(0, barHeight);
         ctx.beginPath();
         ctx.textAlign = "left";
@@ -180,7 +181,11 @@ function initializeGame(canvasId, gameLog, mode="file") {
 
                 ctx.beginPath();
                 ctx.fillStyle = 'black';
-                ctx.font = "bold 12pt Courier";
+                ctx.font = "bold 16px Courier";
+                if  (canvas.width < 768) {
+                    ctx.font = "bold 10px Courier";
+                } 
+
                 ctx.textAlign = "center";
                 ctx.fillText(planet.fleetSize, planetCoords.x , planetCoords.y+5);
                 
