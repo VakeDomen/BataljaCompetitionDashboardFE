@@ -79,7 +79,7 @@ function initializeGame(canvasId, gameLog, mode="file") {
         }
         stateCount ++;
         
-        if (stateResetCounter >= 500) {
+        if (stateResetCounter >= 500 && mode == 'file') {
             console.log("reseting game");
             stateResetCounter = 0;
             currentState = {};
@@ -237,20 +237,10 @@ function initializeGame(canvasId, gameLog, mode="file") {
                     ctx.fill();
                     ctx.closePath();
 
-                    // if  (canvas.width >= 768) {
-                        ctx.fillStyle = 'white';
-                        ctx.textAlign = "center";
-                        ctx.fillText(fleet.size, fleetCoords.x, fleetCoords.y + 5);
-                    // }
-                    
+                    ctx.fillStyle = 'white';
+                    ctx.textAlign = "center";
+                    ctx.fillText(fleet.size, fleetCoords.x, fleetCoords.y + 5);
 
-                    /*
-                    if (fleet.turn == fleet.neededTurns - 1) {
-                        const explosionCoords = translateCoordinates(destinationPlanet.x, destinationPlanet.y);
-                        new createFireworks(ctx).animateParticules(explosionCoords.x, explosionCoords.y);
-                        fleet.turn = -1;
-                    }
-                    */
                 }
             }
         }
