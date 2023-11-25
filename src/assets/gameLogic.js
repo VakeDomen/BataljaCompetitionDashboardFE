@@ -1,8 +1,6 @@
-const { countReset } = require("console");
-
 function initializeGame(canvasId, gameLog, mode="file") {
     
-    const gameSpeed = 100;
+    const gameSpeed = 150;
     const planetsMap = new Map();
     const scores = new Map();
     const fleetMap = new Map();
@@ -60,23 +58,23 @@ function initializeGame(canvasId, gameLog, mode="file") {
         var stateT = setInterval(() => stateTransition(), gameSpeed);
         const ctx = canvas.getContext('2d');
         //setInterval(() => renderEnvironment(ctx, currentState), 23);
-        animateFleets(ctx, performance.now());
+        animateGame(ctx, performance.now());
         createFireworks(ctx);
         return [animationFrameRef, stateT];
     }
 
     function stateTransition() {
-        previousState = currentState;
-        currentState = states[stateCount];
+        aboutToBeCurrentState = states[stateCount];
     
-        if (currentState != null && currentState.fleets != null) {
-            for (let fleet of currentState.fleets.values()) {
-                fleet.startTime = performance.now();
-                if (fleet.turn == 1) {
-                    fleetColorMap.set(fleet.name, currentState.planets.get(fleet.origin).color);
-                }
+        if (aboutToBeCurrentState && aboutToBeCurrentState.fleets) {
+            const now = performance.now();
+            for (const fleet of aboutToBeCurrentState.fleets.values()) {
+                fleet.startTime = now;
             }
         }
+
+        previousState = currentState;
+        currentState = aboutToBeCurrentState;
         stateCount ++;
         
         if (stateResetCounter >= 500 && mode == 'file') {
@@ -88,16 +86,16 @@ function initializeGame(canvasId, gameLog, mode="file") {
         }
     }
 
-    function renderScores(ctx, currentState){
-        if(!currentState || !currentState.scores) return;
+    function renderScores(ctx, state){
+        if(!state || !state.scores) return;
         
         // top left
         let barHeight = height*0.015;
         if  (canvas.width < 768) {
             barHeight = height*0.025;
         } 
-        ctx.font = "bold 16px Courier";
-        const barPosition = translateCoordinates(currentState.scores.get("team1").relative * width, barHeight);
+        
+        const barPosition = translateCoordinates(state.scores.get("team1").relative * width, barHeight);
         ctx.fillStyle = "cyan";
         ctx.fillRect(0,0,barPosition.x, barPosition.y);
        
@@ -108,54 +106,51 @@ function initializeGame(canvasId, gameLog, mode="file") {
 
         // top left text
         ctx.fillStyle = 'black';
-        
+        ctx.font = "bold 16px Courier";
         const text1Pos = translateCoordinates(0, barHeight);
-        ctx.beginPath();
         ctx.textAlign = "left";
-        ctx.fillText(currentState.scores.get("team1").absolute, text1Pos.x, text1Pos.y);
-        ctx.closePath();
+        ctx.fillText(state.scores.get("team1").absolute, text1Pos.x, text1Pos.y);
 
-        // top right textt
+        // top right text
         const text2Pos = translateCoordinates(width, barHeight);
-        ctx.beginPath();
         ctx.textAlign = "right";
-        ctx.fillText(currentState.scores.get("team2").absolute, text2Pos.x, text2Pos.y);
-        ctx.closePath();
+        ctx.fillText(state.scores.get("team2").absolute, text2Pos.x, text2Pos.y);
 
         // team 1 player 1
         const sideBarWidth =  width *0.01;
-        const leftTpos = translateCoordinates(0,height - (height * currentState.scores.get("red").relative));
+        const leftTpos = translateCoordinates(0,height - (height * state.scores.get("red").relative));
         const rightBpos = translateCoordinates(sideBarWidth,height);
         ctx.fillStyle = "red";
         ctx.fillRect(leftTpos.x,leftTpos.y,rightBpos.x,rightBpos.y);
 
         // team 1 player 2
-        const leftTpos2 = translateCoordinates(sideBarWidth,height - (height * currentState.scores.get("green").relative));
+        const leftTpos2 = translateCoordinates(sideBarWidth,height - (height * state.scores.get("green").relative));
         const rightBpos2 = translateCoordinates(sideBarWidth,height);
         ctx.fillStyle = "green";
         ctx.fillRect(leftTpos2.x,leftTpos2.y,rightBpos2.x,rightBpos2.y);
 
         // team 2 player 1
-        const leftTpos3 = translateCoordinates(width - sideBarWidth,height - (height * currentState.scores.get("blue").relative));
+        const leftTpos3 = translateCoordinates(width - sideBarWidth,height - (height * state.scores.get("blue").relative));
         const rightBpos3 = translateCoordinates(sideBarWidth,height);
         ctx.fillStyle = "blue";
         ctx.fillRect(leftTpos3.x,leftTpos3.y,rightBpos3.x,rightBpos3.y);
 
         // team 2 player 2
-        const leftTpos4 = translateCoordinates(width - 2 * sideBarWidth,height - (height * currentState.scores.get("yellow").relative));
+        const leftTpos4 = translateCoordinates(width - 2 * sideBarWidth,height - (height * state.scores.get("yellow").relative));
         const rightBpos4 = translateCoordinates(sideBarWidth,height);
         ctx.fillStyle = "yellow";
         ctx.fillRect(leftTpos4.x,leftTpos4.y,rightBpos4.x,rightBpos4.y);
     }
 
-    function renderEnvironment(ctx, currentState) {
-        if (currentState != null) {
-            if (!currentState.planets) {
+    function renderEnvironment(ctx, state) {
+        // console.time("renderEnvironment")
+        if (state != null) {
+            if (!state.planets) {
                 return
             }
             ctx.fillStyle = 'black';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            for (const [name, planet] of currentState.planets) {
+            for (const [name, planet] of state.planets) {
                 
                 
                 //ctx.save();
@@ -183,14 +178,13 @@ function initializeGame(canvasId, gameLog, mode="file") {
                 ctx.drawImage(planetImage, imageX, imageY,dim,dim);
                 ctx.restore();
                 */
-                const scale = (0.15+(planet.size ) * 0.3) * Math.min((canvas.width + 300 )/ 1920, 1);
+                const scale = (0.15+(planet.size ) * 0.3) * Math.min((canvas.width + 200 )/ 1920, 1);
                 drawImageCenter(ctx,imageMap[planet.color], planetCoords.x, planetCoords.y,175,175,scale , rotationAngles.get(name));
                 ctx.shadowColor = 'transparent';
                 ctx.shadowBlur = 0;
                 ctx.shadowOffsetX = 0;
                 ctx.shadowOffsetY = 0;
 
-                ctx.beginPath();
                 ctx.fillStyle = 'black';
                 ctx.font = "bold 16px Courier";
                 if  (canvas.width < 768) {
@@ -204,64 +198,104 @@ function initializeGame(canvasId, gameLog, mode="file") {
                     const explosionCoords = translateCoordinates(planet.x, planet.y);
                     new createFireworks(ctx).animateParticules(explosionCoords.x, explosionCoords.y);
                 }
-                ctx.closePath();
             }
         }
+        // console.timeEnd("renderEnvironment")
     }
 
-    var animateFleets = function (ctx, currentTime) {
+    // Assuming fleet sizes and canvas width don't change often, cache these values
+const fleetSizeDisplayCache = new Map();
+let disp = [];
+
+
+function renderFleets(ctx, state, currentTime) {
+    console.time('renderFleets2');
+    if (state?.fleets) {
+        disp = [];
+        for (const fleet of state.fleets.values()) {
+            if (fleet.turn < fleet.neededTurns) {
+                const originPlanet = state.planets.get(fleet.origin);
+                const destinationPlanet = state.planets.get(fleet.destination);
+                const elapsedFraction = (currentTime - fleet.startTime) / gameSpeed;
+                const journeyFraction = (fleet.turn + elapsedFraction) / (fleet.neededTurns);
+                currentX = originPlanet.x + (destinationPlanet.x - originPlanet.x) * journeyFraction;
+                currentY = originPlanet.y + (destinationPlanet.y - originPlanet.y) * journeyFraction;
+
+                const fleetCoords = translateCoordinates(currentX, currentY);
+                const fleetDisplaySize = 5 + 4 * Math.log(fleet.size) * Math.min((canvas.width + 50) / 1920, 1);
+
+
+                disp.push([fleetCoords.x, fleetCoords.y, fleet.size, fleetDisplaySize, fleet.color]);
+            }
+        }
+        console.time('renderFleets1');
+        for (const [x, y, flsize, disize, color] of disp) {
+    
+            ctx.beginPath();
+            ctx.arc(x, y, disize, 0, Math.PI * 2);
+            ctx.fillStyle = color; 
+            ctx.fill();
+            ctx.closePath();
+    
+            ctx.fillStyle = 'white';
+            ctx.textAlign = "center";
+            ctx.fillText(flsize, x, y + 5);
+        }
+        console.timeEnd('renderFleets1');
+    }
+    
+    console.timeEnd('renderFleets2');
+}
+
+    var lastFrameTime = 0;
+    var frameDuration = 1000 / 40; // 1000 milliseconds / 40 fps
+    var animateGame = function (ctx, currentTime) {
+        if (currentTime - lastFrameTime < frameDuration) {
+            animationFrameRef.id = requestAnimationFrame((timestamp) => animateGame(ctx, timestamp));
+            return;
+        }
+
         if (!currentState) {
             stateResetCounter++;
         }
 
-        renderEnvironment(ctx,currentState);        
-        if (currentState != null && currentState.fleets != undefined) {
-            for (const fleet of currentState.fleets.values()) {
-                if (fleet.turn < fleet.neededTurns) {
+        let cs = cloneStateWithMaps(currentState);
 
-                    const originPlanet = currentState.planets.get(fleet.origin);
-                    const destinationPlanet = currentState.planets.get(fleet.destination);
-                    fleet.particles = fleet.particles || [];
+        renderEnvironment(ctx,cs);        
+        renderFleets(ctx, cs, currentTime);
+        renderScores(ctx,cs);
+        // Schedule the next frame
 
-                    const elapsedFraction = (currentTime - fleet.startTime) % gameSpeed / gameSpeed;
-
-                    const journeyFraction = (fleet.turn + elapsedFraction) / fleet.neededTurns;
-                    currentX = originPlanet.x + (destinationPlanet.x - originPlanet.x) * journeyFraction;
-                    currentY = originPlanet.y + (destinationPlanet.y - originPlanet.y) * journeyFraction;
-
-                    ctx.beginPath();
-                    const fleetCoords = translateCoordinates(currentX, currentY);
-                    const fleetDisplaySize = 5 + 4 * Math.log(fleet.size) * Math.min((canvas.width + 50 )/ 1920, 1)
-                    ctx.arc(fleetCoords.x, fleetCoords.y, fleetDisplaySize, 0, Math.PI * 2);
-                    ctx.fillStyle = fleetColorMap.get(fleet.name);
-                    ctx.fill();
-                    ctx.closePath();
-
-                    ctx.fillStyle = 'white';
-                    ctx.textAlign = "center";
-                    ctx.fillText(fleet.size, fleetCoords.x, fleetCoords.y + 5);
-
-                }
-            }
-        }
-        renderScores(ctx,currentState);
-        animationFrameRef.id = requestAnimationFrame((timestamp) => {
-            animateFleets(ctx, timestamp);
-        });
+        // Update the last frame time
+        lastFrameTime = currentTime;
+        animationFrameRef.id = requestAnimationFrame((timestamp) => animateGame(ctx, timestamp));
     }
 
+    function cloneStateWithMaps(state) {
+        if (!state) {
+            return
+        }
+        const clonedState = JSON.parse(JSON.stringify(state, (key, value) => {
+            if (value instanceof Map) {
+                // Convert Map to an array of key-value pairs
+                return Array.from(value.entries());
+            }
+            return value;
+        }));
+    
+        return JSON.parse(JSON.stringify(clonedState), (key, value) => {
+            // Check if value is an array and if its elements are array-like objects
+            if (Array.isArray(value) && value.every(item => Array.isArray(item) && item.length === 2)) {
+                // Convert arrays of key-value pairs back into Map objects
+                return new Map(value);
+            }
+            return value;
+        });
+    }
     function createFireworks(ctx) {
 
         const numberOfParticules = 15;
-        let pointerX = 0;
-        let pointerY = 0;
-        //const tap = ('ontouchstart' in window || navigator.msMaxTouchPoints) ? 'touchstart' : 'mousedown';
         const colors = ['#44a2ff', '#e7358d', 'FF1461', '#999999'];
-
-        function updateCoords(e) {
-            pointerX = e.clientX || e.touches[0].clientX;
-            pointerY = e.clientY || e.touches[0].clientY;
-        }
 
         function setParticuleDirection(p) {
             const angle = anime.random(0, 360) * Math.PI / 180;
@@ -285,6 +319,7 @@ function initializeGame(canvasId, gameLog, mode="file") {
                 ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true);
                 ctx.fillStyle = p.color;
                 ctx.fill();
+                ctx.closePath();
             };
             return p;
         }
@@ -304,6 +339,7 @@ function initializeGame(canvasId, gameLog, mode="file") {
                 ctx.lineWidth = p.lineWidth;
                 ctx.strokeStyle = p.color;
                 ctx.stroke();
+                ctx.closePath();
                 ctx.globalAlpha = 1;
             };
             return p;
