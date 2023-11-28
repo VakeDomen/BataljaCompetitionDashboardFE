@@ -23,7 +23,7 @@ export class RoundTableComponent implements OnChanges {
   public gameDetailsOpened: Game2v2 | undefined;
 
   ngOnChanges() {
-
+    console.log(this.games);
   }
 
   public getBotLabel(game: Game2v2, bot: BotSelector): string {
@@ -32,6 +32,11 @@ export class RoundTableComponent implements OnChanges {
     } else {
       return "Enemy"
     }
+  }
+
+  public gameDataContainsErrors(game: Game2v2): boolean  {
+    const additionalData = JSON.parse(game.additional_data);
+    return Object.keys(additionalData).includes("error");
   }
 
   private getBotName(game: Game2v2, bot: BotSelector): string {
@@ -118,7 +123,7 @@ export class RoundTableComponent implements OnChanges {
   }
 
   public getMyBotImage(game: Game2v2, bot: BotSelector): string {
-    if (this.isTeam1(game)) {
+    if (this.isTeam2(game)) {
       if (bot == 'my1') {
         return "assets/Blue.png";
       } else {
@@ -133,8 +138,11 @@ export class RoundTableComponent implements OnChanges {
     }
   }
 
-  public getAdditionalData(game: Game2v2): GameAdditionalData {
-    return JSON.parse(game.additional_data) as GameAdditionalData;
+  public getAdditionalData(game: Game2v2): GameAdditionalData | undefined {
+    if (!this.gameDataContainsErrors(game)) {
+      return JSON.parse(game.additional_data) as GameAdditionalData;
+    }
+    return undefined;
   }
 
   public toggleGame(game: Game2v2): void {
@@ -144,5 +152,25 @@ export class RoundTableComponent implements OnChanges {
       this.gameDetailsOpened = game ; 
     }
     this.openVideoModal = false
+  }
+
+  public botCrashed(game: Game2v2, bot: BotSelector) {
+    if (!this.gameDataContainsErrors(game)) {
+      return false;
+    }
+    return this.getBotId(game, bot) == JSON.parse(game.additional_data)["blame_id"];
+  }
+
+
+  public enemyCrashed(game: Game2v2): boolean {
+    return this.botCrashed(game, 'e1') || this.botCrashed(game, 'e2');
+  }
+
+  getCrashError(game: Game2v2): string {
+    if (!this.gameDataContainsErrors(game)) {
+      return "Unknown Error";
+    } else {
+      return JSON.parse(game.additional_data).error;
+    }
   }
 }

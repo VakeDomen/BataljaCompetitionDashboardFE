@@ -84,7 +84,21 @@ export class WinRateChartComponent implements OnChanges {
     };
   }
   ngOnChanges(changes: SimpleChanges): void {
+    this.filterTopFour();
     this.chartOptions.labels = this.labels;
     this.chartOptions.series = this.series;
   }  
+  private filterTopFour(): void {
+    // Combine series and labels
+    const combined = this.series.map((value, index) => {
+      return { value, label: this.labels[index] };
+    });
+  
+    // Sort by value in descending order and keep the top 4
+    const sortedAndSliced = combined.sort((a, b) => b.value - a.value).slice(0, 4);
+  
+    // Separate the values and labels back into their respective arrays
+    this.series = sortedAndSliced.map(item => item.value);
+    this.labels = sortedAndSliced.map(item => item.label);
+  }
 }

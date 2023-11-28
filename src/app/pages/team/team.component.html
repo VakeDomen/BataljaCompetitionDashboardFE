@@ -125,7 +125,7 @@
                         <span class="is-size-4 is-color-text-gray">Upload a bot first</span>
                     </div>
                     <div *ngIf="!!bots.length">
-                        <select class="input select" [ngModel]="team?.bot1"
+                        <select class="input select" [ngModel]="bot1Id"
                             (ngModelChange)="onBotChange('First', $event)">
                             <option *ngFor="let bot of bots" [value]="bot.id">{{ bot.bot_name }}</option>
                         </select>
@@ -143,7 +143,7 @@
                         <span class="is-size-4 is-color-text-gray">Upload a bot first</span>
                     </div>
                     <div *ngIf="!!bots.length">
-                        <select class="input select" [ngModel]="team?.bot2"
+                        <select class="input select" [ngModel]="bot2Id"
                             (ngModelChange)="onBotChange('Second', $event)">
                             <option *ngFor="let bot of bots" [value]="bot.id">{{ bot.bot_name }}</option>
                         </select>

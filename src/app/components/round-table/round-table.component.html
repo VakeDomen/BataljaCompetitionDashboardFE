@@ -25,14 +25,18 @@
                         {{ getBotLabel(game, "my1") }}
                         <img class="planet-img" src="{{ getMyBotImage(game, 'my1') }}" alt="" srcset="">
                         <i *ngIf="!botSurvived(game, 'my1')" class="fas fa-skull is-red"></i>
+                        <i *ngIf="botCrashed(game, 'my1')" class="fas fa-bug is-other-red"></i>
                     </td>
                     <td>
                         {{ getBotLabel(game, "my2") }}
                         <img class="planet-img" src="{{ getMyBotImage(game, 'my2') }}" alt="" srcset="">
                         <i *ngIf="!botSurvived(game, 'my2')" class="fas fa-skull is-red"></i>
+                        <i *ngIf="botCrashed(game, 'my2')" class="fas fa-bug is-other-red"></i>
                     </td>
+
     
-                    <td>
+                    <td >
+                        <i *ngIf="enemyCrashed(game)" class="fas fa-bug is-other-red"></i>
                         <i *ngIf="!botSurvived(game, 'e1')" class="fas fa-skull is-red"></i>
                         <i *ngIf="!botSurvived(game, 'e2')" class="fas fa-skull is-red"></i>
                     </td>
@@ -51,11 +55,24 @@
                                 </div>
                             </div>
                             <app-game-charts-panel 
+                                *ngIf="!gameDataContainsErrors(game)"
                                 [team]="team" 
                                 [gameData]="getAdditionalData(game)"
                                 [bots]="bots"
                                 [game]="game"    
                             ></app-game-charts-panel>
+
+
+                            <div *ngIf="gameDataContainsErrors(game)">
+                                <div *ngIf="(botCrashed(game, 'my1') || botCrashed(game, 'my2'))">
+                                    <h1 class="is-size-5">Seems like one of your bots crashed :(</h1>
+                                    <p>{{ getCrashError(game) }}</p>
+                                </div>
+                                <div *ngIf="!(botCrashed(game, 'my1') || botCrashed(game, 'my2'))">
+                                    <h1 class="is-size-5">Seems like one of your enemies crashed :D</h1>
+                                    <p>Cool...free wins!</p>
+                                </div>
+                            </div>
                         </div>
                     </td>
                 </tr>

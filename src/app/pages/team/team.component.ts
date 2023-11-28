@@ -43,6 +43,8 @@ export class TeamComponent implements OnInit {
   public openSubmissionAccordion: string | undefined;
   public tabOpen: 'overall' | 'games' | 'bots' = 'overall';
   public confirmationModalOpen: boolean = false;
+  public bot1Id: string = "";
+  public bot2Id: string = "";
 
   constructor(
     private route: ActivatedRoute,
@@ -203,6 +205,12 @@ export class TeamComponent implements OnInit {
       this.router.navigate(["competitions"]);
     }
     this.team = team[0];
+    if (this.team.bot1 != this.bot1Id) {
+        this.bot1Id = this.team.bot1;
+    }
+    if(this.team.bot2 != this.bot2Id) {
+        this.bot2Id = this.team.bot2;
+    }
   }
 
   // ########################### PAGE SETUP END ###########################
@@ -283,7 +291,7 @@ export class TeamComponent implements OnInit {
     if (this.selectedFile) {
       this.botService.uploadNewBot(this.team.id, this.selectedFile).subscribe(async (response: Bot) => {
         await this.fetchTeam()
-        await this.fetchBots()
+        this.bots.push(response);
         this.toastr.success('Upload successful');
       }, () => {
         this.toastr.error("Something went wrong uploading the bot...")
@@ -297,9 +305,11 @@ export class TeamComponent implements OnInit {
     }
     if (botSelector === "First") {
       this.team.bot1 = selectedId;
+      this.bot1Id = selectedId;
     }
     if (botSelector === "Second") {
       this.team.bot2 = selectedId;
+      this.bot2Id = selectedId;
     }
 
     this.botService.chageBot(

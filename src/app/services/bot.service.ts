@@ -36,6 +36,7 @@ export class BotService {
 
   public chageBot(compId: string, teamId: string, botSelector: "First" | "Second", botId: string): Observable<void> {
     this.cache.clearCache(`/team/bots/${teamId}`);
+    this.cache.clearCache("/team");
     return this.http.post<void>(`${this.apiUrl}/team/bot`, {
       competition_id: compId,
       bot: botSelector,
