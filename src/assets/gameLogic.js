@@ -21,6 +21,8 @@ function initializeGame(canvasId, gameLog, mode="file") {
     const toxicPlanetImage = new Image();
     const yellowPlanetImage = new Image();
     const neutralPlanetImage = new Image();
+    const space = new Image();
+    
     const planetScale = 150;
     const imageMap = {
         "red": magentaPlanetImage,
@@ -67,7 +69,7 @@ function initializeGame(canvasId, gameLog, mode="file") {
         toxicPlanetImage.src = 'assets/Toxic.png';
         yellowPlanetImage.src = 'assets/Yellow.png';
         neutralPlanetImage.src = 'assets/Grey.png';
-
+        space.src = 'assets/space.jpg';
         canvas = document.getElementById(canvasId);
         if(canvas==null){
             return;
@@ -169,8 +171,7 @@ function initializeGame(canvasId, gameLog, mode="file") {
             if (!state.planets) {
                 return
             }
-            ctx.fillStyle = 'black';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
             for (const [name, planet] of state.planets) {
                 
                 
@@ -271,6 +272,16 @@ function renderFleets(ctx, state, currentTime) {
     // console.timeEnd('renderFleets2');
 }
 
+
+    function renderBG(ctx) {
+        if (space) {
+            ctx.drawImage(space, 0, 0, canvas.width, canvas.height)
+        } else {
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+    }
+
     var lastFrameTime = 0;
     var frameDuration = 1000 / 40; // 1000 milliseconds / 40 fps
     var animateGame = function (ctx, currentTime) {
@@ -284,7 +295,7 @@ function renderFleets(ctx, state, currentTime) {
         }
 
         let cs = cloneStateWithMaps(currentState);
-
+        renderBG(ctx);
         renderEnvironment(ctx,cs);        
         renderFleets(ctx, cs, currentTime);
         renderScores(ctx,cs);
