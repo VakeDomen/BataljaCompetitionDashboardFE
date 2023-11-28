@@ -44,7 +44,8 @@ function initializeGame(canvasId, gameLog, mode="file") {
         "blue": "#202020", // Dark gray text for "#a8c70c" background
         "yellow": "#202020", // Dark gray text for "#fc9d00" background
         "team1": "#E0E0E0", // Light gray text for "#2C8BEC" background
-        "team2": "#202020"  // Dark gray text for "#D2B206" background
+        "team2": "#202020",  // Dark gray text for "#D2B206" background
+        "null": "#000000"
     }
     
 
