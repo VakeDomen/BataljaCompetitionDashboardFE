@@ -69,12 +69,13 @@
 <div class="modal" *ngIf="openVideoModal" [ngClass]="{
     'is-active': openVideoModal && gameToPlay
 }">
-    <div class="modal-background" (click)="openVideoModal=false"></div>
-    <div class="modal-card" *ngIf="gameToPlay?.id">
-        <!-- <div *ngFor="let game of games"> -->
-            <!-- <div *ngIf="game.id == gameToPlay?.id"> -->
-                <app-game-canvas [gameId]="gameToPlay?.id ?? ''"></app-game-canvas>
+    <div class="modal-background" (click)="openVideoModal=false">
+        <div class="modal-card" *ngIf="gameToPlay?.id" >
+            <!-- <div *ngFor="let game of games"> -->
+                <!-- <div *ngIf="game.id == gameToPlay?.id"> -->
+                    <app-game-canvas class="full-height" [gameId]="gameToPlay?.id ?? ''"></app-game-canvas>
+                <!-- </div> -->
             <!-- </div> -->
-        <!-- </div> -->
+        </div>
     </div>
 </div>

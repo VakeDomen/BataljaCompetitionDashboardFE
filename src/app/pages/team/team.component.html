@@ -37,10 +37,10 @@
     <!-- TABS -->
     <div class="tabs is-centered">
         <ul>
-            <li [ngClass]="{ 'is-active': tabOpen == 'overall' }" (click)="tabOpen = 'overall'"><a>Overall stats</a>
+            <li [ngClass]="{ 'is-active': tabOpen == 'overall' }" (click)="tabOpen = 'overall'"><a><i class="fas fa-chart-line mr-2"></i>Overall stats</a>
             </li>
-            <li [ngClass]="{ 'is-active': tabOpen == 'games' }" (click)="tabOpen = 'games'"><a>Games</a></li>
-            <li [ngClass]="{ 'is-active': tabOpen == 'bots' }" (click)="tabOpen = 'bots'"><a>Bots</a></li>
+            <li [ngClass]="{ 'is-active': tabOpen == 'games' }" (click)="tabOpen = 'games'"><a><i class="fas fa-medal mr-2"></i>Games</a></li>
+            <li [ngClass]="{ 'is-active': tabOpen == 'bots' }" (click)="tabOpen = 'bots'"><a><i class="fas fa-robot mr-2"></i>Bots</a></li>
         </ul>
     </div>
 
@@ -86,12 +86,25 @@
 
     <!-- bots -->
     <div class="mb-5" [ngClass]="{ 'is-closed': tabOpen != 'bots' }">
+        <div class="box mb-3">To submit your player you must upload a <strong>.zip</strong> archive containing <strong>
+            only</strong> your source <strong>.java</strong> files. The submitted files must contain a java file 
+            <i>Player.java</i>, whith a main function. Files within your archive will be extracted and compiled using 
+            Java JDK 11. <br /> The downloadable Game Pack contains a sample <i>Player.java</i> that is a working version of 
+            a random player.<br /> The <strong>name</strong> of the submitted bot will be taken from the name of the .zip file, so you can 
+            differentiate between the versions easily.  Be carefull, because you can <strong>not change</strong> the 
+            names of the submissions later!<br> Once you have uploaded your bot, you can use it whenever. The <i><strong>
+            First bot</strong></i> and <i><strong> Second bot</strong></i> drop-downs allows you to switch what uploaded bot 
+            will play in the next match. The change of the active submission will also be visible in the score chart, once 
+            the bot plays a match. </div>
         <!-- TOP BOXES -->
         <div class="columns bot-selection has-text-centered">
             <!-- upload bot -->
             <div class="column is-hidden-mobile">
                 <div class="box">
-                    <div class="is-size-4 is-color-primary mb-1">Upload bot</div>
+                    <div class="is-size-4 is-color-primary mb-1">
+                        <i class="far fa-file-archive mr-2"></i>
+                        Upload bot
+                    </div>
                     <br>
                     <div *ngIf="competition?.allowed_submissions">
                         <input class="input" type="file" (change)="onFileSelected($event)" />
@@ -106,7 +119,7 @@
             <!-- select first bot -->
             <div class="column">
                 <div class="box">
-                    <div class="is-size-4 is-color-primary mb-1">First bot</div>
+                    <div class="is-size-4 is-color-primary mb-1"><i class="fas fa-robot mr-2"></i>First bot</div>
                     <br>
                     <div *ngIf="!bots.length">
                         <span class="is-size-4 is-color-text-gray">Upload a bot first</span>
@@ -124,7 +137,7 @@
             <!-- select second bot -->
             <div class="column">
                 <div class="box">
-                    <div class="is-size-4 is-color-primary mb-1">Second bot</div>
+                    <div class="is-size-4 is-color-primary mb-1"><i class="fas fa-robot mr-2"></i>Second bot</div>
                     <br>
                     <div *ngIf="!bots.length">
                         <span class="is-size-4 is-color-text-gray">Upload a bot first</span>
@@ -141,7 +154,7 @@
         </div>
         <!-- TOP BOXES END -->
         <div *ngIf="bots.length">
-            <p class="is-size-3">Bot compilation errors:</p>
+            <p class="is-size-3">Bot compilation messages:</p>
             <div class="mb-3">
                 <section class="accordions" *ngFor="let bot of bots">
                     <article class="accordion" [ngClass]="{'is-active': openSubmissionAccordion == bot.id}">
@@ -149,6 +162,8 @@
                             <h1 class="is-4 ml-2">{{ bot.bot_name }}</h1>
                             <span *ngIf="!!bot.compile_error" class="icon-span is-color-danger"><i
                                     class="fas fa-exclamation-triangle"></i></span>
+                            <span *ngIf="!bot.compile_error" class="icon-span is-color-green"><i 
+                                class="fas fa-check"></i></span> 
                         </div>
                         <div class="accordion-body">
                             <div class="accordion-content">

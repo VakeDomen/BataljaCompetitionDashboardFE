@@ -25,11 +25,15 @@
                 <li>The game takes too long - timeout</li>
             </ul>
         </div>
+        <!-- In the following sections you can read about:
+        <ul>
+            <li><a href="#how-to-participate">How to participate</a></li>
+        </ul> -->
 
     </div>
     <div class="box mt-5">
 
-        <h2 id="section" class="title is-2">
+        <h2 id="section how-to-participate" class="title is-2">
 
             <span class="file-icon is-inline">
                 <i class="fas fa-handshake"></i>
@@ -60,13 +64,13 @@
             <p>
                 To submit your bot you must upload a <code>*.zip</code> archive containing only your source
                 <code>*.java</code> files.<br />
-                The submitted project must contain a java file <code>Igralec.java</code>, whith a main function.
+                The submitted project must contain a java file <code>Player.java</code>, whith a main function.
                 Files within your archive will be extracted and compiled using Java JDK 11.
             </p>
             <p>
                 You are provided with the game files and a sample random player to have a starting point and be 
                 able to run the games localy against your own bots, while you develop. The downloadable Game 
-                Pack contains <code>Evaluator.jar</code> and a sample player <code>Igralec.java</code> that just 
+                Pack contains <code>Evaluator.jar</code> and a sample player <code>Player.java</code> that just 
                 does random attacks. <br>
             </p>
 
@@ -118,13 +122,13 @@
             the desired location on your computer. The folder should contain 2 files:</p>
             <ul>
                 <li>Evaluator.jar (the game)</li>
-                <li>Igralec.java (a sample player)</li>
+                <li>Player.java (a sample player)</li>
             </ul>
             <p>Open the terminal on your location.</p>
             <pre>
 $ ls
 Evaluator.jar
-Igralec.java</pre>
+Player.java</pre>
 
 
             <p class="is-size-4 is-color-text-gray"><strong>Step 2: Check prerequisites</strong></p>
@@ -153,10 +157,10 @@ $ mkdir Player1 Player2 Player3 Player4</pre>
 
             </p>
             <pre>
-$ cp Igralec.java Player1/
-$ cp Igralec.java Player2/
-$ cp Igralec.java Player3/
-$ cp Igralec.java Player4/</pre>
+$ cp Player.java Player1/
+$ cp Player.java Player2/
+$ cp Player.java Player3/
+$ cp Player.java Player4/</pre>
             
             <p class="is-size-4"><strong>Step 4: Compile all the players</strong></p>
             <p>For the game to be run, all the players have to be compiled first. With this the <code>*.class</code> files will
@@ -180,22 +184,22 @@ $ javac Player4/*.java</pre>
             <pre>
 dir
 |--Evaluator.jar
-|--Igralec.java
+|--Player.java
 |--Player1
-|     |--Igralec.class
-|     |--Igralec.java
+|     |--Player.class
+|     |--Player.java
 |
 |--Player2
-|     |--Igralec.class
-|     |--Igralec.java
+|     |--Player.class
+|     |--Player.java
 |
 |--Player3
-|     |--Igralec.class
-|     |--Igralec.java
+|     |--Player.class
+|     |--Player.java
 |
 |--Player4
-        |--Igralec.class
-        |--Igralec.java
+        |--Player.class
+        |--Player.java
         </pre>
         </div>
     </div>
@@ -213,7 +217,7 @@ dir
             with
             the
             game.<br />
-            The player's main method must be in the file named Igralec.java - without the use of packages, jars, etc.
+            The player's main method must be in the file named Player.java - without the use of packages, jars, etc.
             <br />
             A player <strong>MUST NOT</strong>:
 

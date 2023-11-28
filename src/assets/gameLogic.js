@@ -29,6 +29,25 @@ function initializeGame(canvasId, gameLog, mode="file") {
         "green": cyanPlanetImage,
         "null": neutralPlanetImage
     };
+
+    const colorMap = {
+        "red": "#576cff",
+        "green": "#00aad9",
+        "blue": "#a8c70c",
+        "yellow": "#fc9d00",
+        "team1": "#2C8BEC",
+        "team2": "#D2B206"
+    }
+    const textColors = {
+        "red": "#E0E0E0", // Light gray text for "#576cff" background
+        "green": "#202020", // Dark gray text for "#00aad9" background
+        "blue": "#202020", // Dark gray text for "#a8c70c" background
+        "yellow": "#202020", // Dark gray text for "#fc9d00" background
+        "team1": "#E0E0E0", // Light gray text for "#2C8BEC" background
+        "team2": "#202020"  // Dark gray text for "#D2B206" background
+    }
+    
+
     var socket =null;
     if(mode==="ws"){
         socket = new WebSocket(gameLog);
@@ -43,7 +62,7 @@ function initializeGame(canvasId, gameLog, mode="file") {
 
     function init() {
         cyanPlanetImage.src = 'assets/Cyan.png';
-        magentaPlanetImage.src = 'assets/Magenta.png';
+        magentaPlanetImage.src = 'assets/Blue.png';
         toxicPlanetImage.src = 'assets/Toxic.png';
         yellowPlanetImage.src = 'assets/Yellow.png';
         neutralPlanetImage.src = 'assets/Grey.png';
@@ -53,8 +72,7 @@ function initializeGame(canvasId, gameLog, mode="file") {
             return;
         }
     
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        setCanvasSize()
         var stateT = setInterval(() => stateTransition(), gameSpeed);
         const ctx = canvas.getContext('2d');
         //setInterval(() => renderEnvironment(ctx, currentState), 23);
@@ -96,22 +114,24 @@ function initializeGame(canvasId, gameLog, mode="file") {
         } 
         
         const barPosition = translateCoordinates(state.scores.get("team1").relative * width, barHeight);
-        ctx.fillStyle = "cyan";
+        ctx.fillStyle = colorMap["team1"];
         ctx.fillRect(0,0,barPosition.x, barPosition.y);
        
         // top right
-        ctx.fillStyle="orange";
+        ctx.fillStyle = colorMap["team2"];
         const endBar = translateCoordinates(width, barHeight);
         ctx.fillRect(barPosition.x,0, endBar.x, endBar.y);
 
         // top left text
-        ctx.fillStyle = 'black';
+        // ctx.fillStyle = 'black';
+        ctx.fillStyle = textColors["team1"];
         ctx.font = "bold 16px Courier";
         const text1Pos = translateCoordinates(0, barHeight);
         ctx.textAlign = "left";
         ctx.fillText(state.scores.get("team1").absolute, text1Pos.x, text1Pos.y);
 
         // top right text
+        ctx.fillStyle = textColors["team2"];
         const text2Pos = translateCoordinates(width, barHeight);
         ctx.textAlign = "right";
         ctx.fillText(state.scores.get("team2").absolute, text2Pos.x, text2Pos.y);
@@ -120,25 +140,25 @@ function initializeGame(canvasId, gameLog, mode="file") {
         const sideBarWidth =  width *0.01;
         const leftTpos = translateCoordinates(0,height - (height * state.scores.get("red").relative));
         const rightBpos = translateCoordinates(sideBarWidth,height);
-        ctx.fillStyle = "red";
+        ctx.fillStyle = colorMap["red"];
         ctx.fillRect(leftTpos.x,leftTpos.y,rightBpos.x,rightBpos.y);
 
         // team 1 player 2
         const leftTpos2 = translateCoordinates(sideBarWidth,height - (height * state.scores.get("green").relative));
         const rightBpos2 = translateCoordinates(sideBarWidth,height);
-        ctx.fillStyle = "green";
+        ctx.fillStyle = colorMap["green"];
         ctx.fillRect(leftTpos2.x,leftTpos2.y,rightBpos2.x,rightBpos2.y);
 
         // team 2 player 1
         const leftTpos3 = translateCoordinates(width - sideBarWidth,height - (height * state.scores.get("blue").relative));
         const rightBpos3 = translateCoordinates(sideBarWidth,height);
-        ctx.fillStyle = "blue";
+        ctx.fillStyle = colorMap["blue"];
         ctx.fillRect(leftTpos3.x,leftTpos3.y,rightBpos3.x,rightBpos3.y);
 
         // team 2 player 2
         const leftTpos4 = translateCoordinates(width - 2 * sideBarWidth,height - (height * state.scores.get("yellow").relative));
         const rightBpos4 = translateCoordinates(sideBarWidth,height);
-        ctx.fillStyle = "yellow";
+        ctx.fillStyle = colorMap["yellow"];
         ctx.fillRect(leftTpos4.x,leftTpos4.y,rightBpos4.x,rightBpos4.y);
     }
 
@@ -185,7 +205,8 @@ function initializeGame(canvasId, gameLog, mode="file") {
                 ctx.shadowOffsetX = 0;
                 ctx.shadowOffsetY = 0;
 
-                ctx.fillStyle = 'black';
+                // ctx.fillStyle = 'black';
+                ctx.fillStyle = textColors[planet.color];
                 ctx.font = "bold 16px Courier";
                 if  (canvas.width < 768) {
                     ctx.font = "bold 10px Courier";
@@ -196,7 +217,7 @@ function initializeGame(canvasId, gameLog, mode="file") {
                 
                 if (previousState.planets &&  previousState.planets.get(name).color != planet.color) {
                     const explosionCoords = translateCoordinates(planet.x, planet.y);
-                    new createFireworks(ctx).animateParticules(explosionCoords.x, explosionCoords.y);
+                    new createFireworks(ctx, planet.color).animateParticules(explosionCoords.x, explosionCoords.y);
                 }
             }
         }
@@ -209,7 +230,7 @@ let disp = [];
 
 
 function renderFleets(ctx, state, currentTime) {
-    console.time('renderFleets2');
+    // console.time('renderFleets2');
     if (state?.fleets) {
         disp = [];
         for (const fleet of state.fleets.values()) {
@@ -228,23 +249,25 @@ function renderFleets(ctx, state, currentTime) {
                 disp.push([fleetCoords.x, fleetCoords.y, fleet.size, fleetDisplaySize, fleet.color]);
             }
         }
-        console.time('renderFleets1');
+        // console.time('renderFleets1');
         for (const [x, y, flsize, disize, color] of disp) {
-    
+            if (flsize < 1) {
+                continue;
+            }
             ctx.beginPath();
             ctx.arc(x, y, disize, 0, Math.PI * 2);
-            ctx.fillStyle = color; 
+            ctx.fillStyle = colorMap[color]; 
             ctx.fill();
             ctx.closePath();
-    
+            ctx.fillStyle = textColors[color];
             ctx.fillStyle = 'white';
             ctx.textAlign = "center";
             ctx.fillText(flsize, x, y + 5);
         }
-        console.timeEnd('renderFleets1');
+        // console.timeEnd('renderFleets1');
     }
     
-    console.timeEnd('renderFleets2');
+    // console.timeEnd('renderFleets2');
 }
 
     var lastFrameTime = 0;
@@ -292,10 +315,12 @@ function renderFleets(ctx, state, currentTime) {
             return value;
         });
     }
-    function createFireworks(ctx) {
+    function createFireworks(ctx, color) {
 
         const numberOfParticules = 15;
-        const colors = ['#44a2ff', '#e7358d', 'FF1461', '#999999'];
+        let colors = [colorMap[color]];
+        
+
 
         function setParticuleDirection(p) {
             const angle = anime.random(0, 360) * Math.PI / 180;
@@ -312,7 +337,7 @@ function renderFleets(ctx, state, currentTime) {
             p.x = x;
             p.y = y;
             p.color = colors[anime.random(0, colors.length - 1)];
-            p.radius = anime.random(5, 10);
+            p.radius = anime.random(2, 7);
             p.endPos = setParticuleDirection(p);
             p.draw = function () {
                 ctx.beginPath();
@@ -324,26 +349,26 @@ function renderFleets(ctx, state, currentTime) {
             return p;
         }
 
-        function createCircle(x, y) {
-            const p = {};
-            p.x = x;
-            p.y = y;
-            p.color = '#FFF';
-            p.radius = 0.1;
-            p.alpha = 0.5;
-            p.lineWidth = 6;
-            p.draw = function () {
-                ctx.globalAlpha = p.alpha;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true);
-                ctx.lineWidth = p.lineWidth;
-                ctx.strokeStyle = p.color;
-                ctx.stroke();
-                ctx.closePath();
-                ctx.globalAlpha = 1;
-            };
-            return p;
-        }
+        // function createCircle(x, y) {
+        //     const p = {};
+        //     p.x = x;
+        //     p.y = y;
+        //     p.color = '#FFF';
+        //     p.radius = 0.1;
+        //     p.alpha = 0.5;
+        //     p.lineWidth = 6;
+        //     p.draw = function () {
+        //         ctx.globalAlpha = p.alpha;
+        //         ctx.beginPath();
+        //         ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true);
+        //         ctx.lineWidth = p.lineWidth;
+        //         ctx.strokeStyle = p.color;
+        //         ctx.stroke();
+        //         ctx.closePath();
+        //         ctx.globalAlpha = 1;
+        //     };
+        //     return p;
+        // }
 
         function renderParticule(anim) {
             for (let i = 0; i < anim.animatables.length; i++) {
@@ -352,7 +377,7 @@ function renderFleets(ctx, state, currentTime) {
         }
 
         this.animateParticules = function (x, y) {
-            const circle = createCircle(x, y);
+            // const circle = createCircle(x, y);
             const particules = [];
             for (let i = 0; i < numberOfParticules; i++) {
                 particules.push(createParticule(x, y));
@@ -361,8 +386,8 @@ function renderFleets(ctx, state, currentTime) {
                 targets: particules,
                 x: function (p) { return p.endPos.x; },
                 y: function (p) { return p.endPos.y; },
-                radius: 0.1,
-                duration: anime.random(1200, 1800),
+                radius: 0.03,
+                duration: anime.random(800, 1000),
                 easing: 'easeOutExpo',
                 update: renderParticule
             })
@@ -382,12 +407,12 @@ function renderFleets(ctx, state, currentTime) {
             // });
         }
 
-        const render = anime({
-            duration: Infinity,
-            update: function () {
-                ctx.clearRect(0, 0, ctx.width, ctx.height);
-            }
-        });
+        // const render = anime({
+        //     duration: Infinity,
+        //     update: function () {
+        //         ctx.clearRect(0, 0, ctx.width, ctx.height);
+        //     }
+        // });
 
         /*document.addEventListener(tap, function (e) {
             window.human = true;
@@ -538,9 +563,11 @@ function renderFleets(ctx, state, currentTime) {
     }
     
     function setCanvasSize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
     }
+    window.addEventListener("resize", setCanvasSize);
+
     function drawImageCenter(ctx,image, x, y, cx, cy, scale, rotation){
         ctx.save();
         ctx.setTransform(scale, 0, 0, scale, x, y); // sets scale and origin
@@ -549,7 +576,6 @@ function renderFleets(ctx, state, currentTime) {
         ctx.restore();
     } 
 
-    window.addEventListener("resize", setCanvasSize);
     return init();
 
 }
