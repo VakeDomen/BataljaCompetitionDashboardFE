@@ -200,7 +200,7 @@ function initializeGame(canvasId, gameLog, mode="file") {
                 ctx.drawImage(planetImage, imageX, imageY,dim,dim);
                 ctx.restore();
                 */
-                const scale = (0.15+(planet.size ) * 0.3) * Math.min((canvas.width + 200 )/ 1920, 1);
+                const scale = (0.15+(planet.size ) * 0.3) * Math.min((canvas.width + 200 )/ 2440, 1);
                 drawImageCenter(ctx,imageMap[planet.color], planetCoords.x, planetCoords.y,175,175,scale , rotationAngles.get(name));
                 ctx.shadowColor = 'transparent';
                 ctx.shadowBlur = 0;
@@ -245,7 +245,7 @@ function renderFleets(ctx, state, currentTime) {
                 currentY = originPlanet.y + (destinationPlanet.y - originPlanet.y) * journeyFraction;
 
                 const fleetCoords = translateCoordinates(currentX, currentY);
-                const fleetDisplaySize = 5 + 4 * Math.log(fleet.size) * Math.min((canvas.width + 50) / 1920, 1);
+                const fleetDisplaySize = 5 + 4 * Math.log(fleet.size) * Math.min((canvas.width + 50) / 2440, 1);
 
 
                 disp.push([fleetCoords.x, fleetCoords.y, fleet.size, fleetDisplaySize, fleet.color]);
@@ -273,7 +273,10 @@ function renderFleets(ctx, state, currentTime) {
 }
 
 
-    function renderBG(ctx) {
+    function renderBG(ctx, cs) {
+        if (!cs) {
+            return;
+        }
         if (space) {
             ctx.drawImage(space, 0, 0, canvas.width, canvas.height)
         } else {
@@ -295,7 +298,7 @@ function renderFleets(ctx, state, currentTime) {
         }
 
         let cs = cloneStateWithMaps(currentState);
-        renderBG(ctx);
+        renderBG(ctx, cs);
         renderEnvironment(ctx,cs);        
         renderFleets(ctx, cs, currentTime);
         renderScores(ctx,cs);

@@ -166,7 +166,7 @@ export class RoundTableComponent implements OnChanges {
     return this.botCrashed(game, 'e1') || this.botCrashed(game, 'e2');
   }
 
-  getCrashError(game: Game2v2): string {
+  public getCrashError(game: Game2v2): string {
     if (!this.gameDataContainsErrors(game)) {
       return "Unknown Error";
     } else {
