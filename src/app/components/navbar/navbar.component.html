@@ -50,7 +50,7 @@
                 <span class="file-icon">
                     <i class="fas fa-gamepad"></i>
                 </span>
-                Games
+                Public Games
             </a>
             <a *ngIf="isLoggedIn() && isAdmin()" class="navbar-item navbar-item-center-icon" [ngClass]="{'is-active': activeTab==='stats'}"
                 (click)="activeTab='stats'; tab.emit('stats') ; toggleNavbar();" [routerLink]="['/stats']"

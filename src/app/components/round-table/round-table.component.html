@@ -5,7 +5,7 @@
                 <th>Elo change</th>
                 <th>Bot 1</th>
                 <th>Bot 2</th>
-                <th>Enemy kills</th>
+                <th>Enemies</th>
             </tr>
         </thead>
 
@@ -18,27 +18,32 @@
                         'is-red': !isZeroElo(game) && !isGameWon(game)
                     }">
                         {{ getEloLabel(game) }}
-                        <i *ngIf="isGameWon(game)" class="fas fa-trophy is-yellow"></i>
-    
+                        <i *ngIf="isGameWon(game)" class="fas fa-trophy is-yellow" title="Won! GG!"></i>
+                        <i *ngIf="isTeam1(game) && isTeam2(game)" class="fas fa-exchange-alt is-blue" title="Played self. Considered a draw."></i>
                     </td>
                     <td>
                         {{ getBotLabel(game, "my1") }}
-                        <img class="planet-img" src="{{ getMyBotImage(game, 'my1') }}" alt="" srcset="">
-                        <i *ngIf="!botSurvived(game, 'my1')" class="fas fa-skull is-red"></i>
-                        <i *ngIf="botCrashed(game, 'my1')" class="fas fa-bug is-other-red"></i>
+                        <img class="planet-img" src="{{ getMyBotImage(game, 'my1') }}" alt="" srcset=""  title="Planet color of the bot">
+                        <i *ngIf="!botSurvived(game, 'my1')" class="fas fa-skull is-red" title="Bot died during game"></i>
+                        <i *ngIf="botCrashed(game, 'my1')" class="fas fa-bug is-other-red" title="Bot  bugged out and crashed during game"></i>
+                        <i *ngIf="botTimedout(game, 'my1')" class="fas fa-stopwatch is-blue" title="Bot played untill the end and was stopped by game timeout"></i>
                     </td>
                     <td>
                         {{ getBotLabel(game, "my2") }}
-                        <img class="planet-img" src="{{ getMyBotImage(game, 'my2') }}" alt="" srcset="">
-                        <i *ngIf="!botSurvived(game, 'my2')" class="fas fa-skull is-red"></i>
-                        <i *ngIf="botCrashed(game, 'my2')" class="fas fa-bug is-other-red"></i>
+                        <img class="planet-img" src="{{ getMyBotImage(game, 'my2') }}" alt="" srcset="" title="Planet color of the bot">
+                        <i *ngIf="!botSurvived(game, 'my2')" class="fas fa-skull is-red" title="Bot died during game"></i>
+                        <i *ngIf="botCrashed(game, 'my2')" class="fas fa-bug is-other-red" title="Bot  bugged out and crashed during game"></i>
+                        <i *ngIf="botTimedout(game, 'my2')" class="fas fa-stopwatch is-blue" title="Bot played untill the end and was stopped by game timeout"></i>
                     </td>
 
     
                     <td >
-                        <i *ngIf="enemyCrashed(game)" class="fas fa-bug is-other-red"></i>
-                        <i *ngIf="!botSurvived(game, 'e1')" class="fas fa-skull is-red"></i>
-                        <i *ngIf="!botSurvived(game, 'e2')" class="fas fa-skull is-red"></i>
+                        <i *ngIf="botCrashed(game, 'e1')" class="fas fa-bug is-other-red" title="Bot bugged out and crashed during game"></i>
+                        <i *ngIf="botCrashed(game, 'e2')" class="fas fa-bug is-other-red" title="Bot  bugged out and crashed during game"></i>
+                        <i *ngIf="botTimedout(game, 'e1')" class="fas fa-stopwatch is-blue" title="Bot played untill the end and was stopped by game timeout"></i>
+                        <i *ngIf="botTimedout(game, 'e2')" class="fas fa-stopwatch is-blue" title="Bot played untill the end and was stopped by game timeout"></i>
+                        <i *ngIf="!botSurvived(game, 'e1')" class="fas fa-skull is-red" title="Bot died during game"></i>
+                        <i *ngIf="!botSurvived(game, 'e2')" class="fas fa-skull is-red" title="Bot died during game"></i>
                     </td>
     
                 </tr>

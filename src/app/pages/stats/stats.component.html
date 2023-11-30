@@ -1,5 +1,63 @@
 <div class="container" *ngIf="pageIsReady">
-    <p>stats works!</p>
+    <h1 class="title is-1">Teams ({{ getTeamCount() }})</h1>
+
+    <div class="table-container">
+        <table class="table is-fullwidth">
+            <tr>
+                <th>Team ID</th>
+                <th>Owner</th>
+                <th>Partner</th>
+                <th>Elo</th>
+                <th>#bots</th>
+                <th>Joined</th>
+                <th>Last Upload</th>
+            </tr>
+
+            <tr 
+                *ngFor="let team of teams"
+                [ngClass]="{ 'glow': team == hoveredBotOwner }"    
+            >
+                <td>{{ team.id }}</td>
+                <td>{{ getPlayerName(team, "owner")}}</td>
+                <td>{{ getPlayerName(team, "partner")}}</td>
+                <td>{{ team.elo }}</td>
+                <td>{{ getBotCountLabel(team) }}</td>
+                <td>{{ getCreatedLabel(team) }}</td>
+                <td>{{ getLastUpload(team) }}</td>
+            </tr>
+        </table>
+    </div>
+
+
+    <h1 class="title is-1">Latest bots</h1>
+    
+    <div class="table-container">
+        <table class="table is-fullwidth">
+            <tr>
+                <th>Uploaded</th>
+                <th>Bot name</th>
+                <th>Compilation</th>
+            </tr>
+            <tr 
+                class="hoverglow"
+                *ngFor="let bot of getLatestBots()" 
+                (mouseenter)="selectOwner(bot)"
+                (mouseleave)="unselectOwner()"    
+            >
+                <td>{{ getUploadedLabel(bot) }}</td>
+                <td>{{ bot.bot_name }}</td>
+                <td>
+                    <span *ngIf="!!bot.compile_error" class="icon-span is-color-danger"><i
+                        class="fas fa-exclamation-triangle"></i></span>
+                    <span *ngIf="!bot.compile_error" class="icon-span is-color-green"><i 
+                        class="fas fa-check"></i></span>   
+                    {{ bot.compile_error }}
+                </td>
+            </tr>
+        </table>
+    </div>
+    
+
 </div>
 
 <progress class="progress is-small is-primary" max="100" *ngIf="!pageIsReady"></progress>

@@ -27,14 +27,17 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    if (!this.isLoggedIn()) {
+    try {
+      const token = sessionStorage.getItem('JWTtoken');
+      if (token && token.startsWith('Bearer ')) {
+        const jwt = token.split(' ')[1];
+        const payload = JSON.parse(atob(jwt.split('.')[1]));
+        return payload.admin == true;
+      }
+    } catch (error) {
       return false;
     }
-    const val = sessionStorage.getItem("isAdmin");
-    if (!val) {
-      return false;
-    }
-    return val == 'true' ? true : false;
+    return false;
   }
 
   getJWTtoken(): string | null {

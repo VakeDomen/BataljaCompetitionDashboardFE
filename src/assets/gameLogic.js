@@ -36,7 +36,7 @@ function initializeGame(canvasId, gameLog, mode="file") {
         "red": "#576cff",
         "green": "#00aad9",
         "blue": "#a8c70c",
-        "yellow": "#fc9d00",
+        "yellow": "#ffe700",
         "team1": "#2C8BEC",
         "team2": "#D2B206"
     }

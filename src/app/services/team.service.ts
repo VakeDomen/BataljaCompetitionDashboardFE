@@ -9,6 +9,7 @@ import { Team } from '../models/team.model';
   providedIn: 'root'
 })
 export class TeamService {
+  
 
   private apiUrl = environment.apiUrl;
   
@@ -21,6 +22,10 @@ export class TeamService {
     return this.cache.getCached<Team[]>("/team");
   }
   
+  public getAllTeams(competitionId: string): Observable<Team[]> {
+    return this.cache.getCached<Team[]>(`/team/all/${competitionId}`);
+  }
+
   public createTeam(owner: string, competitionId: string): Observable<Team> {
     this.cache.clearCache("/team");
     return this.http.post<Team>(`${this.apiUrl}/team`, { owner: owner, competition_id: competitionId });

@@ -1,5 +1,4 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { throwIfEmpty } from 'rxjs';
 import { Bot } from 'src/app/models/bot.model';
 import { Game2v2 } from 'src/app/models/game.model';
 import { GameAdditionalData } from 'src/app/models/game.stats';
@@ -66,7 +65,7 @@ export class RoundTableComponent implements OnChanges {
   public isTeam1(game: Game2v2): boolean {
     return game.team1_id == this.team?.id
   }
-  private isTeam2(game: Game2v2): boolean {
+  public isTeam2(game: Game2v2): boolean {
     return game.team2_id == this.team?.id
   }
 
@@ -160,11 +159,29 @@ export class RoundTableComponent implements OnChanges {
     }
     return this.getBotId(game, bot) == JSON.parse(game.additional_data)["blame_id"];
   }
-
-
-  public enemyCrashed(game: Game2v2): boolean {
-    return this.botCrashed(game, 'e1') || this.botCrashed(game, 'e2');
+  
+  public botTimedout(game: Game2v2, bot: BotSelector): boolean {
+    if (this.gameDataContainsErrors(game)) {
+      return false;
+    }
+    return JSON.parse(game.additional_data)[this.getBotDataKey(game, bot)]["turns_played"] == 1000;
   }
+
+  private getBotDataKey(game: Game2v2,bot: BotSelector): string {
+    if (this.isTeam1(game)) {
+      if (bot == 'my1') return "team1bot1";
+      if (bot == 'my2') return "team1bot2";
+      if (bot == 'e1') return "team2bot1";
+      if (bot == 'e2') return "team2bot2";
+    } else {
+      if (bot == 'my1') return "team2bot1";
+      if (bot == 'my2') return "team2bot2";
+      if (bot == 'e1') return "team1bot1";
+      if (bot == 'e2') return "team1bot2";
+    }
+    return ""
+  }
+
 
   public getCrashError(game: Game2v2): string {
     if (!this.gameDataContainsErrors(game)) {

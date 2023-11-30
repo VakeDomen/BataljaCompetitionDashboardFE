@@ -3,4 +3,5 @@ export interface Bot {
     team_id: string,
     bot_name: string,
     compile_error: string,
+    created: string,
 }

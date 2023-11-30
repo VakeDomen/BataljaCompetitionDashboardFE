@@ -7,6 +7,8 @@ import { TeamComponent } from './pages/team/team.component';
 import { RulesComponent } from './pages/rules/rules.component';
 import { AuthGuard } from './services/auth.guard';
 import { FrontComponent } from './pages/front/front.component';
+import { StatsComponent } from './pages/stats/stats.component';
+import { AdminGuard } from './services/admin.guard';
 
 const routes: Routes = [
   {
@@ -24,12 +26,22 @@ const routes: Routes = [
   {
     path: 'team',
     component: TeamComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'team/:competitionId',
     component: TeamComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "stats",
+    component: StatsComponent,
+    canActivate: [AdminGuard],
+  },
+  {
+    path: "stats/:competitionId",
+    component: StatsComponent,
+    canActivate: [AdminGuard],
   },
   {
     path: 'rules',
