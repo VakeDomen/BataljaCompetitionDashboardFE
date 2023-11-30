@@ -1,0 +1,54 @@
+<div class="box mt-3 hoverable" (click)="openVideoModal = true">
+
+    <progress class="progress is-small is-primary" max="100" *ngIf="!pageIsReady"></progress>
+    <div class="has-text-centered-mobile">
+
+        <h1 class="title is-3">
+            <i *ngIf="team1Won()" class="fas fa-crown is-color-yellow"></i>
+            {{ getTeamName(1) }} 
+            <span class="is-color-text-gray is-size-5">VS</span> 
+            <i *ngIf="!team1Won()" class="fas fa-crown is-color-yellow"></i>
+            {{ getTeamName(2) }}
+        </h1>
+    </div>
+
+    <div class="columns is-multiline  has-text-centered">
+        <div class="column ">
+            <div class="item-content">
+                <span>Competiton</span><br>
+                <span class="is-size-4 has-text-weight-bold">{{ competition?.name }}</span>
+            </div>
+        </div>
+        <div class="column ">
+            <div class="item-content">
+                <span>Round</span><br>
+                <span class="is-size-4 has-text-weight-bold">{{ game?.round ?? 0 }}</span>
+            </div>
+        </div>
+        <div class="column ">
+            <div class="item-content">
+                <span>Turns</span><br>
+                <span class="is-size-4 has-text-weight-bold">{{ getGameTurns() }}</span>
+            </div>
+        </div>
+
+        <div class="column ">
+            <div class="item-content">
+                <span>Winner</span><br>
+                <span class="is-size-4 has-text-weight-bold">{{ getGameWinner() }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--play recording modal-->
+<div class="modal" *ngIf="openVideoModal" [ngClass]="{
+    'is-active': openVideoModal && game
+}">
+    <div class="modal-background" (click)="openVideoModal=false">
+        <div class="modal-card" *ngIf="game?.id" >
+            <app-game-canvas class="full-height" [gameId]="game?.id ?? ''"></app-game-canvas>
+        </div>
+    </div>
+</div>

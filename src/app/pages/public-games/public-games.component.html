@@ -1,5 +1,5 @@
 <div class="container" *ngIf="pageIsReady">
-    <p>rankings works!</p>
+    <app-public-game-card *ngFor="let game of games" [game]="game"></app-public-game-card>
 </div>
 
 

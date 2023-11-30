@@ -9,7 +9,6 @@ import { Team } from '../models/team.model';
   providedIn: 'root'
 })
 export class TeamService {
-
   private apiUrl = environment.apiUrl;
   
   constructor(
@@ -55,6 +54,9 @@ export class TeamService {
     return this.http.post<Team>(`${this.apiUrl}/team/name`, { competition_id: competitionId, name: newName })
   }
   
+  public getTeamById(teamId: string): Observable<Team> {
+    return this.cache.getCached<Team>(`/team/${teamId}`);
+  }
 
   public async hasTeamForCompetition(id: string): Promise<boolean> {
     const teams = await lastValueFrom(this.getTeams())

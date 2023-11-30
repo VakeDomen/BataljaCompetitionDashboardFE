@@ -17,7 +17,6 @@ export class PublicGamesComponent implements OnInit {
 
   ngOnInit(): void {
     this.gameService.getPublicGames().subscribe((games: Game2v2[]) => {
-      console.log(games);
       this.games = games;
       this.pageIsReady = true;
     })

@@ -30,6 +30,7 @@ import { ScoreChartComponent } from './components/charts/score-chart/score-chart
 import { RoundTableComponent } from './components/round-table/round-table.component';
 import { GameChartsPanelComponent } from './components/game-charts-panel/game-charts-panel.component';
 import { PublicGamesComponent } from './pages/public-games/public-games.component';
+import { PublicGameCardComponent } from './components/public-game-card/public-game-card.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { PublicGamesComponent } from './pages/public-games/public-games.componen
     RoundTableComponent,
     GameChartsPanelComponent,
     PublicGamesComponent,
+    PublicGameCardComponent,
   ],
   imports: [
     BrowserModule,
