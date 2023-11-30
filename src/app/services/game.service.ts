@@ -20,4 +20,8 @@ export class GameService {
   public getGameById(gameId: string): Observable<Game2v2> {
     return this.cache.getCached<Game2v2>(`/game/${gameId}`);
   }
+
+  public getPublicGames(): Observable<Game2v2[]> {
+    return this.cache.getCached<Game2v2[]>("/game/public")
+  }
 }

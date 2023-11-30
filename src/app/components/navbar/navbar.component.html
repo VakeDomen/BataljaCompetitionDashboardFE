@@ -44,7 +44,7 @@
                 </span>
                 Team
             </a>
-            <a *ngIf="isLoggedIn() && isAdmin()" class="navbar-item navbar-item-center-icon" [ngClass]="{'is-active': activeTab==='games'}"
+            <a *ngIf="isLoggedIn()" class="navbar-item navbar-item-center-icon" [ngClass]="{'is-active': activeTab==='games'}"
                 (click)="activeTab='games'; tab.emit('games') ; toggleNavbar();" [routerLink]="['/games']"
                 routerLinkActive="router-link-active" >
                 <span class="file-icon">

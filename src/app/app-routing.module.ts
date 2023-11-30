@@ -9,6 +9,7 @@ import { AuthGuard } from './services/auth.guard';
 import { FrontComponent } from './pages/front/front.component';
 import { StatsComponent } from './pages/stats/stats.component';
 import { AdminGuard } from './services/admin.guard';
+import { PublicGamesComponent } from './pages/public-games/public-games.component';
 
 const routes: Routes = [
   {
@@ -42,6 +43,11 @@ const routes: Routes = [
     path: "stats/:competitionId",
     component: StatsComponent,
     canActivate: [AdminGuard],
+  },
+  {
+    path: "games",
+    component: PublicGamesComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'rules',

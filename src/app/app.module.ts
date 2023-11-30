@@ -29,6 +29,7 @@ import { WinRateChartComponent } from './components/charts/win-rate-chart/win-ra
 import { ScoreChartComponent } from './components/charts/score-chart/score-chart.component';
 import { RoundTableComponent } from './components/round-table/round-table.component';
 import { GameChartsPanelComponent } from './components/game-charts-panel/game-charts-panel.component';
+import { PublicGamesComponent } from './pages/public-games/public-games.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { GameChartsPanelComponent } from './components/game-charts-panel/game-ch
     ScoreChartComponent,
     RoundTableComponent,
     GameChartsPanelComponent,
+    PublicGamesComponent,
   ],
   imports: [
     BrowserModule,
