@@ -9,7 +9,6 @@ import { Team } from '../models/team.model';
   providedIn: 'root'
 })
 export class TeamService {
-  
 
   private apiUrl = environment.apiUrl;
   
@@ -26,9 +25,9 @@ export class TeamService {
     return this.cache.getCached<Team[]>(`/team/all/${competitionId}`);
   }
 
-  public createTeam(owner: string, competitionId: string): Observable<Team> {
+  public createTeam(owner: string, competitionId: string, name: string): Observable<Team> {
     this.cache.clearCache("/team");
-    return this.http.post<Team>(`${this.apiUrl}/team`, { owner: owner, competition_id: competitionId });
+    return this.http.post<Team>(`${this.apiUrl}/team`, { owner: owner, competition_id: competitionId, name: name });
   }
 
   public joinTeam(teamId: string): Observable<undefined> {
@@ -50,6 +49,12 @@ export class TeamService {
     this.cache.clearCache("/team");
     return this.http.post<undefined>(`${this.apiUrl}/team/disband`, { team_id: teamId });
   }
+
+  public renameTeam(competitionId: string, newName: string): Observable<Team> {
+    this.cache.clearCache("/team")
+    return this.http.post<Team>(`${this.apiUrl}/team/name`, { competition_id: competitionId, name: newName })
+  }
+  
 
   public async hasTeamForCompetition(id: string): Promise<boolean> {
     const teams = await lastValueFrom(this.getTeams())

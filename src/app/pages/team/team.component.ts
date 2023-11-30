@@ -43,6 +43,8 @@ export class TeamComponent implements OnInit {
   public openSubmissionAccordion: string | undefined;
   public tabOpen: 'overall' | 'games' | 'bots' = 'overall';
   public confirmationModalOpen: boolean = false;
+  public renameModalOpen: boolean = false;
+  public newName: string = "";
   public bot1Id: string = "";
   public bot2Id: string = "";
 
@@ -344,6 +346,16 @@ export class TeamComponent implements OnInit {
     } else {
       this.leaveTeam();
     }
+  }
+
+  public confimRenameModal(): void {
+    if (!this.newName) {
+      this.toastr.error("Enter new name");
+    }
+    this.teamService.renameTeam(this.competitionId, this.newName).subscribe((t: Team) => {
+      this.team = t;
+      this.renameModalOpen = false;
+    });
   }
 
   // ########################### MODAL END ###########################

@@ -21,9 +21,11 @@ export class CompetitionCardComponent implements OnChanges {
   @Input() public teamCounts: CompetitionTeamCounts = {};
 
   public joinTeamCode: string = "";
+  public createTeamName: string = "";
 
   public hasTeam: boolean = false;
   public joinModalOpen: boolean = false;
+  public createModalOpen: boolean = false;
 
   constructor(
     private auth: AuthService,
@@ -77,11 +79,16 @@ export class CompetitionCardComponent implements OnChanges {
   }
 
   public createTeam(): void {
+    if (!this.createTeamName) {
+      this.toastr.error("Enter team name");
+      return
+    }
+
     const competitionId = this.competition?.id
     this.userService.getMe().subscribe((me: User) => {
       const owner = me.id;
       if (!!competitionId && !!owner) {
-        this.teamService.createTeam(owner, competitionId).subscribe((t: Team) => {
+        this.teamService.createTeam(owner, competitionId, this.createTeamName).subscribe((t: Team) => {
           this.toastr.success("Team Created");
           this.routeToTeam()
         }, () => {

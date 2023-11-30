@@ -19,7 +19,15 @@
     <!-- TEAM INFO -->
     <div class="mb-5">
         <div class="is-size-5 is-size-6-mobile">
-            <i class="icon fas fa-user mr-3 is-color-primary"></i>
+            <i class="icon fas fa-users mr-3 is-color-primary"></i>
+            <strong class="is-color-primary">Name:</strong>
+            {{ team?.name }}
+
+            <i class="fas fa-user-edit ml-1 hoverable is-color-accent p-1" (click)="renameModalOpen=true"></i>
+        </div>
+        
+        <div class="is-size-5 is-size-6-mobile">
+            <i class="icon fas fa-crown mr-3 is-color-primary"></i>
             <strong class="is-color-primary">Owner:</strong>
             {{ ownerName() }}
         </div>
@@ -209,4 +217,29 @@
         </div>
       </footer>
     </div>
-  </div>
+</div>
+
+
+<!-- RENAME TEAM MODAL -->
+<div class="modal" [ngClass]="{ 'is-active': renameModalOpen }">
+    <div class="modal-background" (click)="renameModalOpen = false"></div>
+    <div class="modal-card">
+      <header class="modal-card-head is-background-color-dark">
+        <p class="modal-card-title is-color-text-gray">Enter new name:</p>
+        <button class="delete" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body is-background-color-gray">
+        <input class="input" type="text" [(ngModel)]="newName">
+      </section>
+      <footer class="modal-card-foot is-background-color-gray">
+        <div class="level has-text-centered-mobile is-fullwidth">
+            <div class="level-item">
+                <button class="button is-primary" (click)="confimRenameModal()">Change</button>
+            </div>
+            <div class="level-item">
+                <button class="button is-danger" (click)="renameModalOpen = false">..or don't</button>
+            </div>
+        </div>
+      </footer>
+    </div>
+</div>

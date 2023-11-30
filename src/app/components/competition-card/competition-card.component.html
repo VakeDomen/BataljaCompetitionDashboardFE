@@ -14,7 +14,7 @@
             <button class="button is-primary mr-2" (click)="routeToTeam()">My Team</button>
         </div>
         <div class="level-right has-text-centered" *ngIf="isLogged() && !hasTeam && isCompetitionRunning()">
-            <button class="button is-primary is-outlined mr-2" (click)="createTeam()">Create Team</button>
+            <button class="button is-primary is-outlined mr-2" (click)="createModalOpen = true">Create Team</button>
             <button class="button is-primary is-outlined" (click)="joinModalOpen = true">Join Team</button>
         </div>
     </div>
@@ -51,7 +51,7 @@
     </div>
 </div>
 
-<!-- JOIN GAME MODAL -->
+<!-- JOIN TEAM MODAL -->
 <div class="modal" [ngClass]="{ 'is-active': joinModalOpen }">
     <div class="modal-background" (click)="joinModalOpen = false"></div>
     <div class="modal-card">
@@ -69,6 +69,30 @@
             </div>
             <div class="level-item">
                 <button class="button is-danger" (click)="joinModalOpen = false">Cancel</button>
+            </div>
+        </div>
+      </footer>
+    </div>
+</div>
+
+<!-- CREATE TEAM MODAL -->
+<div class="modal" [ngClass]="{ 'is-active': createModalOpen }">
+    <div class="modal-background" (click)="createModalOpen = false"></div>
+    <div class="modal-card">
+      <header class="modal-card-head is-background-color-dark">
+        <p class="modal-card-title is-color-text-gray">Enter team name:</p>
+        <button class="delete" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body is-background-color-gray">
+        <input class="input" type="text" [(ngModel)]="createTeamName">
+      </section>
+      <footer class="modal-card-foot is-background-color-gray">
+        <div class="level has-text-centered-mobile is-fullwidth">
+            <div class="level-item">
+                <button class="button is-primary" (click)="createTeam()">Join</button>
+            </div>
+            <div class="level-item">
+                <button class="button is-danger" (click)="createModalOpen = false">Cancel</button>
             </div>
         </div>
       </footer>

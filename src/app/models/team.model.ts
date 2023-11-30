@@ -1,5 +1,6 @@
 export interface Team {
     id: string,
+    name: string,
     owner: string,
     partner: string,
     competition_id: string,
