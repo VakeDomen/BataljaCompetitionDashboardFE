@@ -52,8 +52,25 @@
                         <div class="bounded-width mt-5 mb-5">                            
                             <div class="level has-text-centered-mobile">
                                 <div class="level-left">
-                                    <h1 *ngIf="isGameWon(game)" class="is-size-3 is-green">Victory ({{ isTeam1(game) ? "Team 1" : "Team 2" }})</h1>
-                                    <h1 *ngIf="!isGameWon(game)" class="is-size-3 is-red">Loss ({{ isTeam1(game) ? "Team 1" : "Team 2" }})</h1>
+                                    <div>
+                                        <div class="titles">
+                                            <h1 *ngIf="isGameWon(game)" class="is-size-3 is-green">Victory ({{ isTeam1(game) ? "Team 1" : "Team 2" }})</h1>
+                                            <h1 *ngIf="!isGameWon(game)" class="is-size-3 is-red">Loss ({{ isTeam1(game) ? "Team 1" : "Team 2" }})</h1>
+                                        </div>
+                                        <div class="public-game-switches">
+                                            <div class="field">
+                                                <input 
+                                                    id="switchColorDefault" 
+                                                    type="checkbox" 
+                                                    name="switchThinColorDefault" 
+                                                    class="switch is-primary" 
+                                                    [(ngModel)]="game.public"
+                                                    (change)="togglePublic(game)"
+                                                >
+                                                <label for="switchColorDefault">make game public :)</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="level-right">
                                     <button class="button is-primary" (click)="gameToPlay = game ; openVideoModal = true">Replay</button>

@@ -1,8 +1,10 @@
 import { Component, Input, OnChanges } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { Bot } from 'src/app/models/bot.model';
 import { Game2v2 } from 'src/app/models/game.model';
 import { GameAdditionalData } from 'src/app/models/game.stats';
 import { Team } from 'src/app/models/team.model';
+import { GameService } from 'src/app/services/game.service';
 
 export type BotSelector = 'my1' | 'my2' | 'e1' | 'e2';
 
@@ -20,6 +22,11 @@ export class RoundTableComponent implements OnChanges {
   public openVideoModal: boolean = false;
   public gameToPlay: Game2v2 | undefined;
   public gameDetailsOpened: Game2v2 | undefined;
+
+  constructor(
+    private gameService: GameService,
+    private toastr: ToastrService,
+  ) { }
 
   ngOnChanges() {
     console.log(this.games);
@@ -189,5 +196,11 @@ export class RoundTableComponent implements OnChanges {
     } else {
       return JSON.parse(game.additional_data).error;
     }
+  }
+
+  public togglePublic(game: Game2v2): void {
+    this.gameService.toggleGamePublic(game.id).subscribe(() => {
+      this.toastr.success("Game toggled");
+    })
   }
 }

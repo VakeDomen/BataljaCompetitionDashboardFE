@@ -10,7 +10,7 @@ import { Game2v2 } from '../models/game.model';
 })
 export class GameService {
   
-  private apiUrl = environment.apiUrl + '/competition';
+  private apiUrl = environment.apiUrl;
   
   constructor(
     private http: HttpClient,
@@ -23,5 +23,9 @@ export class GameService {
 
   public getPublicGames(): Observable<Game2v2[]> {
     return this.cache.getCached<Game2v2[]>("/game/public")
+  }
+
+  public toggleGamePublic(gameId: string): Observable<undefined> {
+    return this.http.post<undefined>(`${this.apiUrl}/game/public/${gameId}`, {});
   }
 }
