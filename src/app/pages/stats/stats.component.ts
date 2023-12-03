@@ -161,6 +161,14 @@ export class StatsComponent implements OnInit {
   public unselectOwner() {
     this.hoveredBotOwner = undefined
   }
+
+  public selectTeam(team: Team) {
+    this.hoveredBotOwner = team;
+  }
+
+  public navigate(team: Team): void {
+    this.router.navigate(["team", team.competition_id, team.id]);
+  }
 }
 
 

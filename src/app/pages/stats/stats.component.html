@@ -16,6 +16,9 @@
             <tr 
                 *ngFor="let team of teams"
                 [ngClass]="{ 'glow': team == hoveredBotOwner }"    
+                (click)="navigate(team)"
+                (mouseenter)="selectTeam(team)"
+                (mouseleave)="unselectOwner()"    
             >
                 <td>{{ team.id }}</td>
                 <td>{{ getPlayerName(team, "owner")}}</td>
@@ -41,6 +44,7 @@
             <tr 
                 class="hoverglow"
                 *ngFor="let bot of getLatestBots()" 
+                [ngClass]="{ 'glow': bot.team_id == hoveredBotOwner?.id }"  
                 (mouseenter)="selectOwner(bot)"
                 (mouseleave)="unselectOwner()"    
             >

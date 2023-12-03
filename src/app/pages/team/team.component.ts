@@ -9,6 +9,7 @@ import { Rounds } from 'src/app/models/competition.rounds';
 import { Game2v2 } from 'src/app/models/game.model';
 import { Team } from 'src/app/models/team.model';
 import { User } from 'src/app/models/user.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { BotService } from 'src/app/services/bot.service';
 import { CompetitionService } from 'src/app/services/competition.service';
 import { GameService } from 'src/app/services/game.service';
@@ -36,6 +37,8 @@ export class TeamComponent implements OnInit {
   public roundGames: Game2v2[] = [];
   public roundSelected: string | undefined;
 
+
+  public teamId: string | undefined;
   
   // DISPLAY VARS
   public pageIsReady: boolean = false;
@@ -57,6 +60,7 @@ export class TeamComponent implements OnInit {
     private toastr: ToastrService,
     private botService: BotService,
     private gameService: GameService,
+    private authService: AuthService,
   ) {
     this.competitionId = "";
     this.fixRoute()
@@ -69,6 +73,7 @@ export class TeamComponent implements OnInit {
   private fixRoute() {
     this.route.paramMap.subscribe((params: ParamMap) => {
       let id = params.get('competitionId');
+      this.teamId = params.get('teamId') ?? undefined;
 
       // if everything is fine, load the page
       if (id) {
@@ -76,6 +81,8 @@ export class TeamComponent implements OnInit {
         this.fetchData();
         return
       }
+
+
 
       // otherwise reroute
       this.teamService.getTeams().subscribe((teams: Team[]) => {
@@ -164,7 +171,11 @@ export class TeamComponent implements OnInit {
       this.router.navigate(["competitions"]);
       return;
     }
-    if (this.team && (this.team.owner != user.id && this.team.partner != user.id)) {
+    if (
+      this.team && 
+      (this.team.owner != user.id && this.team.partner != user.id) &&
+      !this.authService.isAdmin()
+    ) {
       this.router.navigate(["competitions"]);
       return;
     }
@@ -172,12 +183,12 @@ export class TeamComponent implements OnInit {
     // get owner/parner...the other guy in the team
     if (this.team.owner == user.id) {
       this.owner = user;
-      if (this.team.partner != "") {
-        this.partner = await lastValueFrom(this.userService.getUserById(this.team.partner));
-      }
     } else {
-      this.owner = await lastValueFrom(this.userService.getUserById(this.team.owner));;
-      this.partner = user;
+      this.owner = await lastValueFrom(this.userService.getUserById(this.team.owner));
+    }
+
+    if (this.team.partner != "") {
+      this.partner = await lastValueFrom(this.userService.getUserById(this.team.partner));
     }
 
     this.player = user;
@@ -197,7 +208,12 @@ export class TeamComponent implements OnInit {
   }
 
   private async fetchTeam(): Promise<void> {
-    const teams = await lastValueFrom(this.teamService.getTeams());
+    let teams;
+    if (!this.teamId) {
+      teams = await lastValueFrom(this.teamService.getTeams());
+    } else {
+      teams = [await lastValueFrom(this.teamService.getTeamById(this.teamId))];
+    }
     if (!teams || !teams.length) {
       this.router.navigate(["competitions"]);
     }

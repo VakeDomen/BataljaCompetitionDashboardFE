@@ -4,10 +4,10 @@
     <div class="has-text-centered-mobile">
 
         <h1 class="title is-3">
-            <i *ngIf="team1Won()" class="fas fa-crown is-color-yellow"></i>
+            <i *ngIf="team1Won()" class="fas fa-crown is-color-yellow ml-2"></i>
             {{ getTeamName(1) }} 
             <span class="is-color-text-gray is-size-5">VS</span> 
-            <i *ngIf="!team1Won()" class="fas fa-crown is-color-yellow"></i>
+            <i *ngIf="!team1Won()" class="fas fa-crown is-color-yellow ml-2"></i>
             {{ getTeamName(2) }}
         </h1>
     </div>

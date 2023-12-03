@@ -35,6 +35,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'team/:competitionId/:teamId',
+    component: TeamComponent,
+    canActivate: [AdminGuard],
+  },
+  {
     path: "stats",
     component: StatsComponent,
     canActivate: [AdminGuard],
