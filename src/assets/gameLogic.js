@@ -17,7 +17,7 @@ function initializeGame(canvasId, gameLog, mode="file") {
     let previousState = {};
     let animationFrameRef = {};
     const cyanPlanetImage = new Image();
-    const magentaPlanetImage = new Image();
+    const bluePlanetImage = new Image();
     const toxicPlanetImage = new Image();
     const yellowPlanetImage = new Image();
     const neutralPlanetImage = new Image();
@@ -25,25 +25,25 @@ function initializeGame(canvasId, gameLog, mode="file") {
     
     const planetScale = 150;
     const imageMap = {
-        "red": magentaPlanetImage,
-        "blue": toxicPlanetImage,
+        "blue": bluePlanetImage,
+        "green": toxicPlanetImage,
         "yellow": yellowPlanetImage,
-        "green": cyanPlanetImage,
+        "cyan": cyanPlanetImage,
         "null": neutralPlanetImage
     };
 
     const colorMap = {
-        "red": "#576cff",
-        "green": "#00aad9",
-        "blue": "#a8c70c",
+        "blue": "#576cff",
+        "cyan": "#00aad9",
+        "green": "#a8c70c",
         "yellow": "#ffe700",
         "team1": "#2C8BEC",
         "team2": "#D2B206"
     }
     const textColors = {
-        "red": "#E0E0E0", // Light gray text for "#576cff" background
-        "green": "#202020", // Dark gray text for "#00aad9" background
-        "blue": "#202020", // Dark gray text for "#a8c70c" background
+        "blue": "#E0E0E0", // Light gray text for "#576cff" background
+        "cyan": "#202020", // Dark gray text for "#00aad9" background
+        "green": "#202020", // Dark gray text for "#a8c70c" background
         "yellow": "#202020", // Dark gray text for "#fc9d00" background
         "team1": "#E0E0E0", // Light gray text for "#2C8BEC" background
         "team2": "#202020",  // Dark gray text for "#D2B206" background
@@ -65,7 +65,7 @@ function initializeGame(canvasId, gameLog, mode="file") {
 
     function init() {
         cyanPlanetImage.src = 'assets/Cyan.png';
-        magentaPlanetImage.src = 'assets/Blue.png';
+        bluePlanetImage.src = 'assets/Blue.png';
         toxicPlanetImage.src = 'assets/Toxic.png';
         yellowPlanetImage.src = 'assets/Yellow.png';
         neutralPlanetImage.src = 'assets/Grey.png';
@@ -141,21 +141,21 @@ function initializeGame(canvasId, gameLog, mode="file") {
 
         // team 1 player 1
         const sideBarWidth =  width *0.01;
-        const leftTpos = translateCoordinates(0,height - (height * state.scores.get("red").relative));
+        const leftTpos = translateCoordinates(0,height - (height * state.scores.get("blue").relative));
         const rightBpos = translateCoordinates(sideBarWidth,height);
-        ctx.fillStyle = colorMap["red"];
+        ctx.fillStyle = colorMap["blue"];
         ctx.fillRect(leftTpos.x,leftTpos.y,rightBpos.x,rightBpos.y);
 
         // team 1 player 2
-        const leftTpos2 = translateCoordinates(sideBarWidth,height - (height * state.scores.get("green").relative));
+        const leftTpos2 = translateCoordinates(sideBarWidth,height - (height * state.scores.get("cyan").relative));
         const rightBpos2 = translateCoordinates(sideBarWidth,height);
-        ctx.fillStyle = colorMap["green"];
+        ctx.fillStyle = colorMap["cyan"];
         ctx.fillRect(leftTpos2.x,leftTpos2.y,rightBpos2.x,rightBpos2.y);
 
         // team 2 player 1
-        const leftTpos3 = translateCoordinates(width - sideBarWidth,height - (height * state.scores.get("blue").relative));
+        const leftTpos3 = translateCoordinates(width - sideBarWidth,height - (height * state.scores.get("green").relative));
         const rightBpos3 = translateCoordinates(sideBarWidth,height);
-        ctx.fillStyle = colorMap["blue"];
+        ctx.fillStyle = colorMap["green"];
         ctx.fillRect(leftTpos3.x,leftTpos3.y,rightBpos3.x,rightBpos3.y);
 
         // team 2 player 2
@@ -479,14 +479,14 @@ function renderFleets(ctx, state, currentTime) {
                         max = Math.max(max, value.absolute);
                     }
                     for(const [key,value] of scores){
-                        if(key == "red" || key =="green"){
+                        if(key == "blue" || key =="cyan"){
                             team1 += value.absolute;
                         }else{
                             team2 += value.absolute;
                         }                    
                     }
                     for (const [key, value] of scores) {
-                        if (key == "red" || key == "green") {
+                        if (key == "blue" || key == "cyan") {
                             scores.set(key,{absolute: value.absolute, relative: value.absolute/(team1 + team2)});
                         } else {
                             scores.set(key,{absolute: value.absolute, relative: value.absolute/(team1 + team2)});
