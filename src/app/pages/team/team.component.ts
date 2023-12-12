@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { Gtag } from 'angular-gtag';
 import { ToastrService } from 'ngx-toastr';
 import { lastValueFrom } from 'rxjs';
 import { Bot } from 'src/app/models/bot.model';
@@ -89,7 +90,7 @@ export class TeamComponent implements OnInit {
         if (!teams.length) {
           this.router.navigate(["competitions"]);
         } else {
-          this.router.navigate(["team", teams[0].competition_id]);
+          this.router.navigate(["team", teams[teams.length - 1].competition_id]);
         }
       })
     }

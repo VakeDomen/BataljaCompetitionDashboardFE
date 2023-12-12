@@ -31,6 +31,7 @@ import { RoundTableComponent } from './components/round-table/round-table.compon
 import { GameChartsPanelComponent } from './components/game-charts-panel/game-charts-panel.component';
 import { PublicGamesComponent } from './pages/public-games/public-games.component';
 import { PublicGameCardComponent } from './components/public-game-card/public-game-card.component';
+import { GtagModule } from 'angular-gtag';
 
 @NgModule({
   declarations: [

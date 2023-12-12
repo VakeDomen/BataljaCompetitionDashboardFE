@@ -20,9 +20,9 @@
             <p><strong>The game is over when:</strong></p>
             <ul>
                 <li>A team's entire fleet is assimilated by the collective (run out of fleets and planets)</li>
-                <li>A player takes more then 100ms to produce a move</li>
+                <li>A player takes more then 100ms to produce a move (player timeout)</li>
                 <li>A player's move is invalid</li>
-                <li>The game takes too long - timeout</li>
+                <li>The game takes too long (game timeout)</li>
             </ul>
         </div>
         <!-- In the following sections you can read about:
@@ -45,6 +45,7 @@
             <p>
                 The competition is structured into two phases, namely development phase, and tournament phase.
             </p>
+            <p class="title is-4">Development phase</p>
             <p>
                 In the development phase players play the game in an automatic hidden tournament. At this time 
                 players are ment to develop their bots and match them against each other. Perioidcally, all
@@ -73,9 +74,12 @@
                 Pack contains <code>Evaluator.jar</code> and a sample player <code>Player.java</code> that just 
                 does random attacks. <br>
             </p>
-
-            After the development phase ends, a tournament will be announced in which players will be ranked by playing
-            amongst each other.<br />
+            <p class="title is-4">Tournament phase</p>
+            <p>
+                After the development phase ends, a tournament will be announced. The tournament is a one time event 
+                that will be held on FAMNIT in which players will be ranked by playing amongst each other. At the event
+                the winners of competition will be announced.<br />
+            </p>
 
         </div>
     </div>
@@ -91,9 +95,9 @@
         <div class="content">
             <p>This year, Batalja Spaciale introduces a 2v2 bot format. Here's what's new and what you need to know:</p>
             
-            <p class="title is-4  is-color-text-gray">Team Composition</p>
+            <p class="title is-4">Team Composition</p>
             <p>Teams can now consist of UP TO two players. You have the choice to compete alone using two bots or pair 
-                up with another player. ></p>
+                up with another player.</p>
         
             <p class="title is-4">Bot Selection Strategy</p>
             <p>Each match will be a 2v2 battle, where you must select two bots to represent your team. These can be 
@@ -121,13 +125,13 @@
             <p>The game-pack can be downloaded from the <code>competitions</code> tab. Extract the zip file to
             the desired location on your computer. The folder should contain 2 files:</p>
             <ul>
-                <li>Evaluator.jar (the game)</li>
+                <li>Game.jar (the game)</li>
                 <li>Player.java (a sample player)</li>
             </ul>
             <p>Open the terminal on your location.</p>
             <pre>
 $ ls
-Evaluator.jar
+Game.jar
 Player.java</pre>
 
 
@@ -163,7 +167,7 @@ $ cp Player.java Player3/
 $ cp Player.java Player4/</pre>
             
             <p class="is-size-4"><strong>Step 4: Compile all the players</strong></p>
-            <p>For the game to be run, all the players have to be compiled first. With this the <code>*.class</code> files will
+            <p>For the game to be run, all the players have to be compiled first. By running the below commands (compiling) the <code>*.class</code> files will
             appear in the folder.</p>
             <pre>
 $ javac Player1/*.java
@@ -171,19 +175,19 @@ $ javac Player2/*.java
 $ javac Player3/*.java
 $ javac Player4/*.java</pre>
             <p class="is-size-4"><strong>Step 5: Run the game</strong></p>
-
             <p>
-                The game is ran by running the <code>Evaluator.jar</code>. This is "the game" jar.
+                The game is ran by running the <code>Game.jar</code>. The jar contains the code for the Batalja Spaciale game.
+                and will be the main program, that we run.
             </p>
-            <pre>java -jar Evaluator.jar Player1 Player2 Player3 Player4</pre>
+            <pre>java -jar Game.jar Player1 Player2 Player3 Player4</pre>
             <p>Note that the <code>Player1</code>, <code>Player2</code>, <code>Player3</code> and <code>Player4</code>
             are names of folders. So in the future when you make new bots you may name them watever you want (the name
-            of the folder)</p>
+            of the folder) and specify them here. The arguments can also be a path to the folder.</p>
             
             <p>Final directory structure:
             <pre>
 dir
-|--Evaluator.jar
+|--Game.jar
 |--Player.java
 |--Player1
 |     |--Player.class
@@ -201,6 +205,17 @@ dir
         |--Player.class
         |--Player.java
         </pre>
+        <p class="is-size-4 is-color-primary"><strong>*No GUI</strong></p>
+
+        <p>
+            We know that some of you may be running the games automatically, using scripts and parsing the game log to 
+            determine who won. The game ends faster if you don't run the gui of the game, since the gui is a slowed down
+            version of the game.
+        </p>
+        <p>
+            If you don't want to run the game with GUI enabled, run the following command instead:
+        </p>
+        <pre>java -jar Game.jar --gui=false Player1 Player2 Player3 Player4</pre>
         </div>
     </div>
 
@@ -214,51 +229,67 @@ dir
         </h2>
         <div class="content">
             A player must be a standard java program, that uses the standard input and standard output to communicate
-            with
-            the
-            game.<br />
-            The player's main method must be in the file named Player.java - without the use of packages, jars, etc.
+            with the game. The player's main method must be in the file named Player.java - without the use of packages, jars, etc.
+            The communication is already programed for you, if you use the sample random player provided in the 
+            game pack.
             <br />
-            A player <strong>MUST NOT</strong>:
+            Things to note about communication with the game:
+            <ul>
+                <li>
+                    Methods <code>System.out.print</code> or <code>System.out.println</code> are used to send a message to the game
+                    and should not be used for debugging.
+                </li>
+                <li>
+                    Each turn the game will send all the players the current state of the game using <code>System.in</code>. The code for 
+                    reading the messages from the game is already implemented for you in the <code>getGameState</code> method of the provided
+                    bot. The code goes through all the lines (messages) sent to the bot by the game BUT the provided player does not fully parse
+                    all the lines that it reads, so you should improve the given code.
+                </li>
+                <li>
+                    For debugging (since you should not use) <code>System.out.println</code> you were provided with a method <code>logToFile</code>,
+                    that will write any string to a <code>Player.log</code> file when the player plays a game.
+                </li>
+            </ul>
+            
+            <br />
+            A player <strong class="is-color-primary">MUST NOT</strong>:
 
             <ul>
                 <li>use the network</li>
                 <li>access (not even read) the filesystem outside of its directory</li>
-                <li>run system commands</li>
+                <li>run system commands (appart from <code>System.out.println</code> for talking to the game)</li>
+                <li>be a copy of another team's player</li>
                 <li>try to win the game by any other means then the commands outlined below</li>
-                <li>be a copy of another player :)</li>
                 <li></li>
                 <li></li>
                 <li></li>
                 <li>The above lines will be filled if the need arises and will be enforced retroactively</li>
             </ul>
-
-
-            Commands that a player sends to the game are in the form:
-            <pre>&lt;command&gt; &lt;parameters&gt;</pre>
         </div>
 
         <br>
-        <h3 class="title is-4">All available commands: </h3>
+        <h3 class="title is-4">All commands sent by the game: </h3>
 
 
         <div class="table-container">
-            <table id="ukazi" class="table is-striped">
+            <table id="ukazi" class="table is-striped is-fullwidth">
                 <tr>
-                    <th>command</th>
-                    <th>parameters</th>
-                    <th>description</th>
-                    <th>sender</th>
+                    <th>Command</th>
+                    <th>Parameters</th>
+                    <th>Description</th>
+                    <th>Example</th>
                 </tr>
                 <tr>
                     <td><code>U</code></td>
-                    <td>&lt;int&gt;,&lt;int&gt;,&lt;string&gt;</td>
-                    <td class='opis'>Universe - size (x in y) playing field (allways 100,100), and your color</td>
-                    <td>game</td>
+                    <td>&lt;int&gt; &lt;int&gt; &lt;string&gt;</td>
+                    <td class='opis'>Universe - size (x in y) of the playing field, and your color. This command is
+                        sent the first turn only.
+                    </td>
+                    <td>U 200 200 green</td>
                 </tr>
                 <tr>
                     <td><code>P</code></td>
-                    <td>&lt;int&gt;,&lt;int&gt;,&lt;int&gt;,&lt;float&gt;,&lt;int&gt;,&lt;string&gt;</td>
+                    <td>&lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;float&gt; &lt;int&gt; &lt;string&gt;</td>
                     <td class='opis'>
                         Planet: <br>
                         - name (number),<br>
@@ -266,12 +297,12 @@ dir
                         - position y,<br>
                         - planet size,<br>
                         - fleet size,<br>
-                        - planet color (red, blue or null)</td>
-                    <td>game</td>
+                        - planet color (owner - may be null for neutral)</td>
+                    <td>P 0 51 80 1.0 100 green</td>
                 </tr>
                 <tr>
                     <td><code>F</code></td>
-                    <td>&lt;int&gt;,&lt;int&gt;,&lt;int&gt;,&lt;int&gt;,&lt;int&gt;,&lt;int&gt;</td>
+                    <td>&lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;string&gt;</td>
                     <td class='opis'>
                         Fleet: <br>
                         - flee name (number),<br>
@@ -279,102 +310,155 @@ dir
                         - origin planet<br>
                         - destination planet<br>
                         - current turn<br>
-                        - number of needed turns
+                        - number of needed turns<br>
+                        - planet color (owner - may be null for neutral)
                     </td>
-                    <td>game</td>
+                    <td>F 0 50 0 17 3 52 green</td>
+                </tr>
+                <tr>
+                    <td><code>M</code></td>
+                    <td>&lt;string&gt;</td>
+                    <td class='opis'>Message: Any bot messages that were sent to you the previous turn. The messages are 
+                        only passed between bots in the same team. 
+                    </td>
+                    <td>M Hello</td>
                 </tr>
                 <tr>
                     <td><code>S</code></td>
                     <td>-</td>
-                    <td class='opis'>Start - when a player receives this command from the game, it must answer with a
-                        series
-                        of
-                        <code>A</code>, followed by an <code>E</code>
+                    <td class='opis'>Start - when a player receives this command from the game, It's an indicator 
+                        that the game has nothing more to say and the player should start the turn.
                     </td>
-                    <td>game</td>
-                </tr>
-                <tr>
-                    <td><code>A</code></td>
-                    <td>&lt;int&gt;,&lt;int&gt;</td>
-                    <td class='opis'>Attack: <br> - origin planet<br> - destination planet</td>
-                    <td>player</td>
-                </tr>
-                <tr>
-                    <td><code>E</code></td>
-                    <td>-</td>
-                    <td class='opis'>Player sends at the end of an attack</td>
-                    <td>player</td>
+                    <td>S</td>
                 </tr>
                 <tr>
                     <td><code>L</code></td>
-                    <td>&lt;String&gt;</td>
-                    <td class='opis'>Player can send this command to forfeit the game, the parameters are displayed as
-                        the
-                        reason for forfeiting</td>
-                    <td>game, player</td>
+                    <td>&lt;string&gt; &lt;string&gt;</td>
+                    <td class='opis'>This command is sent when one of the players is dropped from the game. The player
+                        could be defeated/forfeited/bugged-out/... 
+                    </td>
+                    <td>L Player2 out_of_ships</td>
                 </tr>
             </table>
         </div>
 
-        <h3 class="title is-4">Example of a played game:</h3>
+        <h3 class="title is-4">All commands the bot can use: </h3>
+
+        <div class="table-container">
+            <table id="ukazi" class="table is-striped  is-fullwidth">
+                <tr>
+                    <th>Command</th>
+                    <th>Parameters</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+                <tr>
+                    <td><code>A</code></td>
+                    <td>&lt;int&gt; &lt;int&gt;</td>
+                    <td class='opis'>Attack: <br> - origin planet<br> - destination planet <br> The planets should be denoted by the 
+                        planet name/id. A player may send up to one attack command from each of his planets each turn. The amount 
+                        of troops sent will equal to the half of the army from the attacking planet.
+                    </td>
+                    <td>A 1 2</td>
+                </tr>
+                <tr>
+                    <td><code>A</code></td>
+                    <td>&lt;int&gt; &lt;int&gt; &lt;int&gt;</td>
+                    <td class='opis'>Attack: <br> - origin planet<br> - destination planet<br> - Amount of troops to send <br>
+                        Same attack command as before but specify the exact number of troops to send</td>
+                    <td>A 1 2 30</td>
+                </tr>
+                <tr>
+                    <td><code>M</code></td>
+                    <td>&lt;string&gt;</td>
+                    <td class='opis'>Message: You can send any string as the message. The message will be recieved by your
+                        teammate at the start of the next turn by the game's M command. Be careful not to pass multiline messages.
+                        You may send as many messages as you want each turn.
+                    </td>
+                    <td>M Hello</td>
+                </tr>
+                <tr>
+                    <td><code>E</code></td>
+                    <td>-</td>
+                    <td class='opis'>End of turn command. This command has to be sent by the bot every turn. 
+                        If it's not, after 100ms the game will assume the player timed-out.
+                    </td>
+                    <td>E</td>
+                </tr>
+            </table>
+        </div>
+
+        <h3 class="title is-4">Example of communication:</h3>
         <p>
         <table class="table is-striped is-fullwidth">
             <tr>
-                <th>game</th>
-                <th>player</th>
-                <th>explanation</th>
+                <th>Time Step</th>
+                <th>Game</th>
+                <th>Bot</th>
+                <th>Explanation</th>
             </tr>
             <tr>
-                <td>U 100 100 red</td>
+                <td>1</td>
+                <td>U 100 100 blue</td>
                 <td></td>
-                <td>The game sends the size of the playing field</td>
+                <td>The game sends the bot the size of the playing field</td>
             </tr>
             <tr>
-                <td>P 1 10 20 0.6 60 red</td>
+                <td>2</td>
+                <td>P 1 10 20 0.6 60 blue</td>
                 <td></td>
-                <td>The game sends the data for the first planet</td>
+                <td>The game sends the bot the data for the first planet</td>
             </tr>
             <tr>
-                <td>P 2 90 80 0.6 60 blue</td>
+                <td>3</td>
+                <td>P 2 90 80 0.6 60 green</td>
                 <td></td>
-                <td>The game sends the data for the second planet</td>
+                <td>The game sends the bot the data for the second planet</td>
             </tr>
             <tr>
+                <td>4</td>
                 <td>S</td>
                 <td></td>
-                <td>The game signals the player so it can start with its attacks</td>
+                <td>The game signals the bot so it can start with its attacks</td>
             </tr>
             <tr>
+                <td>5</td>
                 <td></td>
                 <td>A 1 2</td>
-                <td>Player attacks planet 2 from planet 1</td>
+                <td>Bot attacks planet 2 from planet 1</td>
             </tr>
             <tr>
+                <td>6</td>
                 <td></td>
                 <td>E</td>
-                <td>Player ends with the attacks</td>
+                <td>Bot ends the turn</td>
             </tr>
             <tr>
+                <td>7</td>
                 <td>P 1 10 20 0.6 36 red</td>
                 <td></td>
                 <td>The game sends the data for the first planet</td>
             </tr>
             <tr>
+                <td>8</td>
                 <td>P 2 90 80 0.6 66 blue</td>
                 <td></td>
                 <td>The game sends the data for the second planet</td>
             </tr>
             <tr>
+                <td>9</td>
                 <td>F 1 30 1 2 1 8</td>
                 <td></td>
-                <td>The game sends data about the fleet</td>
+                <td>The game sends data about a fleet (generated by the attack in step 5)</td>
             </tr>
             <tr>
+                <td>10</td>
                 <td>S</td>
                 <td></td>
                 <td>The game signals the player so it can start with its attacks</td>
             </tr>
             <tr>
+                <td>11</td>
                 <td>...</td>
                 <td>...</td>
                 <td></td>

@@ -5,6 +5,9 @@ import { UserService } from './services/user.service';
 import { User } from './models/user.model';
 import { Team } from './models/team.model';
 
+
+declare const gtag: Function;
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,11 +19,14 @@ export class AppComponent {
   constructor(
     private auth: AuthService,
     private teamService: TeamService,
-    private userService: UserService,    
+    private userService: UserService, 
   ) { 
+
+    gtag('event', 'page_view');
     if (this.auth.isLoggedIn()) {
       this.setupState()
     }
+    
   }
 
   public setupState(): void {    

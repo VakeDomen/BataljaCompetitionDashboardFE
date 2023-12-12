@@ -18,6 +18,7 @@
     "@angular/platform-browser": "^16.2.0",
     "@angular/platform-browser-dynamic": "^16.2.0",
     "@angular/router": "^16.2.0",
+    "angular-gtag": "^1.0.4",
     "apexcharts": "^3.32.0",
     "bulma": "^0.9.4",
     "bulma-accordion": "^2.0.1",
