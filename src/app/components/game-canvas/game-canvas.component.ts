@@ -52,7 +52,7 @@ export class GameCanvasComponent implements OnInit {
   runGame = (data: string) => {
 
     let lines = data.split("\n");
-    let parsed_data = lines[lines.length - 5 - 2];
+    let parsed_data = lines[lines.length - 5 - 1];
     console.log(lines);
     console.log(parsed_data);
 
