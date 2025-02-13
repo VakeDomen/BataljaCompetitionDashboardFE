@@ -57,6 +57,6 @@ export class GameCanvasComponent implements OnInit {
     console.log(parsed_data);
 
     
-    this.intervals = (window as any).gameLogic(parsed_data);
+    this.intervals = (window as any).setTurns(parsed_data);
   }
 }
