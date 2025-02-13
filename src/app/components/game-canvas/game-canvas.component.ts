@@ -50,6 +50,13 @@ export class GameCanvasComponent implements OnInit {
   }
 
   runGame = (data: string) => {
-    this.intervals = (window as any).initializeGame("canvas", data, "file");
+
+    let lines = data.split("\n");
+    let parsed_data = lines[lines.length - 5 - 2];
+    console.log(lines);
+    console.log(parsed_data);
+
+    
+    this.intervals = (window as any).gameLogic(parsed_data);
   }
 }

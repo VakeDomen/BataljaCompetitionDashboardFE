@@ -31,11 +31,14 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.sass"
+              "src/styles.sass",
+              "./../FTP/resources/game.css"
             ],
             "scripts": [
               "node_modules/apexcharts/dist/apexcharts.min.js",
-              "src/assets/gameLogic.js"
+              "./../FTP/resources/games/gameImp.js",
+              "./../FTP/resources/games/batalja.js",
+              "./../FTP/resources/game.js"
             ]
           },
           "configurations": {
@@ -109,5 +112,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
