@@ -16,4 +16,16 @@ export class RulesComponent implements OnInit {
     this.pageIsReady = true;
   }
 
+  toggleCollapse(section: any): void {
+
+    if (section.style.maxHeight) {
+      section.style.maxHeight = null
+      section.style.display = "none"
+    } else {
+      section.style.display = "inline"
+      section.style.maxHeight = section.scrollHeight + "px"
+    }
+
+  }
+
 }
