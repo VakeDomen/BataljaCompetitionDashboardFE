@@ -1,11 +1,11 @@
 <div id="game">
-        <div class="container" id="container" onmousemove="showControls()">
+        <div id="container" onmousemove="showControls()">
 
-            <table class="stats" id="stats"></table>
-            <div class="game-bar" id="game-bar"></div>
+            <table id="stats"></table>
+            <div id="game-bar"></div>
 
-            <div class="controls" id="controls" onmouseleave="showControls()" onmouseover="clearTimeout(hideControlsTimeout)">
-                <input class="range" id="progressBar" max="100" oninput="game.setTurn(parseInt(this.value))" type="range" value="0">
+            <div id="controls" onmouseleave="showControls()" onmouseover="clearTimeout(hideControlsTimeout)">
+                <input id="progressBar" max="100" oninput="game.setTurn(parseInt(this.value))" type="range" value="0">
                 <div class="controls-bottom">
                     <div class="controls-left">
                         <button class=".play-button control-button" id="playPauseBtn" onclick="this.textContent = game.pauseResume() ? '⏸️' : '▶️'">⏸️</button>
