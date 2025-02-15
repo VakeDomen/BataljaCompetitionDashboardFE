@@ -46,7 +46,10 @@
 <div class="modal" *ngIf="openVideoModal" [ngClass]="{
     'is-active': openVideoModal && game
 }">
-    <div class="modal-background" (click)="openVideoModal=false">
+    <div class="modal-background">
+        <div class="overlay">
+            <button class="button is-primary" (click)="openVideoModal = false">X</button>
+        </div>
         <div class="modal-card" *ngIf="game?.id" >
             <app-game-canvas class="full-height" [gameId]="game?.id ?? ''"></app-game-canvas>
         </div>
