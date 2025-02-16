@@ -86,9 +86,13 @@
 
 
                             <div *ngIf="gameDataContainsErrors(game)">
-                                <div *ngIf="(botCrashed(game, 'my1') || botCrashed(game, 'my2'))">
+                                <div *ngIf="(botCrashed(game, 'my1'))">
                                     <h1 class="is-size-5">Seems like one of your bots crashed :(</h1>
-                                    <p>{{ getCrashError(game) }}</p>
+                                    <code [innerHTML]="showBotError(game, 'my1')"></code>
+                                </div>
+                                <div *ngIf="(botCrashed(game, 'my2'))">
+                                    <h1 class="is-size-5">Seems like one of your bots crashed :(</h1>
+                                    <code [innerHTML]="showBotError(game, 'my2')"></code>
                                 </div>
                                 <div *ngIf="!(botCrashed(game, 'my1') || botCrashed(game, 'my2'))">
                                     <h1 class="is-size-5">Seems like one of your enemies crashed :D</h1>

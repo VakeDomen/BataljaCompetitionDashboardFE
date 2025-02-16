@@ -42,7 +42,12 @@ export class RoundTableComponent implements OnChanges {
 
   public gameDataContainsErrors(game: Game2v2): boolean  {
     const additionalData = JSON.parse(game.additional_data);
-    return Object.keys(additionalData).includes("error");
+    
+    return additionalData.team1bot1["error"] != null ||
+    additionalData.team1bot2["error"] != null ||
+    additionalData.team2bot1["error"] != null ||
+    additionalData.team2bot2["error"] != null
+
   }
 
   private getBotName(game: Game2v2, bot: BotSelector): string {
@@ -145,10 +150,7 @@ export class RoundTableComponent implements OnChanges {
   }
 
   public getAdditionalData(game: Game2v2): GameAdditionalData | undefined {
-    if (!this.gameDataContainsErrors(game)) {
       return JSON.parse(game.additional_data) as GameAdditionalData;
-    }
-    return undefined;
   }
 
   public toggleGame(game: Game2v2): void {
@@ -164,14 +166,15 @@ export class RoundTableComponent implements OnChanges {
     if (!this.gameDataContainsErrors(game)) {
       return false;
     }
-    return this.getBotId(game, bot) == JSON.parse(game.additional_data)["blame_id"];
+
+    return JSON.parse(game.additional_data)[this.getBotDataKey(game, bot)]["error"] != null
   }
   
   public botTimedout(game: Game2v2, bot: BotSelector): boolean {
     if (this.gameDataContainsErrors(game)) {
       return false;
     }
-    return JSON.parse(game.additional_data)[this.getBotDataKey(game, bot)]["turns_played"] == 1000;
+    return JSON.parse(game.additional_data)[this.getBotDataKey(game, bot)]["reasonForDeath"] == "time";
   }
 
   private getBotDataKey(game: Game2v2,bot: BotSelector): string {
@@ -203,4 +206,16 @@ export class RoundTableComponent implements OnChanges {
       this.toastr.success("Game toggled");
     })
   }
+  public showBotError(game: Game2v2, bot: BotSelector): string {
+
+    if (!this.gameDataContainsErrors(game)) {
+      return "Unknown Error"
+    }
+    let error = JSON.parse(game.additional_data)[this.getBotDataKey(game,bot)]["error"].replace(/\\n/g, "<br>").replace(/\\t/g, "   ")
+    console.log(error)
+
+    return error
+  }
 }
+
+
