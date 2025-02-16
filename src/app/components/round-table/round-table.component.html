@@ -78,11 +78,11 @@
                             </div>
                             <div *ngIf="gameDataContainsErrors(game)">
                                 <div *ngIf="(botCrashed(game, 'my1'))">
-                                    <h1 class="is-size-5">Seems like one of your bots crashed :(</h1>
+                                    <h1 class="is-size-5">Seems like your first bot: "{{ getBotLabel(game, "my1") }}" crashed:</h1>
                                     <code [innerHTML]="showBotError(game, 'my1')"></code>
                                 </div>
                                 <div *ngIf="(botCrashed(game, 'my2'))">
-                                    <h1 class="is-size-5">Seems like one of your bots crashed :(</h1>
+                                    <h1 class="is-size-5">Seems like your second bot: "{{ getBotLabel(game, "my2") }}" crashed:</h1>
                                     <code [innerHTML]="showBotError(game, 'my2')"></code>
                                 </div>
                                 <div *ngIf="!(botCrashed(game, 'my1') || botCrashed(game, 'my2'))">
