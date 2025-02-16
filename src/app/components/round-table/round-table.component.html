@@ -76,15 +76,6 @@
                                     <button class="button is-primary" (click)="gameToPlay = game ; openVideoModal = true">Replay</button>
                                 </div>
                             </div>
-                            <app-game-charts-panel 
-                                *ngIf="!gameDataContainsErrors(game)"
-                                [team]="team" 
-                                [gameData]="getAdditionalData(game)"
-                                [bots]="bots"
-                                [game]="game"    
-                            ></app-game-charts-panel>
-
-
                             <div *ngIf="gameDataContainsErrors(game)">
                                 <div *ngIf="(botCrashed(game, 'my1'))">
                                     <h1 class="is-size-5">Seems like one of your bots crashed :(</h1>
@@ -99,6 +90,14 @@
                                     <p>Cool...free wins!</p>
                                 </div>
                             </div>
+                            <hr>
+                             <app-game-charts-panel 
+                                [team]="team" 
+                                [gameData]="getAdditionalData(game)"
+                                [bots]="bots"
+                                [game]="game"
+                                [gameLog]="getGameLog(game)"
+                            ></app-game-charts-panel>
                         </div>
                     </td>
                 </tr>
