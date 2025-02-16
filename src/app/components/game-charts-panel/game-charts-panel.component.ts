@@ -47,33 +47,32 @@ export class GameChartsPanelComponent {
 
 
       this.generalCharts = [
-        "turns_played",
-        "total_troops_generated",
-        "fleet_generated",
-        "num_fleet_generated",
+        "turnsPlayed",
+        "fleetGenerated",
+        "numFleetGenerated",
+        "owningPlanets",
       ].map((m: string) => this.generateConfig(m))
       .filter((chartConfig): chartConfig is ChartOptions => chartConfig !== undefined);;
 
       this.lossesCharts = [
-        "fleet_lost",
-        "num_fleet_lost",
-        "largest_loss",
-        "planets_lost",
+        "fleetLost",
+        "numFleetLost",
+        "largestLoss",
+        "planetsLost",
       ].map((m: string) => this.generateConfig(m))
       .filter((chartConfig): chartConfig is ChartOptions => chartConfig !== undefined);;
 
       this.defenseCharts = [
-        "fleet_reinforced",
-        "num_fleet_reinforced",
-        "largest_reinforcement",
-        "planets_defended",
+        "fleetReinforced",
+        "numFleetReinforced",
+        "largestReinforcement",
+        "planetsDefended",
       ].map((m: string) => this.generateConfig(m))
       .filter((chartConfig): chartConfig is ChartOptions => chartConfig !== undefined);;
 
       this.attackCharts = [
-        "largest_attack",
-        "planets_conquered",
-        "planets_attacked",
+        "largestAttack",
+        "planetsConquered",
 
       ].map((m: string) => this.generateConfig(m))
       .filter((chartConfig): chartConfig is ChartOptions => chartConfig !== undefined);;
@@ -168,22 +167,22 @@ export class GameChartsPanelComponent {
 
 
   private getChartColor(metric: string): string {
-    if (metric == "turns_played") return "#0099ff";
+    if (metric == "turnsPlayed") return "#0099ff";
+    if (metric == "owningPlanets") return "#0099ff";
     if (metric == "winner") return "";
-    if (metric == "fleet_generated") return "#0099ff";
-    if (metric == "fleet_lost") return "#b32400";
-    if (metric == "fleet_reinforced") return "#00b300";
-    if (metric == "largest_attack") return "#e57300";
-    if (metric == "largest_loss") return "#b32400";
-    if (metric == "largest_reinforcement") return "#00b300";
-    if (metric == "planets_lost") return "#b32400";
-    if (metric == "planets_conquered") return "#e57300";
-    if (metric == "planets_defended") return "#00b300";
-    if (metric == "planets_attacked") return "#e57300";
-    if (metric == "num_fleet_lost") return "#b32400";
-    if (metric == "num_fleet_reinforced") return "#00b300";
-    if (metric == "num_fleet_generated") return "#0099ff";
-    if (metric == "total_troops_generated") return "#0099ff";
+    if (metric == "fleetGenerated") return "#0099ff";
+    if (metric == "fleetLost") return "#b32400";
+    if (metric == "fleetReinforced") return "#00b300";
+    if (metric == "largestAttack") return "#e57300";
+    if (metric == "largestLoss") return "#b32400";
+    if (metric == "largestReinforcement") return "#00b300";
+    if (metric == "planetsLost") return "#b32400";
+    if (metric == "planetsConquered") return "#e57300";
+    if (metric == "planetsDefended") return "#00b300";
+    if (metric == "planetsAttacked") return "#e57300";
+    if (metric == "numFleetLost") return "#b32400";
+    if (metric == "numFleetReinforced") return "#00b300";
+    if (metric == "numFleetGenerated") return "#0099ff";
     return ""
   }
 
