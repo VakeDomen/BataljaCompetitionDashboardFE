@@ -22,12 +22,7 @@ export class GameCanvasComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    console.log("DESTROY!")
-//const animationFrameReference: any = this.intervals.shift();
-//window.cancelAnimationFrame(animationFrameReference.id);
-// for (let interval of this.intervals) {
-//   window.clearInterval(interval);
-// }
+    (window as any).endGame()
   }
 
   loadLogFile() {
@@ -57,6 +52,6 @@ export class GameCanvasComponent implements OnInit {
     console.log(parsed_data);
 
     
-    this.intervals = (window as any).setTurns(parsed_data);
+    (window as any).loadGameTurns(parsed_data);
   }
 }
