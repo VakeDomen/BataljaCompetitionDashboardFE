@@ -134,7 +134,7 @@ export class RoundTableComponent implements OnChanges {
   }
 
   public getMyBotImage(game: Game2v2, bot: BotSelector): string {
-    if (this.isTeam2(game)) {
+    if (!this.isTeam2(game)) {
       if (bot == 'my1') {
         return "assets/blue.png";
       } else {
