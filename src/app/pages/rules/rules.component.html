@@ -1,13 +1,13 @@
 <div class="container" *ngIf="pageIsReady">
     <div class="box mt-5">
 
-        <h2 class="title is-2" >
+        <h2 id="rules" class="title is-2" >
             <span class="file-icon is-inline">
                 <i class="fas fa-clipboard-check"></i>
             </span>
             Rules
         </h2>
-        <div class="content collapsible-container">
+        <div class="content">
             <p>Batalja Spaciale is a multiplayer game, each player starts with a planet of some size from which the
                 player can send his fleets to other planets.</p>
             <p>A player can take ownership of another planet by sending a larger fleet(army) then the army defending the
@@ -32,7 +32,7 @@
     </div>
     <div class="box mt-5">
 
-        <h2 id="section how-to-participate" class="title is-2">
+        <h2 id="how-to-participate" class="title is-2">
 
             <span class="file-icon is-inline">
                 <i class="fas fa-handshake"></i>
@@ -70,7 +70,7 @@
             <p>
                 You are provided with the game files and a sample random player to have a starting point and be 
                 able to run the games localy against your own bots, while you develop. The downloadable Game 
-                Pack contains <code>Evaluator.jar</code> and a sample player <code>Player.java</code> that just 
+                Pack contains <code>Game.jar</code> and a sample player <code>Player.java</code> that just 
                 does random attacks. <br>
             </p>
             <p class="title is-4">Tournament phase</p>
@@ -82,20 +82,20 @@
 
         </div>
     </div>
-    <div class="box mt-5">
+    <div id="format" class="box mt-5">
         <h2 class="title is-2">
             <span class="file-icon is-inline">
                 <i class="fas fa-users"></i>
             </span>
-            Update to 2v2 Bot Format
+            2v2 Bot Format
         </h2>
     
     
         <div class="content">
-            <p>This year, Batalja Spaciale introduces a 2v2 bot format. Here's what's new and what you need to know:</p>
+            <p>Batalja Spaciale uses a 2v2 bot format. Here's what you need to know:</p>
             
             <p class="title is-4">Team Composition</p>
-            <p>Teams can now consist of UP TO two players. You have the choice to compete alone using two bots or pair 
+            <p>Teams consist of UP TO two players. You have the choice to compete alone using two bots or pair 
                 up with another player.</p>
         
             <p class="title is-4">Bot Selection Strategy</p>
@@ -104,117 +104,343 @@
                  your team's performance, so choose wisely.</p>
         
             <p class="title is-4">Revised Victory Conditions</p>
-            <p>A team wins by either outmaneuvering both opposing bots or if the opposing team is disqualified for rule 
-                violations. Coordination between your two bots, whether they are identical or different, is key to 
+            <p>A team wins by outmaneuvering both opposing bots. Coordination between your two bots, whether they are identical or different, is key to 
                 dominating the battlefield. You win the game when you defeat both enemy bots. If the time runs out the team
                 with the bigger score wins. Score is a sum of all the army on the planets and the fleets.</p>        
+
+            <p class="title is-4">Planet generation</p>
+            <p>
+                This year the Game involves a biological aspect. 
+                Planets do not generate its fleets constantly. 
+                The fleet generation per turn is dependant on factors such as planets size, and the current ammount of units occuping the planet.
+            </p>
+            
+            <p class="title is-4 collapsible-tab" (click)="toggleCollapse(details)">Detailed Explanation</p>
+            <div #details class="collapsible-container">
+
+                The generation of the fleet can be seen as complex, so here are three explanations in differing difficulty.
+
+                <p class="title is-4 collapsible-tab" (click)="toggleCollapse(engineer)">Math student</p>
+                <div #engineer class="collapsible-container">
+                    <p>The fleet generation is a simple differential eqation that looks like:</p>
+                    <img src="assets/monstrosity.png" alt="Growth rate of Fleet">
+
+                    <p>where F reprisents the Fleet size. 
+                    The function has another edgecase, where if the growth rate is negative, the value becomes 1.
+                    <code>planetSize</code> is the size of the planet. 
+                    It ranges from 1 to 10 and is sent by the game.</p>
+                </div>
+
+                <p class="title is-4 collapsible-tab" (click)="toggleCollapse(mathstudent)">Engineer</p>
+                <div #mathstudent class="collapsible-container">
+                <img src="assets/fleet_p_turn.png" alt="Growth rate of Fleet">
+
+                <p>
+                    Figure shows the fleet size per planet growing in reference to turns being played out.
+                    This graph predicates that no fleet is being sent to other planets.
+                </p>
+
+
+                <img src="assets/growth_p_fleet.png" alt="Growth rate of Fleet">
+                 <p>
+                    Figure shows the fleet growth rate per planet in reference to the fleet occuping the planet.
+                    This graph predicates that no fleet is being sent to other planets.
+                </p>
+                </div>
+
+                <p class="title is-4 collapsible-tab" (click)="toggleCollapse(simple)">Gamer</p>
+                <div #simple class="collapsible-container">
+                <div class="haiku">
+                <p><i>More is better,</i></p>
+                <p><i>up to a point,</i></p>
+                <p><i>then not so much</i></p>
+                </div>
+                </div>
+
+            </div>
+            
         </div>
     
     </div>
+
     <div class="box mt-5 mb-3">
 
-        <h2 class="title is-2"><a name="zagon"></a>
+        <h2 id="instructions" class="title is-2"><a name="zagon"></a>
             <span class="file-icon is-inline">
                 <i class="fas fa-terminal"></i>
             </span>
             Instructions for running the game for the first time
         </h2>
         <div class="content">
-            <p class="is-size-4"><strong>Step 1: Download and extract the game-pack</strong></p>
+            <p class="is-size-4"><strong>Download and extract the game-pack</strong></p>
             <p>The game-pack can be downloaded from the <code>competitions</code> tab. Extract the zip file to
-            the desired location on your computer. The folder should contain 2 files:</p>
+            the desired location on your computer. The folder importantly contains:</p>
             <ul>
                 <li>Game.jar (the game)</li>
-                <li>Player.java (a sample player)</li>
+                <li>four folders called player_0 to player_3 with the example `Player.java` implementations</li>
             </ul>
-            <p>Open the terminal on your location.</p>
-            <pre>
-$ ls
-Game.jar
-Player.java</pre>
-
-
-            <p class="is-size-4 is-color-text-gray"><strong>Step 2: Check prerequisites</strong></p>
-            <p>
-                The server will be running your bot and evaluating it's score. We recommend that you match the java version
-                to the server's version:
-            </p>
-            <pre>
-$ java --version
-openjdk 11.0.20.1 2023-08-24
-OpenJDK Runtime Environment (build 11.0.20.1+1-post-Ubuntu-0ubuntu120.04)
-OpenJDK 64-Bit Server VM (build 11.0.20.1+1-post-Ubuntu-0ubuntu120.04, mixed mode, sharing)</pre>
-
-
-            <p class="is-size-4"><strong>Step 3: Setup folder structure</strong></p>
-            <p>
-                The current tournament is a 4 player tournament (2v2). We currently only have one player (that we downloaded),
-                but we will need 4, so we will make copies. Each player should be in a separate folder, so first we will have to 
-                create the folders.
-
-            </p>
-            <pre>
-$ mkdir Player1 Player2 Player3 Player4</pre>
-            <p>
-                Now we can copy the player logic into all of the folders:
-
-            </p>
-            <pre>
-$ cp Player.java Player1/
-$ cp Player.java Player2/
-$ cp Player.java Player3/
-$ cp Player.java Player4/</pre>
+            <p><b>It is HIGHLY recomendeded</b> to use IntelliJ IDEA if you do not know what you are doing.</p>
             
-            <p class="is-size-4"><strong>Step 4: Compile all the players</strong></p>
-            <p>For the game to be run, all the players have to be compiled first. By running the below commands (compiling) the <code>*.class</code> files will
-            appear in the folder.</p>
-            <pre>
-$ javac Player1/*.java
-$ javac Player2/*.java
-$ javac Player3/*.java
-$ javac Player4/*.java</pre>
-            <p class="is-size-4"><strong>Step 5: Run the game</strong></p>
-            <p>
-                The game is ran by running the <code>Game.jar</code>. The jar contains the code for the Batalja Spaciale game.
-                and will be the main program, that we run.
-            </p>
-            <pre>java -jar Game.jar Player1 Player2 Player3 Player4</pre>
-            <p>Note that the <code>Player1</code>, <code>Player2</code>, <code>Player3</code> and <code>Player4</code>
-            are names of folders. So in the future when you make new bots you may name them watever you want (the name
-            of the folder) and specify them here. The arguments can also be a path to the folder.</p>
-            
-            <p>Final directory structure:
-            <pre>
-dir
-|--Game.jar
-|--Player.java
-|--Player1
-|     |--Player.class
-|     |--Player.java
-|
-|--Player2
-|     |--Player.class
-|     |--Player.java
-|
-|--Player3
-|     |--Player.class
-|     |--Player.java
-|
-|--Player4
-        |--Player.class
-        |--Player.java
-        </pre>
-        <p class="is-size-4 is-color-primary"><strong>*No GUI</strong></p>
+            <ol>
+                <li>Open the folder using Intellij IDEA</li>
+                <li>accept the prompt to download the SDK dependencies</li>
+                <li>In the right top corner, select the <code>Run</code> to start the game</li>
+            </ol>
+            <p>You can edit any of the <code>Player.java</code> files in each of the player folders.</p>
+            <p><code>player_0</code> and <code>player_1</code> represent one team, while the <code>player_2</code> and <code>player_3</code> reprisent the second team</p>
+            <p>NOTE: this is only a suggestion, the only requirement is a <code>Player.java</code> to be submitted to the website (meaning you do not have to create two bots)</p>
 
-        <p>
-            We know that some of you may be running the games automatically, using scripts and parsing the game log to 
-            determine who won. The game ends faster if you don't run the gui of the game, since the gui is a slowed down
-            version of the game.
-        </p>
-        <p>
-            If you don't want to run the game with GUI enabled, run the following command instead:
-        </p>
-        <pre>java -jar Game.jar --gui=false Player1 Player2 Player3 Player4</pre>
+            <div class="collapsible-tab" (click)="toggleCollapse(advancedTab)">
+                <h2 class="is-size-4 "><strong>Advanced</strong></h2>
+                <p>Careful, here be dragons</p>
+            </div>
+            <div class="collapsible-container box mt-5 mb-3" #advancedTab>
+                <p>IntelliJ does a lot of work for us, but if you want to use more advanced parts of the <code>Game.jar</code> you should know how it works.</p>
+                <h2><strong>Downloading the required libraries.</strong></h2>
+                <p>The <code>Game.jar</code> runs with a custom JCEF library for rendering the GUI. So <strong>if you want to Use the graphical interface to see the action, you will need it.</strong></p>
+                <p><strong>Games running the game to eval to results with the <code>--no-gui</code> flag do not need this library to run.</strong></p>
+                
+                <h2 class="collapsible-tab" (click)="toggleCollapse(advancedDownload)"><strong>Getting the library</strong></h2>
+                <div class="collapsible-container box mt-5 mb-3" #advancedDownload>
+                    <p>
+                    The game is running using the release 17.0.11b1312.2 of <a href="https://github.com/JetBrains/JetBrainsRuntime/releases/tag/jbr-release-17.0.11b1312.2">jetbrains</a>.
+                    </p>
+                    <p>The binaries can be downloaded for each platform:</p>
+        
+                    <ul>
+                        <li>Windows</li>
+                        <ul>
+                            <li><a href="https://cache-redirector.jetbrains.com/intellij-jbr/jbr_jcef-17.0.11-windows-x64-b1312.2.tar.gz">x64</a></li>
+                            <li><a href="https://cache-redirector.jetbrains.com/intellij-jbr/jbr_jcef-17.0.11-windows-aarch64-b1312.2.tar.gz">ARM64</a></li>
+                        </ul>
+                        <li>Linux</li>
+                        <ul>
+                            <li><a href="https://cache-redirector.jetbrains.com/intellij-jbr/jbr_jcef-17.0.11-linux-x64-b1312.2.tar.gz">x64</a></li>
+                            <li><a href="https://cache-redirector.jetbrains.com/intellij-jbr/jbr_jcef-17.0.11-linux-aarch64-b1312.2.tar.gz">ARM64</a></li>
+                        </ul>
+                        <li>MacOS</li>
+                        <ul>
+                            <li>(Package)</li>
+                            <ul>
+                                <li><a href="https://cache-redirector.jetbrains.com/intellij-jbr/jbr_jcef-17.0.11-osx-x64-b1312.2.pkg">x64</a></li>
+                                <li><a href="https://cache-redirector.jetbrains.com/intellij-jbr/jbr_jcef-17.0.11-osx-aarch64-b1312.2.pkg">ARM64</a></li>
+                            </ul>
+                            <li>(Zip)</li>
+                            <ul>
+                                <li><a href="https://cache-redirector.jetbrains.com/intellij-jbr/jbr_jcef-17.0.11-osx-x64-b1312.2.tar.gz">x64</a></li>
+                                <li><a href="https://cache-redirector.jetbrains.com/intellij-jbr/jbr_jcef-17.0.11-osx-aarch64-b1312.2.tar.gz">ARM64</a></li>
+                            </ul>
+                        </ul>
+                    </ul>
+
+                    <p>If you do not know which option to chose `x64` should probably work for you.</p>
+                    <p>Each time the game is run, this java version should be used.</p>
+                </div>
+                <h2 class="collapsible-tab" (click)="toggleCollapse(advancedArguments)"><strong>Running the game</strong></h2>
+                <div class="collapsible-container box mt-5 mb-3" #advancedArguments>
+                    
+                    <p>Running the game follows a simple command of using java (or java inside the downloaded JCEF library if you want a gui) to run the game jar:</p>
+
+                    <pre>
+java -jar game.jar &lt;Player0&gt; &lt;Player1&gt; &lt;Player2&gt; &lt;Player3&gt;
+                    </pre>
+                    where the players are the folders of the bots containing the <code>Player.class</code> file.
+
+                    <p class="container">You need to compile your bots to java classes for the game to be able to read them.</p>
+
+                    <p>You can supply additional arguments to the <code>game.jar</code> to exstend your game development cycle</p>
+
+                    <h2><strong>Game Arguments</strong></h2>
+
+                    <div class="table-container">
+                        <table id="ukazi" class="table is-striped is-fullwidth">
+                            <tr>
+                                <th>Command</th>
+                                <th>Parameters</th>
+                                <th>Description</th>
+                                <th>Example</th>
+                            </tr>
+                            <tr>
+                                <td><code>-h</code>, <code>--help</code></td>
+                                <td>-</td>
+                                <td class='opis'>Displays help information if you need assistance.</td>
+                                <td>-h</td>
+                            </tr>
+                            <tr>
+                                <td><code>-g</code>, <code>--no-gui</code></td>
+                                <td>-</td>
+                                <td class='opis'>Disables the GUI while running the game.</td>
+                                <td>-g</td>
+                            </tr>
+                            <tr>
+                                <td><code>-c</code>, <code>--command</code></td>
+                                <td>-</td>
+                                <td class='opis'>Enables step-by-step mode.  
+                                    - Each time an empty command is entered, a turn is played.  
+                                    - Commands can be executed manually. Use <code>help</code> to see available commands.</td>
+                                <td>-c</td>
+                            </tr>
+                            <tr>
+                                <td><code>-r</code>, <code>--recording</code></td>
+                                <td>-</td>
+                                <td class='opis'>Generates a recording of the game. Can be used with <code>--file</code> to load a specific game state.</td>
+                                <td>-r</td>
+                            </tr>
+                            <tr>
+                                <td><code>-o</code>, <code>--outputRecording</code></td>
+                                <td>-</td>
+                                <td class='opis'>Redirects the game recording to STDOUT.</td>
+                                <td>-o</td>
+                            </tr>
+                            <tr>
+                                <td><code>-f &lt;path&gt;</code>, <code>--file &lt;path&gt;</code></td>
+                                <td>File Path</td>
+                                <td class='opis'>Loads a game from a JSON file. If <code>--recording</code> is used, the game will output a state file that can be used here.</td>
+                                <td>-f saved_game.json</td>
+                            </tr>
+                            <tr>
+                                <td><code>-l</code>, <code>--live</code></td>
+                                <td>-</td>
+                                <td class='opis'>Runs the game in real-time mode.</td>
+                                <td>-l</td>
+                            </tr>
+                            <tr>
+                                <td><code>-n &lt;int&gt;</code>, <code>--number &lt;int&gt;</code></td>
+                                <td>Integer</td>
+                                <td class='opis'>Specifies the number of games to run at the same time.</td>
+                                <td>-n 5</td>
+                            </tr>
+                            <tr>
+                                <td><code>-s &lt;int&gt;</code>, <code>--seed &lt;int&gt;</code></td>
+                                <td>Integer</td>
+                                <td class='opis'>Starts the game with a specific seed.</td>
+                                <td>-s 1234</td>
+                            </tr>
+                            <tr>
+                                <td><code>-t &lt;int&gt;</code>, <code>--playerTime &lt;int&gt;</code></td>
+                                <td>Milliseconds</td>
+                                <td class='opis'>Sets the maximum amount of time a player can spend per turn (in milliseconds).</td>
+                                <td>-t 1000</td>
+                            </tr>
+                            <tr>
+                                <td><code>-tn_0 &lt;string&gt;</code>, <code>--teamName_0 &lt;string&gt;</code></td>
+                                <td>String</td>
+                                <td class='opis'>Changes the name of Team 0.</td>
+                                <td>-tn_0 "Red Warriors"</td>
+                            </tr>
+                            <tr>
+                                <td><code>-tn_1 &lt;string&gt;</code>, <code>--teamName_1 &lt;string&gt;</code></td>
+                                <td>String</td>
+                                <td class='opis'>Changes the name of Team 1.</td>
+                                <td>-tn_1 "Blue Knights"</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
+                <h2 class="collapsible-tab" (click)="toggleCollapse(advancedCommandMode)"><strong>Command mode [β BETA]</strong></h2>
+                <div class="collapsible-container box mt-5 mb-3" #advancedCommandMode>
+
+                    <p>When running the game with a flag <code>-c</code> or <code>--command</code> the game starts in step-by-step mode.</p>
+                    <p>The game starts with only one played round, and  opens a REPL in terminal, to interact with the game</p>
+                    <p>
+                        <strong>Each time a empty command is inputed, a turn is played.</strong>
+                        Optionally a command can be inputed.
+                        The commands are listed below, but can be seen anytime, by running <code>help</code> in the REPL.
+                    </p>
+                    <div class="table-container">
+                        <table id="command mode arguments" class="table is-striped is-fullwidth">
+                            <tr>
+                                <th>Command</th>
+                                <th>Parameters</th>
+                                <th>Description</th>
+                                <th>Example</th>
+                            </tr>
+                            <tr>
+                                <td><code>stats</code></td>
+                                <td>-</td>
+                                <td class='opis'>Prints the game statistics at the current time.</td>
+                                <td>stats</td>
+                            </tr>
+                            <tr>
+                                <td><code>play &lt;n&gt;</code></td>
+                                <td>Integer</td>
+                                <td class='opis'>Runs the game for <code>n</code> turns.</td>
+                                <td>play 10</td>
+                            </tr>
+                            <tr>
+                                <td><code>kill &lt;n&gt;</code></td>
+                                <td>Integer</td>
+                                <td class='opis'>Kills the player with index <code>n</code>.  
+                                    <i>Player index can be found in stats.</i></td>
+                                <td>kill 2</td>
+                            </tr>
+                            <tr>
+                                <td><code>state &lt;n?&gt;</code></td>
+                                <td>Optional Integer</td>
+                                <td class='opis'>Gets the game state for a specific turn <code>n</code>.  
+                                    If omitted, returns the state of the last turn.</td>
+                                <td>state 5</td>
+                            </tr>
+                            <tr>
+                                <td><code>end</code></td>
+                                <td>-</td>
+                                <td class='opis'>Stops the game and exits the REPL.</td>
+                                <td>end</td>
+                            </tr>
+                            <tr>
+                                <td><code>seed</code></td>
+                                <td>-</td>
+                                <td class='opis'>Returns the seed of the game, allowing reruns with the same conditions.</td>
+                                <td>seed</td>
+                            </tr>
+                            <tr>
+                                <td><code>planet &lt;json&gt;</code></td>
+                                <td>JSON Object</td>
+                                <td class='opis'>Modifies a target planet.  
+                                    - The <code>name</code> key is required and cannot be changed.  
+                                    - Other keys are optional.</td>
+                                <td>planet &#123;"name":"Earth","owner":1,"fleetSize":50&#125;</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <b>Available Planet Keys:</b>  
+                                    <ul>
+                                        <li><code>owner</code>: <i>int</i> - ID of the player owner</li>
+                                        <li><code>positionY</code>: <i>int</i> - Y coordinate</li>
+                                        <li><code>positionX</code>: <i>int</i> - X coordinate</li>
+                                        <li><code>color</code>: <i>string</i> - One of: <code>blue</code>, <code>cyan</code>, <code>green</code>, <code>yellow</code></li>
+                                        <li><code>fleetSize</code>: <i>int</i> - Size of the fleet on the planet</li>
+                                        <li><code>planetSize</code>: <i>int</i> - Planet size (1-10, affects fleet production speed)</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>fleet &lt;json&gt;</code></td>
+                                <td>JSON Object</td>
+                                <td class='opis'>Modifies a target fleet.  
+                                    - The <code>name</code> key is required and cannot be changed.  
+                                    - Other keys are optional.</td>
+                                <td>fleet &#123;"name":"Fleet1","owner":2,"fleetSize":20&#125;</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <b>Available Fleet Keys:</b>  
+                                    <ul>
+                                        <li><code>owner</code>: <i>int</i> - ID of the player owner</li>
+                                        <li><code>color</code>: <i>string</i> - One of: <code>blue</code>, <code>cyan</code>, <code>green</code>, <code>yellow</code></li>
+                                        <li><code>fleetSize</code>: <i>int</i> - Size of the fleet</li>
+                                        <li><code>neededTurns</code>: <i>int</i> - Turns needed to reach the target (visual only)</li>
+                                        <li><code>destinationTurn</code>: <i>int</i> - Turn when the fleet should arrive</li>
+                                        <li><code>destinationPlanet</code>: <i>int</i> - ID of the target planet</li>
+                                        <li><code>originPlanet</code>: <i>int</i> - ID of the origin planet</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -235,18 +461,13 @@ dir
             Things to note about communication with the game:
             <ul>
                 <li>
-                    Methods <code>System.out.print</code> or <code>System.out.println</code> are used to send a message to the game
-                    and should not be used for debugging.
+                    Methods <code>System.out.print</code> or <code>System.out.println</code> send a message only when the message starts with <code>/</code>, and can be used for debbuging your bot if needed (the game will ignore it).
                 </li>
                 <li>
                     Each turn the game will send all the players the current state of the game using <code>System.in</code>. The code for 
                     reading the messages from the game is already implemented for you in the <code>getGameState</code> method of the provided
                     bot. The code goes through all the lines (messages) sent to the bot by the game BUT the provided player does not fully parse
                     all the lines that it reads, so you should improve the given code.
-                </li>
-                <li>
-                    For debugging (since you should not use) <code>System.out.println</code> you were provided with a method <code>logToFile</code>,
-                    that will write any string to a <code>Player.log</code> file when the player plays a game.
                 </li>
             </ul>
             
@@ -279,15 +500,15 @@ dir
                     <th>Example</th>
                 </tr>
                 <tr>
-                    <td><code>U</code></td>
+                    <td><code>/U</code></td>
                     <td>&lt;int&gt; &lt;int&gt; &lt;string&gt;</td>
                     <td class='opis'>Universe - size (x in y) of the playing field, and your color. This command is
                         sent the first turn only.
                     </td>
-                    <td>U 200 200 green</td>
+                    <td>/U 200 200 green</td>
                 </tr>
                 <tr>
-                    <td><code>P</code></td>
+                    <td><code>/P</code></td>
                     <td>&lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;float&gt; &lt;int&gt; &lt;string&gt;</td>
                     <td class='opis'>
                         Planet: <br>
@@ -297,10 +518,10 @@ dir
                         - planet size,<br>
                         - fleet size,<br>
                         - planet color (owner - may be null for neutral)</td>
-                    <td>P 0 51 80 1.0 100 green</td>
+                    <td>/P 0 51 80 1.0 100 green</td>
                 </tr>
                 <tr>
-                    <td><code>F</code></td>
+                    <td><code>/F</code></td>
                     <td>&lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;string&gt;</td>
                     <td class='opis'>
                         Fleet: <br>
@@ -312,32 +533,34 @@ dir
                         - number of needed turns<br>
                         - planet color (owner - may be null for neutral)
                     </td>
-                    <td>F 0 50 0 17 3 52 green</td>
+                    <td>/F 0 50 0 17 3 52 green</td>
                 </tr>
                 <tr>
-                    <td><code>M</code></td>
+                    <td><code>/M</code></td>
                     <td>&lt;string&gt;</td>
                     <td class='opis'>Message: Any bot messages that were sent to you the previous turn. The messages are 
                         only passed between bots in the same team. 
                     </td>
-                    <td>M Hello</td>
+                    <td>/M Hello</td>
                 </tr>
                 <tr>
-                    <td><code>S</code></td>
+                    <td><code>/S</code></td>
                     <td>-</td>
                     <td class='opis'>Start - when a player receives this command from the game, It's an indicator 
                         that the game has nothing more to say and the player should start the turn.
                     </td>
-                    <td>S</td>
+                    <td>/S</td>
                 </tr>
+                <!--
                 <tr>
                     <td><code>L</code></td>
                     <td>&lt;string&gt; &lt;string&gt;</td>
                     <td class='opis'>This command is sent when one of the players is dropped from the game. The player
-                        could be defeated/forfeited/bugged-out/... 
+                        could be defeated/bugged-out/... 
                     </td>
                     <td>L Player2 out_of_ships</td>
                 </tr>
+                -->
             </table>
         </div>
 
@@ -352,117 +575,118 @@ dir
                     <th>Example</th>
                 </tr>
                 <tr>
-                    <td><code>A</code></td>
+                    <td><code>/A</code></td>
                     <td>&lt;int&gt; &lt;int&gt;</td>
                     <td class='opis'>Attack: <br> - origin planet<br> - destination planet <br> The planets should be denoted by the 
                         planet name/id. A player may send up to one attack command from each of his planets each turn. The amount 
                         of troops sent will equal to the half of the army from the attacking planet.
                     </td>
-                    <td>A 1 2</td>
+                    <td>/A 1 2</td>
                 </tr>
                 <tr>
-                    <td><code>A</code></td>
+                    <td><code>/A</code></td>
                     <td>&lt;int&gt; &lt;int&gt; &lt;int&gt;</td>
                     <td class='opis'>Attack: <br> - origin planet<br> - destination planet<br> - Amount of troops to send <br>
                         Same attack command as before but specify the exact number of troops to send</td>
-                    <td>A 1 2 30</td>
+                    <td>/A 1 2 30</td>
                 </tr>
                 <tr>
-                    <td><code>M</code></td>
+                    <td><code>/M</code></td>
                     <td>&lt;string&gt;</td>
                     <td class='opis'>Message: You can send any string as the message. The message will be recieved by your
                         teammate at the start of the next turn by the game's M command. Be careful not to pass multiline messages.
                         You may send as many messages as you want each turn.
                     </td>
-                    <td>M Hello</td>
+                    <td>/M Hello</td>
                 </tr>
                 <tr>
-                    <td><code>E</code></td>
+                    <td><code>/E</code></td>
                     <td>-</td>
                     <td class='opis'>End of turn command. This command has to be sent by the bot every turn. 
                         If it's not, after 100ms the game will assume the player timed-out.
                     </td>
-                    <td>E</td>
+                    <td>/E</td>
                 </tr>
             </table>
         </div>
-
-        <h3 class="title is-4">Example of communication:</h3>
-        <p>
-        <table class="table is-striped is-fullwidth">
-            <tr>
-                <th>Time Step</th>
-                <th>Game</th>
-                <th>Bot</th>
-                <th>Explanation</th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>U 100 100 blue</td>
-                <td></td>
-                <td>The game sends the bot the size of the playing field</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>P 1 10 20 0.6 60 blue</td>
-                <td></td>
-                <td>The game sends the bot the data for the first planet</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>P 2 90 80 0.6 60 green</td>
-                <td></td>
-                <td>The game sends the bot the data for the second planet</td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>S</td>
-                <td></td>
-                <td>The game signals the bot so it can start with its attacks</td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td></td>
-                <td>A 1 2</td>
-                <td>Bot attacks planet 2 from planet 1</td>
-            </tr>
-            <tr>
-                <td>6</td>
-                <td></td>
-                <td>E</td>
-                <td>Bot ends the turn</td>
-            </tr>
-            <tr>
-                <td>7</td>
-                <td>P 1 10 20 0.6 36 red</td>
-                <td></td>
-                <td>The game sends the data for the first planet</td>
-            </tr>
-            <tr>
-                <td>8</td>
-                <td>P 2 90 80 0.6 66 blue</td>
-                <td></td>
-                <td>The game sends the data for the second planet</td>
-            </tr>
-            <tr>
-                <td>9</td>
-                <td>F 1 30 1 2 1 8</td>
-                <td></td>
-                <td>The game sends data about a fleet (generated by the attack in step 5)</td>
-            </tr>
-            <tr>
-                <td>10</td>
-                <td>S</td>
-                <td></td>
-                <td>The game signals the player so it can start with its attacks</td>
-            </tr>
-            <tr>
-                <td>11</td>
-                <td>...</td>
-                <td>...</td>
-                <td></td>
-            </tr>
-        </table>
+                
+        <h3 class="title is-4 collapsible-tab" (click)="toggleCollapse(botExample)"><strong>Example of communication:</strong></h3>
+        <div class="collapsible-container box mt-5 mb-3" #botExample>
+            <table class="table is-striped is-fullwidth">
+                <tr>
+                    <th>Time Step</th>
+                    <th>Game</th>
+                    <th>Bot</th>
+                    <th>Explanation</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>/U 100 100 blue</td>
+                    <td></td>
+                    <td>The game sends the bot the size of the playing field</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>/P 1 10 20 0.6 60 blue</td>
+                    <td></td>
+                    <td>The game sends the bot the data for the first planet</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>/P 2 90 80 0.6 60 green</td>
+                    <td></td>
+                    <td>The game sends the bot the data for the second planet</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>/S</td>
+                    <td></td>
+                    <td>The game signals the bot so it can start with its attacks</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td></td>
+                    <td>/A 1 2</td>
+                    <td>Bot attacks planet 2 from planet 1</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td></td>
+                    <td>/E</td>
+                    <td>Bot ends the turn</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>/P 1 10 20 0.6 36 red</td>
+                    <td></td>
+                    <td>The game sends the data for the first planet</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>/P 2 90 80 0.6 66 blue</td>
+                    <td></td>
+                    <td>The game sends the data for the second planet</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>/F 1 30 1 2 1 8</td>
+                    <td></td>
+                    <td>The game sends data about a fleet (generated by the attack in step 5)</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>/S</td>
+                    <td></td>
+                    <td>The game signals the player so it can start with its attacks</td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
     </div>
 
     <div class="box mt-5 mb-3">
